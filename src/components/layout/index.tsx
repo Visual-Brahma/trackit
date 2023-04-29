@@ -41,7 +41,7 @@ const Layout: FC<CustomComponentProps>=({ children }) => {
                         <Image alt="Trackit logo" src="/logo.png" className="mr-2 rounded-sm" height={45} width={45} loading="lazy" style={{ color: 'transparent' }} />
                         <p className="font-display text-2xl font-bold drop-shadow-sm md:text-3xl text-black dark:text-white">Trackit</p>
                     </Link>
-                    <div className="flex flex-col mt-4 sm:mt-0 sm:flex-row">
+                    <div className="flex flex-col mt-4 hidden sm:block sm:mt-0 sm:flex-row">
                         <Link
                             href="/guide"
                             className="text-gray-800 hover:text-gray-400 ml-4 dark:text-white"

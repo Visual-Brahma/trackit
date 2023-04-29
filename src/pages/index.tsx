@@ -33,7 +33,7 @@ const Home=() => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-24 bg-gray-200 dark:bg-light-gray">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-8 sm:p-24 bg-gray-200 dark:bg-light-gray">
                 <div className="rounded-lg bg-gray-400 dark:bg-dark-gray">
                     <div className="p-8">
                         <h5 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-black dark:text-white text-left mb-8 max-w-screen-md">Fully Automatic</h5>

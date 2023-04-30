@@ -5,7 +5,7 @@ import attendanceReport from '@/assets/att_report.png';
 const UserGuide=() => {
     return (
         <Layout>
-            <div className="flex mx-5 h-screen max-w-screen-xl items-center justify-between xl:mx-auto">
+            <div className="flex mx-5 min-h-screen max-w-screen-xl items-center justify-between xl:mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-12 w-full py-16">
                     <div className="rounded-2xl bg-gradient-to-t from-red-700 to-red-900 p-4 border-none outline-none sm:p-8">
                         <Image src={attendanceReport} alt="Attendance Report" className="w-full h-full rounded-2xl" />

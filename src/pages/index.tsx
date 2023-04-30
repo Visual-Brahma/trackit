@@ -1,15 +1,14 @@
-// import { Inter } from 'next/font/google';
 import Layout from '@/components/layout';
 import Image from 'next/image';
 import chromeExtension from '@/assets/chrome_ext.png';
 import attendanceReport from '@/assets/att_report.png';
 import { useRouter } from 'next/router';
 import { ChangeEvent } from 'react';
-
-// const inter=Inter({ subsets: ['latin'] })
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 const Home=() => {
     const router=useRouter();
+    const { data: session }=useSession();
     return (
         <Layout>
             <div className={`flex flex-col items-center justify-center h-screen`}>
@@ -20,8 +19,8 @@ const Home=() => {
                     Automatically track attendance for your Google Meet meetings and get detailed reports on who attended and how much.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-8">
-                    <button className="button-large">
-                        Get Started
+                    <button className="button-large" onClick={() => (session? router.push("/app"):signIn())}>
+                        {session? 'Dashboard':'Get Started'}
                     </button>
                     <select className="button-large border-black" onChange={(event: ChangeEvent<HTMLSelectElement>) => { router.push(event.target.value); }}>
                         <option className="text-black" value="#">Get Free Extension</option>
@@ -110,8 +109,8 @@ const Home=() => {
                     Trackit provides deep insights of the attendance of online classes with great analysis tools.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-8">
-                    <button className="button-large">
-                        Get Started
+                    <button className="button-large" onClick={() => (session? router.push("/app"):signIn())}>
+                        {session? 'Dashboard':'Get Started'}
                     </button>
                     <select className="button-large border-black" onChange={(event: ChangeEvent<HTMLSelectElement>) => { router.push(event.target.value); }}>
                         <option className="text-black" value="#">Get Free Extension</option>

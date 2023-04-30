@@ -3,6 +3,8 @@ import { CustomComponentProps } from "@/types";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 declare global {
     interface Window {
@@ -11,6 +13,9 @@ declare global {
 }
 
 const Layout: FC<CustomComponentProps>=({ children }) => {
+
+    const { data: session }=useSession();
+    const router=useRouter();
 
     const [isScrolled, setIsScrolled]=useState(false);
 
@@ -75,7 +80,9 @@ const Layout: FC<CustomComponentProps>=({ children }) => {
                         </a>
                     </div>
                     <div className="flex items-center justify-center">
-                        <button onClick={() => { }} className='button-small' style={{ opacity: 1 }}>{"Get Started"}</button>
+                        <button className="button-small" onClick={() => (session? router.push("/app"):signIn())}>
+                            {session? 'Dashboard':'Get Started'}
+                        </button>
                     </div>
                 </div>
             </div>

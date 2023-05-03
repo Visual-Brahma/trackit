@@ -3,7 +3,8 @@ const environmentVariables={
     googleOauthClientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET as string,
     teamEmail: process.env.TEAM_EMAIL as string,
     emailHost: process.env.EMAIL_HOST as string,
-    emailPort: process.env.EMAIL_PORT as string,
+    emailPort: parseInt(process.env.EMAIL_PORT as string),
+    emailUser: process.env.EMAIL_USER as string,
     emailPassword: process.env.EMAIL_PASSWORD as string,
 };
 

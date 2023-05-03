@@ -60,7 +60,7 @@ const Layout: FC<CustomComponentProps>=({ children }) => {
                             Feedback
                         </a>
                         <a
-                            href="javascript:;"
+                            // href="javascript:;"
                             onClick={() => { window.tidioChatApi.display(true); window.tidioChatApi.open(); }}
                             className="text-gray-800 hover:text-gray-400 ml-4 dark:text-white"
                         >

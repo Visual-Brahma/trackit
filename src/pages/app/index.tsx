@@ -1,9 +1,9 @@
-import AppLayout from "@/components/layout/app/index";
+import AppLayout from '@/components/layout/app/index';
 const Dashboard=() => {
-    return (
-        <AppLayout>
-        </AppLayout>
-    );
+  return (
+    <AppLayout>
+    </AppLayout>
+  );
 };
 
 export default Dashboard;

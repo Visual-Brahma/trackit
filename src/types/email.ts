@@ -1,4 +1,4 @@
-import { Theme } from "next-auth/core/types";
+import { Theme } from 'next-auth/core/types';
 
 export interface SignInEmailParams {
     url: string;

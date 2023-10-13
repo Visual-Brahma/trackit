@@ -2,6 +2,9 @@
 
 Easy, simple and automatic meet attendance collector application 🚀
 
+## Contributing
+New Design [Figma](https://www.figma.com/proto/gqSo5VbVo3wUsCNWHrnDNh/Trackit?node-id=4-2&starting-point-node-id=4%3A2&mode=design&t=9vNyIJ3d1GOdYt8D-1)
+
 ###### Browser Extensions
 
 Automatically save attendance during google meet video calls.

@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Express API",
+    "extends": "./base.json",
+    "compilerOptions": {
+        "target": "es2016",
+        "preserveConstEnums": true,
+        "module": "NodeNext",
+        "skipDefaultLibCheck": true
+    },
+    "typeRoots": [
+        "./src/types",
+        "./node_modules/@types"
+    ]
+}

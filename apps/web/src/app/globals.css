@@ -1,0 +1,4 @@
+body {
+    color: hsl(var(--foreground));
+    background: hsl(var(--background));
+}

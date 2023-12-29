@@ -60,7 +60,7 @@ const Layout=({ children }: LayoutProps) => {
                 <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center'>
                     <div className='text-center sm:text-left'>
                         <p className='text-sm'>
-                            &copy; 2023 Trackit. All rights reserved.
+                            &copy; 2024 Trackit. All rights reserved.
                         </p>
                     </div>
                     <div className='flex flex-col mt-4 sm:mt-0 sm:flex-row'>

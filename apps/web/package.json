@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.5.0",
+    "@logto/next": "^2.3.0",
     "@repo/ui": "workspace:*",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.2",

@@ -8,7 +8,6 @@ import { Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Provider } from '@/components/providers'
-import { UserProvider } from "@auth0/nextjs-auth0/client"
 
 const playfairDisplay=Playfair_Display({ subsets: ['latin'] })
 
@@ -33,20 +32,18 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <UserProvider>
-        <body className={playfairDisplay.className}>
-          <Provider>
-            {children}
-          </Provider>
-          <Toaster position={'top-right'} />
-          <Script
-            src='//code.tidio.co/zyi8qkhaweop5tc4oenpsdstwnvcjw6j.js'
-            async={true}
-          />
-          <Analytics />
-          <SpeedInsights />
-        </body>
-      </UserProvider>
+      <body className={playfairDisplay.className}>
+        <Provider>
+          {children}
+        </Provider>
+        <Toaster position={'top-right'} />
+        <Script
+          src='//code.tidio.co/zyi8qkhaweop5tc4oenpsdstwnvcjw6j.js'
+          async={true}
+        />
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   )
 }

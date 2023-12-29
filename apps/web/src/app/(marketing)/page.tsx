@@ -2,6 +2,7 @@ import Image from 'next/image'
 import chromeExtension from '@/assets/images/chrome_ext.png'
 import attendanceReport from '@/assets/images/att_report.png'
 import ExtensionChooser from '@/components/extension_chooser'
+import Layout from '@/components/layout'
 
 const Home=() => {
 

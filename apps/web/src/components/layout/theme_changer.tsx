@@ -1,7 +1,9 @@
+"use client"
 import { ThemeChangerProps } from "@/types";
 import { useTheme } from "next-themes";
-import { ComputerIcon, MoonIcon, SunIcon } from "lucide-react";
+import { LaptopIcon } from "lucide-react";
 import { Button } from "@repo/ui/button";
+import { SunIcon, MoonIcon } from "@/components/icons";
 
 const ThemeSelector=({ extended }: ThemeChangerProps) => {
     const { theme, setTheme }=useTheme()
@@ -9,7 +11,7 @@ const ThemeSelector=({ extended }: ThemeChangerProps) => {
     const themes=[
         { icon: <MoonIcon />, name: "Dark", value: "dark" },
         { icon: <SunIcon />, name: "Light", value: "light" },
-        { icon: <ComputerIcon />, name: "System", value: "system" },
+        { icon: <LaptopIcon />, name: "System", value: "system" },
     ];
 
     if (!extended) {
@@ -20,7 +22,7 @@ const ThemeSelector=({ extended }: ThemeChangerProps) => {
                 onClick={() => setTheme(theme==="dark"? "light":"dark")}
             >
                 {theme===undefined? (
-                    <ComputerIcon />
+                    <LaptopIcon />
                 ):theme==="dark"? (
                     <SunIcon />
                 ):(

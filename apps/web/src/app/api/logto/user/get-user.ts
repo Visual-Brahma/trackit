@@ -10,11 +10,10 @@ import { cookies } from 'next/headers';
 // eslint-disable-next-line import/no-unassigned-import
 import 'server-only';
 
-export async function getUser(reqCookies?: string): Promise<LogtoContext|null> {
+export async function getUser(): Promise<LogtoContext|null> {
   const response=await fetch(`${environmentVariables.baseUrl}/api/logto/user`, {
     cache: 'no-store',
     headers: {
-      // cookie: reqCookies||cookies().toString(),
       cookie: cookies().toString(),
     },
   });

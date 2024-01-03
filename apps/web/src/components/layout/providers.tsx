@@ -1,6 +1,6 @@
 "use client";
 
-import type { LayoutProps } from "../types";
+import type { LayoutProps } from "../../types";
 import { ThemeProvider } from "next-themes";
 
 export function Provider({ children }: LayoutProps) {

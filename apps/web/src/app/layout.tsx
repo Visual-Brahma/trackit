@@ -7,7 +7,7 @@ import { LayoutProps } from '@/types'
 import { Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Provider } from '@/components/providers'
+import { Provider } from '@/components/layout/providers'
 
 const playfairDisplay=Playfair_Display({ subsets: ['latin'] })
 

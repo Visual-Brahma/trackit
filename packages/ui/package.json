@@ -4,6 +4,7 @@
   "private": true,
   "exports": {
     "./styles": "./styles/globals.css",
+    "./utils": "./lib/utils.tsx",
     "./*": "./src/*.tsx"
   },
   "scripts": {
@@ -33,6 +34,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "react-hook-form": "^7.49.2",
-    "tailwind-merge": "^2.2.0"
+    "tailwind-merge": "^2.2.0",
+    "vaul": "^0.8.0"
   }
 }

@@ -59,8 +59,8 @@ const sidebarNavItems: SidebarNavProps["itemGroups"]=[
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className='max-h-screen'>
-      <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-2 lg:space-y-0">
-        <aside className="-mx-4 lg:w-1/5 xl:w-1/6">
+      <div className="flex flex-col space-y-4 md:flex-row md:space-x-2 md:space-y-0">
+        <aside className="-mx-4 md:w-1/4 lg:w-1/5 xl:w-1/6 pt-4 px-6 md:p-0">
           <Nav itemGroups={sidebarNavItems} />
         </aside>
         <div className="flex-1 bg-secondary p-2 overflow-y-scroll">{children}</div>

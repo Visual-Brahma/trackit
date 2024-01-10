@@ -3,10 +3,11 @@
 import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "../lib/utils"
-import { ComponentProps, ComponentPropsWithoutRef, ElementRef, HTMLAttributes, forwardRef } from "react"
+import { ComponentProps, ComponentPropsWithoutRef, ElementRef, ForwardRefExoticComponent, HTMLAttributes, RefAttributes, forwardRef, FC } from "react"
+import { DialogCloseProps, DialogPortalProps, DialogTriggerProps } from "@radix-ui/react-dialog"
 
-const Drawer = ({
-  shouldScaleBackground = true,
+const Drawer=({
+  shouldScaleBackground=true,
   ...props
 }: ComponentProps<typeof DrawerPrimitive.Root>) => (
   <DrawerPrimitive.Root
@@ -14,15 +15,15 @@ const Drawer = ({
     {...props}
   />
 )
-Drawer.displayName = "Drawer"
+Drawer.displayName="Drawer"
 
-const DrawerTrigger = DrawerPrimitive.Trigger
+const DrawerTrigger: ForwardRefExoticComponent<DialogTriggerProps&RefAttributes<HTMLButtonElement>>=DrawerPrimitive.Trigger
 
-const DrawerPortal = DrawerPrimitive.Portal
+const DrawerPortal: FC<DialogPortalProps>=DrawerPrimitive.Portal
 
-const DrawerClose = DrawerPrimitive.Close
+const DrawerClose: ForwardRefExoticComponent<DialogCloseProps&RefAttributes<HTMLButtonElement>>=DrawerPrimitive.Close
 
-const DrawerOverlay = forwardRef<
+const DrawerOverlay=forwardRef<
   ElementRef<typeof DrawerPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
@@ -32,9 +33,9 @@ const DrawerOverlay = forwardRef<
     {...props}
   />
 ))
-DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
+DrawerOverlay.displayName=DrawerPrimitive.Overlay.displayName
 
-const DrawerContent = forwardRef<
+const DrawerContent=forwardRef<
   ElementRef<typeof DrawerPrimitive.Content>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
@@ -53,9 +54,9 @@ const DrawerContent = forwardRef<
     </DrawerPrimitive.Content>
   </DrawerPortal>
 ))
-DrawerContent.displayName = "DrawerContent"
+DrawerContent.displayName="DrawerContent"
 
-const DrawerHeader = ({
+const DrawerHeader=({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => (
@@ -64,9 +65,9 @@ const DrawerHeader = ({
     {...props}
   />
 )
-DrawerHeader.displayName = "DrawerHeader"
+DrawerHeader.displayName="DrawerHeader"
 
-const DrawerFooter = ({
+const DrawerFooter=({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => (
@@ -75,9 +76,9 @@ const DrawerFooter = ({
     {...props}
   />
 )
-DrawerFooter.displayName = "DrawerFooter"
+DrawerFooter.displayName="DrawerFooter"
 
-const DrawerTitle = forwardRef<
+const DrawerTitle=forwardRef<
   ElementRef<typeof DrawerPrimitive.Title>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
@@ -90,9 +91,9 @@ const DrawerTitle = forwardRef<
     {...props}
   />
 ))
-DrawerTitle.displayName = DrawerPrimitive.Title.displayName
+DrawerTitle.displayName=DrawerPrimitive.Title.displayName
 
-const DrawerDescription = forwardRef<
+const DrawerDescription=forwardRef<
   ElementRef<typeof DrawerPrimitive.Description>,
   ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
 >(({ className, ...props }, ref) => (
@@ -102,7 +103,7 @@ const DrawerDescription = forwardRef<
     {...props}
   />
 ))
-DrawerDescription.displayName = DrawerPrimitive.Description.displayName
+DrawerDescription.displayName=DrawerPrimitive.Description.displayName
 
 export {
   Drawer,

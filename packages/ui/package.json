@@ -12,6 +12,7 @@
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:^",
     "@repo/typescript-config": "workspace:*",

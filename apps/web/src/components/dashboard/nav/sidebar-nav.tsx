@@ -28,7 +28,7 @@ export function SidebarNav({ className, itemGroups, ...props }: SidebarNavProps)
   return (
     <nav
       className={cn(
-        "flex-col space-y-1 p-2",
+        "flex-col space-y-1 p-4",
         className
       )}
       {...props}
@@ -76,7 +76,7 @@ export function SidebarNav({ className, itemGroups, ...props }: SidebarNavProps)
         }
       </div>
 
-      <div className="self-end">
+      <div className="self-end p-2">
         <Card className="backdrop-blur-xl my-6 bg-secondary w-full mx-2">
           <CardContent className="p-4 flex flex-col items-center justify-center space-y-2">
             <ArrowUpCircleIcon className="h-8 w-8" />

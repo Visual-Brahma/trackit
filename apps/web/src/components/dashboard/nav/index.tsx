@@ -6,7 +6,7 @@ import { MenuIcon } from "lucide-react";
 const Nav=({ itemGroups }: SidebarNavProps) => {
     return (
         <div>
-            <SidebarNav className="hidden lg:block h-screen overflow-y-scroll overflow-x-hidden" itemGroups={itemGroups} />
+            <SidebarNav className="hidden lg:block h-screen overflow-y-scroll" itemGroups={itemGroups} />
             <div className="block lg:hidden">
                 <Drawer>
                     <DrawerTrigger asChild>

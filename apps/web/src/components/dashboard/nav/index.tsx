@@ -14,8 +14,8 @@ const Nav=({ itemGroups }: SidebarNavProps) => {
                             <MenuIcon />
                         </Button>
                     </DrawerTrigger>
-                    <DrawerContent>
-                        <SidebarNav itemGroups={itemGroups} />
+                    <DrawerContent className='h-[96%]'>
+                        <SidebarNav itemGroups={itemGroups} className="overflow-y-scroll"/>
                     </DrawerContent>
                 </Drawer>
             </div>

@@ -4,12 +4,12 @@ import { Toaster } from 'sonner'
 import Script from 'next/script'
 import type { Metadata, Viewport } from 'next'
 import { LayoutProps } from '@/types'
-import { Playfair_Display } from 'next/font/google'
+import { PT_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Provider } from '@/components/layout/providers'
 
-const playfairDisplay=Playfair_Display({ subsets: ['latin'] })
+const PTsansDisplay=PT_Sans({ weight: '400', subsets: ['latin'] })
 
 export const metadata: Metadata={
   title: 'Trackit - Google Meet Attendance Tracker',
@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={playfairDisplay.className}>
+      <body className={PTsansDisplay.className}>
         <Provider>
           {children}
         </Provider>

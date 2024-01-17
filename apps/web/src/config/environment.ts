@@ -1,9 +1,10 @@
 const environmentVariables={
-    logto: {
-        endpoint: process.env.LOGTO_ENDPOINT as string,
-        appId: process.env.LOGTO_APP_ID as string,
-        appSecret: process.env.LOGTO_APP_SECRET as string,
-        cookieSecret: process.env.LOGTO_COOKIE_SECRET as string,
+    auth: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        },
+        nextAuthSecret: process.env.NEXTAUTH_SECRET as string,
     },
     email: {
         host: process.env.EMAIL_HOST as string,
@@ -13,6 +14,7 @@ const environmentVariables={
     },
     baseUrl: process.env.BASE_URL as string,
     nodeEnv: process.env.NODE_ENV||"production",
+    databaseUrl: process.env.DATABASE_URL as string,
 }
 
 export default environmentVariables;

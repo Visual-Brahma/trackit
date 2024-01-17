@@ -1,6 +1,4 @@
 import Image from 'next/image'
-import chromeExtension from '@/assets/images/chrome_ext.png'
-import attendanceReport from '@/assets/images/att_report.png'
 import ExtensionChooser from '@/components/extension-chooser'
 
 const Home=() => {
@@ -100,8 +98,11 @@ const Home=() => {
             </div>
             <div className='rounded-2xl bg-gradient-to-t from-red-700 to-red-900 p-4 border-none outline-none sm:p-8'>
               <Image
-                src={chromeExtension}
+                src={"/_static/chrome_ext.png"}
                 alt='Chrome Extension'
+                width={500}
+                height={500}
+                sizes='100vw'
                 className='w-full h-full rounded-2xl'
               />
             </div>
@@ -112,8 +113,10 @@ const Home=() => {
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-12 w-full py-16'>
             <div className='rounded-2xl bg-gradient-to-t from-red-700 to-red-900 p-4 border-none outline-none sm:p-8'>
               <Image
-                src={attendanceReport}
+                src={"/_static/att_report.png"}
                 alt='Attendance Report'
+                width={500}
+                height={500}
                 className='w-full h-full rounded-2xl'
               />
             </div>

@@ -1,4 +1,4 @@
-import type { ColumnType } from "kysely";
+import type { ColumnType, GeneratedAlways } from "kysely";
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
@@ -11,7 +11,7 @@ export const Role = {
 } as const;
 export type Role = (typeof Role)[keyof typeof Role];
 export type Account = {
-    id: Generated<string>;
+    id: GeneratedAlways<string>;
     userId: string;
     type: string;
     provider: string;
@@ -25,13 +25,13 @@ export type Account = {
     session_state: string | null;
 };
 export type AttendanceReport = {
-    id: Generated<number>;
+    id: GeneratedAlways<number>;
     meetingId: number;
     isPublic: Generated<boolean>;
     sharedWith: string[];
 };
 export type AttendanceReportUserPresence = {
-    id: Generated<number>;
+    id: GeneratedAlways<number>;
     attendanceReportId: number;
     userId: string;
     isPresent: Generated<boolean>;
@@ -41,7 +41,7 @@ export type AttendanceReportUserPresence = {
     meetingTrail: unknown | null;
 };
 export type Group = {
-    id: Generated<number>;
+    id: GeneratedAlways<number>;
     name: string;
     description: string | null;
     banner: string | null;
@@ -49,13 +49,13 @@ export type Group = {
     isAcceptingMembers: Generated<boolean>;
 };
 export type GroupMember = {
-    id: Generated<number>;
+    id: GeneratedAlways<number>;
     groupId: number;
     role: Generated<Role>;
     userId: string;
 };
 export type Meeting = {
-    id: Generated<number>;
+    id: GeneratedAlways<number>;
     groupId: number;
     date: Timestamp;
     isOnline: Generated<boolean>;
@@ -67,7 +67,7 @@ export type Meeting = {
     agenda: unknown | null;
 };
 export type MeetingNotes = {
-    id: Generated<number>;
+    id: GeneratedAlways<number>;
     createdAt: Generated<Timestamp>;
     content: unknown;
     isPrivate: Generated<boolean>;
@@ -75,22 +75,22 @@ export type MeetingNotes = {
     userId: string | null;
 };
 export type Message = {
-    id: Generated<number>;
+    id: GeneratedAlways<number>;
     timestamp: Generated<Timestamp>;
     message: unknown;
     groupId: number;
     userId: string;
 };
 export type Session = {
-    id: Generated<string>;
+    id: GeneratedAlways<string>;
     sessionToken: string;
     userId: string;
     expires: Timestamp;
 };
 export type User = {
-    id: Generated<string>;
+    id: GeneratedAlways<string>;
     name: string | null;
-    email: string | null;
+    email: string;
     emailVerified: Timestamp | null;
     image: string | null;
 };

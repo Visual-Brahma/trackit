@@ -1,7 +1,7 @@
 import { AuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-import { KyselyAdapter } from "@auth/kysely-adapter"
-import { dbClient } from "@/lib/db_client"
+import { KyselyAdapter } from "@/lib/db/adapter"
+import { dbClient } from "@/lib/db/db_client"
 import EmailProvider from "next-auth/providers/email"
 import environmentVariables from "@/config/environment"
 

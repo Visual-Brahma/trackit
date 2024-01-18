@@ -10,9 +10,7 @@
     "prisma": "dotenv -e .env.local prisma"
   },
   "dependencies": {
-    "@auth/kysely-adapter": "^0.1.14",
     "@hookform/resolvers": "^3.3.3",
-    "@logto/next": "^2.3.0",
     "@react-email/components": "^0.0.12",
     "@react-email/render": "^0.0.10",
     "@repo/ui": "workspace:*",

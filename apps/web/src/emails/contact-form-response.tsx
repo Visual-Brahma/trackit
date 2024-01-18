@@ -1,5 +1,5 @@
 import environmentVariables from '@/config/environment';
-import { appName } from '@/utils/constants/brand';
+import { appName } from '@/lib/constants/brand';
 import {
     Body,
     Container,

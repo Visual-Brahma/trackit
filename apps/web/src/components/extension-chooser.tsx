@@ -13,7 +13,7 @@ const ExtensionChooser=() => {
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl sm:text-4xl md:text-7xl p-8'>
             <Link
-                href={"/app"}
+                href={"/dashboard"}
                 className={buttonVariants({ variant: "default", size: "xl" })}
             >
                 Get Started

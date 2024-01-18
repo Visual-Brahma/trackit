@@ -49,7 +49,7 @@ const Layout=({ children }: LayoutProps) => {
                         </p>
                     </Link>
                     <div className='flex items-center justify-center'>
-                        <Link href='/app' className={buttonVariants({ variant: "default" })} >
+                        <Link href='/dashboard' className={buttonVariants({ variant: "default" })} >
                             {"Get Started"}
                         </Link>
                         <ThemeSelector />

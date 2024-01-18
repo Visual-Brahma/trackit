@@ -1,0 +1,168 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+generator kysely {
+  provider = "prisma-kysely"
+  output   = "../src/types"
+  fileName = "database.types.ts"
+  readOnlyIds = true
+  // enumFileName = "enums.ts"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ------------------------------------- User --------------------------------------
+
+model User {
+  id            String                         @id @default(dbgenerated("gen_random_uuid()"))
+  name          String?
+  email         String                         @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  groupsJoined  GroupMember[]
+  attendance    AttendanceReportUserPresence[]
+  messagesSent  Message[]
+  meetingNotes  MeetingNotes[]
+}
+
+// ------------------------------------- Group -------------------------------------
+
+/// The role of the user in the group
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+/// A group represents a workspace in business context and class or its sub-unit in educational context
+model Group {
+  id                 Int           @id @default(autoincrement())
+  name               String
+  description        String?
+  banner             String?
+  joinCode           String        @unique @default(dbgenerated("gen_random_uuid()"))
+  isAcceptingMembers Boolean       @default(true)
+  groupMembers       GroupMember[]
+  meetings           Meeting[]
+  messages           Message[]
+}
+
+/// A user can be a member of multiple groups and can have different roles in each group
+model GroupMember {
+  id      Int    @id @default(autoincrement())
+  group   Group  @relation(fields: [groupId], references: [id])
+  groupId Int
+  role    Role   @default(MEMBER)
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime @default(now()) @db.Timestamptz(3)
+  message   Json
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+// ------------------------------------- Meeting -------------------------------------
+
+/// A meeting or a class can be online or offline
+model Meeting {
+  id               Int               @id @default(autoincrement())
+  group            Group             @relation(fields: [groupId], references: [id])
+  groupId          Int
+  date             DateTime          @db.Timestamptz(3)
+  isOnline         Boolean           @default(true)
+  name             String
+  meetLink         String?
+  startTime        DateTime?         @db.Timestamptz(3)
+  endTime          DateTime?         @db.Timestamptz(3)
+  venue            String?
+  agenda           Json?
+  attendanceReport AttendanceReport?
+  notes            MeetingNotes[]
+}
+
+model AttendanceReport {
+  id              Int                            @id @default(autoincrement())
+  meeting         Meeting                        @relation(fields: [meetingId], references: [id])
+  meetingId       Int                            @unique()
+  isPublic        Boolean                        @default(false)
+  sharedWith      String[]
+  membersPresence AttendanceReportUserPresence[]
+}
+
+model AttendanceReportUserPresence {
+  id                 Int              @id @default(autoincrement())
+  attendanceReport   AttendanceReport @relation(fields: [attendanceReportId], references: [id])
+  attendanceReportId Int
+  user               User             @relation(fields: [userId], references: [id])
+  userId             String
+  isPresent          Boolean          @default(false)
+  joinTime           DateTime         @db.Timestamptz(3)
+  leaveTime          DateTime         @db.Timestamptz(3)
+  comment            String?
+  meetingTrail       Json?
+}
+
+// ------------------------------------- Notes -------------------------------------
+
+model MeetingNotes {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  content   Json
+  isPrivate Boolean  @default(true)
+  meeting   Meeting  @relation(fields: [meetingId], references: [id])
+  meetingId Int
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+// ------------------------------------- Auth -------------------------------------
+model Account {
+  id                String  @id @default(dbgenerated("gen_random_uuid()"))
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(dbgenerated("gen_random_uuid()"))
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

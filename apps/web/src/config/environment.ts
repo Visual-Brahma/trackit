@@ -13,7 +13,6 @@ const environmentVariables={
         password: process.env.EMAIL_PASSWORD as string,
     },
     baseUrl: process.env.BASE_URL as string,
-    nodeEnv: process.env.NODE_ENV||"production",
     databaseUrl: process.env.DATABASE_URL as string,
 }
 

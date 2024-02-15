@@ -71,7 +71,7 @@ export default function Layout({ children }: LayoutProps) {
         <aside className="-mx-4 md:w-1/4 lg:w-1/5 xl:w-1/6 pt-4 px-6 md:p-0">
           <Nav itemGroups={sidebarNavItems} />
         </aside>
-        <div className="flex-1 bg-secondary p-2 sm:p-4 overflow-y-scroll">{children}</div>
+        <div className="flex-1 bg-secondary/40 p-2 sm:p-4 overflow-y-scroll">{children}</div>
       </div>
     </div>
   );

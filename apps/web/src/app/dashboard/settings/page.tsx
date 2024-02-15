@@ -31,7 +31,7 @@ const SettingsPage=async () => {
     return (
         <div>
             <TypographyH2>Settings</TypographyH2>
-            <div className="my-4">
+            <div className="my-4 mt-6">
                 <TypographyH3>General</TypographyH3>
                 <div className="w-full max-w-screen-md">
                     <NameForm name={profile.name||""} email={session.user.email} />

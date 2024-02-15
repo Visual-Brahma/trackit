@@ -123,7 +123,7 @@ export function SidebarNav({ className, itemGroups, ...props }: SidebarNavProps)
         </Card>
 
         <Button asChild className="bg-red-500 hover:bg-red-300 text-white">
-          <Link href="/api/logto/sign-out" className="ml-2 w-full">
+          <Link href="/api/auth/signout" className="ml-2 w-full">
             <LogOutIcon className="mr-2 h-4 w-4" />
             Logout
           </Link>

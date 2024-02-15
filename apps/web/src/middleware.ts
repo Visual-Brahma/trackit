@@ -7,7 +7,9 @@ export async function middleware(req: NextRequest) {
 
     const session=await getToken({ req, secret: environmentVariables.auth.nextAuthSecret });
 
-    console.log('session', session);
+    if (process.env.NODE_ENV==='development') {
+        console.log('session', session);
+    }
     // if user is not signed in and the current path is not / redirect the user to /
     if (!session?.email&&req.nextUrl.pathname.startsWith('/dashboard')) {
         return NextResponse.redirect(new URL('/api/auth/signin?callback='+encodeURIComponent(req.nextUrl.pathname), req.url))

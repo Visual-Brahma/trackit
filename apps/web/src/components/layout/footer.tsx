@@ -1,5 +1,12 @@
+"use client"
 import { buttonVariants } from "@repo/ui/button"
 import Link from "next/link"
+
+declare global {
+    interface Window {
+        tidioChatApi: any
+    }
+}
 
 const Footer=() => {
     return (
@@ -23,12 +30,12 @@ const Footer=() => {
                     >
                         Guide
                     </Link>
-                    <a
-                        href='https://forms.office.com/r/B8gUAVbDPA'
+                    <Link
+                        href='/feedback'
                         className={buttonVariants({ variant: "ghost" })}
                     >
                         Feedback
-                    </a>
+                    </Link>
                     <a
                         href='https://github.com/Visual-Brahma/trackit'
                         className={buttonVariants({ variant: "ghost" })}
@@ -41,12 +48,16 @@ const Footer=() => {
                     >
                         Donate
                     </a>
-                    <Link
-                        href='/contact-us'
+                    <a
+                        href='javascript:;'
+                        onClick={() => {
+                            window.tidioChatApi.display(true);
+                            window.tidioChatApi.open()
+                        }}
                         className={buttonVariants({ variant: "ghost" })}
                     >
                         Contact Us
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>

@@ -75,8 +75,8 @@ const Home=() => {
         </div>
       </div>
 
-      <div>
-        <div className='flex items-center justify-center min-h-screen'>
+      <div className='min-h-screen'>
+        <div className='flex items-center justify-center'>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-12 py-16 w-full'>
             <div className='mt-4'>
               <h1
@@ -109,7 +109,7 @@ const Home=() => {
           </div>
         </div>
 
-        <div className='flex items-center justify-center min-h-screen'>
+        <div className='flex items-center justify-center'>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-12 w-full py-16'>
             <div className='rounded-2xl bg-gradient-to-t from-red-700 to-red-900 p-4 border-none outline-none sm:p-8'>
               <Image

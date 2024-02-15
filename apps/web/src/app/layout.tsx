@@ -1,6 +1,6 @@
 import "@repo/ui/styles"
 import './globals.css'
-import { Toaster } from 'sonner'
+import { Toaster } from '@repo/ui/sonner'
 import Script from 'next/script'
 import type { Metadata, Viewport } from 'next'
 import { LayoutProps } from '@/types'
@@ -8,6 +8,8 @@ import { PT_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Provider } from '@/components/layout/providers'
+import { getServerSession } from "next-auth"
+import { TidioUserInfo } from "@/components/layout/tidio"
 
 const PTsansDisplay=PT_Sans({ weight: '400', subsets: ['latin'] })
 
@@ -30,11 +32,20 @@ export default async function RootLayout({
   children,
 }: LayoutProps) {
 
+  const session=await getServerSession();
+
+  const userInfo={
+    email: session?.user?.email??undefined,
+    name: session?.user?.name??undefined,
+    distinct_id: session?.user?.email??undefined,
+  }
+
   return (
     <html lang="en">
       <body className={PTsansDisplay.className}>
         <Provider>
           {children}
+          <TidioUserInfo {...userInfo} />
         </Provider>
         <Toaster position={'top-right'} />
         <Script

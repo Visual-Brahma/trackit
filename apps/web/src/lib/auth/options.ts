@@ -10,6 +10,10 @@ export const authOptions: NextAuthOptions={
     session: {
         strategy: "jwt",
     },
+    theme: {
+        logo: "/logo.svg",
+        brandColor: "#6B13FA",
+    },
     providers: [
         EmailProvider({
             server: {

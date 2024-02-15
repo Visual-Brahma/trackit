@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect } from "react";
+
 interface TidioIdentify {
     distinct_id?: string;
     email?: string;
@@ -9,7 +11,12 @@ interface TidioIdentify {
 
 export const TidioUserInfo=(userInfo: TidioIdentify) => {
 
-    (window.document as Document&{ tidioIdentify: TidioIdentify }).tidioIdentify=userInfo;
+    useEffect(() => {
+        if (window) {
+            (window.document as Document&{ tidioIdentify: TidioIdentify }).tidioIdentify=userInfo;
+        }
+    }, []);
+
     return (
         <>
             {

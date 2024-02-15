@@ -10,6 +10,7 @@ import Image from "next/image"
 import { Button } from "@repo/ui/button"
 import { Card, CardContent } from "@repo/ui/card"
 import { ArrowUpCircleIcon, CoffeeIcon, LogOutIcon } from "lucide-react"
+import { Badge } from "@repo/ui/badge"
 
 export interface SidebarNavProps extends HTMLAttributes<HTMLElement> {
   itemGroups: {
@@ -17,7 +18,11 @@ export interface SidebarNavProps extends HTMLAttributes<HTMLElement> {
     items: {
       href: string
       title: string
-      icon: ReactNode
+      icon: ReactNode,
+      badge?: {
+        text: string
+      },
+      disabled?: boolean
     }[]
   }[]
 }
@@ -54,21 +59,48 @@ export function SidebarNav({ className, itemGroups, ...props }: SidebarNavProps)
             <div key={title} className="justify-start">
               <div className="text-sm font-semibold text-muted-foreground uppercase px-4 my-4 tracking-wider">{title}</div>
               <div className="ml-2 space-y-1">
-                {items.map(({ href, title, icon }) => (
-                  <Link
+                {items.map(({ href, title, icon, disabled, badge }) => (
+                  <Button
                     key={href}
-                    href={href}
+                    variant={"ghost"}
                     className={cn(
-                      buttonVariants({ variant: "ghost" }),
                       pathname===href
                         ? "bg-muted hover:bg-muted"
                         :"",
-                      "w-full justify-start hover:bg-muted"
+                      "w-full justify-start hover:bg-muted",
+                      disabled
+                        ? "opacity-50"
+                        :""
                     )}
+                    disabled={disabled}
+                    asChild
                   >
-                    {icon}
-                    {title}
-                  </Link>
+                    <Link
+                      {...(href==="/contact-us"? {
+                        onClick: () => {
+                          window.tidioChatApi.display(true);
+                          window.tidioChatApi.open()
+                        },
+                        href: ""
+                      }:{
+                        href: href
+                      })}
+                      style={{
+                        pointerEvents: disabled
+                          ? "none"
+                          :"auto"
+                      }}
+                    >
+                      {icon}
+                      {title}
+                      {
+                        badge&&(
+                          <Badge variant={"default"} className={`ml-2 rounded-xl`}>{badge.text}</Badge>
+                        )
+                      }
+                    </Link>
+                  </Button>
+
                 ))}
               </div>
             </div>
@@ -82,10 +114,10 @@ export function SidebarNav({ className, itemGroups, ...props }: SidebarNavProps)
             <ArrowUpCircleIcon className="h-8 w-8" />
             <p className="text-sm text-center font-semibold">Loving Trackit? Help us grow by buying us a coffee.</p>
 
-            <Button>
+            <a href="https://www.buymeacoffee.com/blaze2004" className={buttonVariants()}>
               <CoffeeIcon className="mr-2 h-4 w-4" />
               Buy a Coffee
-            </Button>
+            </a>
 
           </CardContent>
         </Card>

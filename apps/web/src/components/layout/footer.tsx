@@ -2,12 +2,6 @@
 import { buttonVariants } from "@repo/ui/button"
 import Link from "next/link"
 
-declare global {
-    interface Window {
-        tidioChatApi: any
-    }
-}
-
 const Footer=() => {
     return (
         <div className='w-full border-t border-border py-5 text-center self-end'>

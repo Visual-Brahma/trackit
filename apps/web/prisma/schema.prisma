@@ -6,9 +6,9 @@
 // }
 
 generator kysely {
-  provider = "prisma-kysely"
-  output   = "../src/types"
-  fileName = "database.types.ts"
+  provider    = "prisma-kysely"
+  output      = "../src/types"
+  fileName    = "database.types.ts"
   readOnlyIds = true
   // enumFileName = "enums.ts"
 }
@@ -27,6 +27,7 @@ model User {
   email         String                         @unique
   emailVerified DateTime?
   image         String?
+  newsletter    Boolean                        @default(true)
   accounts      Account[]
   sessions      Session[]
   groupsJoined  GroupMember[]

@@ -1,6 +1,6 @@
 import { render } from '@react-email/render'
-import ContactFormResponseEmail from "@/emails/contact-form-response";
 import PreviewEmailTemplate from "./preview-email";
+import MagicLinkEmail from '@/emails/magic-link-email';
 
 const PreviewEmail=() => {
 
@@ -10,9 +10,9 @@ const PreviewEmail=() => {
         email: string;
     }[]=[
             {
-                id: "contact-form-response",
-                name: "Contact Form Response",
-                email: render(<ContactFormResponseEmail firstName="Sarthak" subject="Just a test feedback" message="I just wanted to test if you guys really read these mails." />, {
+                id: "magic-link",
+                name: "Magic Link",
+                email: render(<MagicLinkEmail host="trackit.visualbrahma.tech" url="https://trackit.visualbrahma.tech/some-verification-url" />, {
                     pretty: true,
                 })
             }

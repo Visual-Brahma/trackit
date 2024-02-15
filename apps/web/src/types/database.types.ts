@@ -93,6 +93,7 @@ export type User = {
     email: string;
     emailVerified: Timestamp | null;
     image: string | null;
+    newsletter: Generated<boolean>;
 };
 export type VerificationToken = {
     identifier: string;

@@ -28,6 +28,12 @@ export const viewport: Viewport={
   themeColor: '#6B13FA',
 }
 
+declare global {
+  interface Window {
+      tidioChatApi: any
+  }
+}
+
 export default async function RootLayout({
   children,
 }: LayoutProps) {

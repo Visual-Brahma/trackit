@@ -15,7 +15,11 @@ const sidebarNavItems: SidebarNavProps["itemGroups"]=[
       {
         title: "Groups",
         href: "/dashboard/groups",
-        icon: <UsersIcon className="mr-2 h-4 w-4" />
+        icon: <UsersIcon className="mr-2 h-4 w-4" />,
+        disabled: true,
+        badge: {
+          text: "Coming soon",
+        }
       },
       {
         title: "Reports",
@@ -25,7 +29,11 @@ const sidebarNavItems: SidebarNavProps["itemGroups"]=[
       {
         title: "Notes",
         href: "/dashboard/notes",
-        icon: <StickyNoteIcon className="mr-2 h-4 w-4" />
+        icon: <StickyNoteIcon className="mr-2 h-4 w-4" />,
+        disabled: true,
+        badge: {
+          text: "Coming soon",
+        }
       },
       {
         title: "Settings",
@@ -63,7 +71,7 @@ export default function Layout({ children }: LayoutProps) {
         <aside className="-mx-4 md:w-1/4 lg:w-1/5 xl:w-1/6 pt-4 px-6 md:p-0">
           <Nav itemGroups={sidebarNavItems} />
         </aside>
-        <div className="flex-1 bg-secondary p-2 overflow-y-scroll">{children}</div>
+        <div className="flex-1 bg-secondary p-2 sm:p-4 overflow-y-scroll">{children}</div>
       </div>
     </div>
   );

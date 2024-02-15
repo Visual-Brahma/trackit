@@ -1,3 +1,4 @@
+"use server"
 import { createTransport } from 'nodemailer';
 import environmentVariables from '@/config/environment';
 
@@ -6,9 +7,10 @@ interface SendEmailProps {
     to: string;
     html: string;
     text: string;
+    from: string;
 }
 
-export const sendEmail=async ({ to, subject, html, text }: SendEmailProps) => {
+export const sendEmail=async ({ to, subject, html, text, from }: SendEmailProps) => {
     const transporter=createTransport({
         host: environmentVariables.email.host,
         port: environmentVariables.email.port,
@@ -17,6 +19,7 @@ export const sendEmail=async ({ to, subject, html, text }: SendEmailProps) => {
             user: environmentVariables.email.user,
             pass: environmentVariables.email.password,
         },
+        from: from,
     });
 
     const options={
@@ -27,11 +30,10 @@ export const sendEmail=async ({ to, subject, html, text }: SendEmailProps) => {
         text: text,
     };
 
-    try {
-        await transporter.sendMail(options);
-        return true;
-    } catch (error) {
-        console.error('Error sending email:', error);
-        return false;
+    const result=await transporter.sendMail(options);
+    const failed=result.rejected.concat(result.pending).filter(Boolean);
+
+    if (failed.length) {
+        throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)
     }
 }

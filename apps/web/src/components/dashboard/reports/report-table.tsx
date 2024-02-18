@@ -1,25 +1,25 @@
 "use client"
-import { formatDatetime } from "@/lib/utils/format";
+
 import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
-import { Button, buttonVariants } from "@repo/ui/button";
+import { Button } from "@repo/ui/button";
 import { Checkbox } from "@repo/ui/checkbox";
+import { Progress } from "@repo/ui/progress";
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@repo/ui/dropdown";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@repo/ui/table";
 import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import Link from "next/link";
 import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
 
-export interface AttendanceReportItem {
-    id: string;
-    meetCode: string;
-    date: string;
-    participantsCount: number;
-    duration: string;
-    groupId: string;
-    slug: string;
+export interface AttendanceReportParticipant {
+    id: number;
+    name: string;
+    joinTime: string;
+    exitTime: string;
+    attendancePercentage: number;
+    avatar?: string;
 }
 
-const columns: ColumnDef<AttendanceReportItem>[]=[
+const columns: ColumnDef<AttendanceReportParticipant>[]=[
     {
         id: "select",
         header: ({ table }) => (
@@ -43,68 +43,84 @@ const columns: ColumnDef<AttendanceReportItem>[]=[
         enableHiding: false,
     },
     {
-        accessorKey: "meetCode",
-        header: "Meet Code",
+        accessorKey: "name",
         enableHiding: false,
-    },
-    {
-        accessorKey: "date",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted()==="asc")}
                 >
-                    Date
+                    Participant Name
                     <CaretSortIcon className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{formatDatetime(row.getValue("date") as string)??"-"}</div>
+            <div className="flex items-center gap-2">
+                <Avatar>
+                    <AvatarImage src={row.original.avatar||`https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${row.getValue("name")}`} />
+                    <AvatarFallback>{(row.getValue("name") as string).split(" ").map(x => x[0]).join("")}</AvatarFallback>
+                </Avatar>
+                <p>{row.getValue("name")}</p>
+            </div>
         ),
     },
     {
-        accessorKey: "duration",
+        id: "joinTime",
+        accessorKey: "joinTime",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted()==="asc")}
                 >
-                    Duration
+                    Join Time
                     <CaretSortIcon className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
     },
     {
-        id: "participants",
-        accessorKey: "participantsCount",
+        id: "Exit time",
+        accessorKey: "exitTime",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted()==="asc")}
                 >
-                    Participants
+                    Exit Time
                     <CaretSortIcon className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
     },
     {
-        id: "view",
-        header: "View Report",
+        accessorKey: "attendancePercentage",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted()==="asc")}
+                >
+                    Attendance Percentage
+                    <CaretSortIcon className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
         cell: ({ row }) => (
-            <Link href={`/g/${row.original.groupId}/r/${row.original.slug}`} className={buttonVariants()}>View</Link>
+            <div className="flex items-center justify-between gap-2 max-w-sm">
+                <Progress value={row.getValue("attendancePercentage")} />
+                {row.getValue("attendancePercentage")+"%"}
+            </div>
         ),
-        enableHiding: false,
-    }
+        enableHiding: false
+    },
 ];
 
 
-export const AttendanceReportsListTable=({ data }: { data: AttendanceReportItem[] }) => {
+export const AttendanceReportTable=({ data }: { data: AttendanceReportParticipant[] }) => {
     const [sorting, setSorting]=useState<SortingState>([])
     const [columnFilters, setColumnFilters]=useState<ColumnFiltersState>(
         []
@@ -136,6 +152,7 @@ export const AttendanceReportsListTable=({ data }: { data: AttendanceReportItem[
         <div className="w-full">
             <div className="flex items-center py-4">
                 {/* TODO :: Add a search input here */}
+                {/* TODO :: Add a filter on attendance percentage column */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
@@ -241,4 +258,4 @@ export const AttendanceReportsListTable=({ data }: { data: AttendanceReportItem[
     )
 }
 
-export default AttendanceReportsListTable;
+export default AttendanceReportTable;

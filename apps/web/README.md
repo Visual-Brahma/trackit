@@ -22,3 +22,9 @@ git clone https://github.com/Visual-Brahma/trackit
   ```
 * Start the server with ``pnpm dev``.
 * Start developing.
+
+## Abbreviations
+
+`/g` in route refers to groups. It is used just to make the url shorter (for sharing).
+
+`/r` in route refers to attendance reports. It is used just to make the url shorter (for sharing).

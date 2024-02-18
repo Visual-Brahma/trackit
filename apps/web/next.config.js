@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig={
     reactStrictMode: true,
-    transpilePackages: ["@repo/ui"]
+    transpilePackages: ["@repo/ui"],
+    redirects: async () => {
+        return [
+            {
+                source: "/g",
+                destination: "/dashboard/groups",
+                permanent: true,
+            }
+        ];
+    }
 }
 
-module.exports = nextConfig
+module.exports=nextConfig

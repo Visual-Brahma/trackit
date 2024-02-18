@@ -4,6 +4,7 @@ import { AttendanceReportItem, AttendanceReportsListTable } from "@/components/d
 const ReportsPage=async () => {
 
     const data: AttendanceReportItem[]=[
+       
     ]
 
     return (

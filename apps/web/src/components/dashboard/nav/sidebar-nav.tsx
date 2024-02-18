@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 
 import { cn } from "@repo/ui/utils"
 import { buttonVariants } from "@repo/ui/button"
-import { HTMLAttributes, ReactNode } from "react"
+import { Dispatch, HTMLAttributes, ReactNode, SetStateAction } from "react"
 import Image from "next/image"
 import { Button } from "@repo/ui/button"
 import { Card, CardContent } from "@repo/ui/card"
@@ -25,9 +25,11 @@ export interface SidebarNavProps extends HTMLAttributes<HTMLElement> {
       disabled?: boolean
     }[]
   }[]
+  drawer?: boolean;
+  setDraweropen?: Dispatch<SetStateAction<boolean>>;
 }
 
-export function SidebarNav({ className, itemGroups, ...props }: SidebarNavProps) {
+export function SidebarNav({ className, itemGroups, drawer, setDraweropen, ...props }: SidebarNavProps) {
   const pathname=usePathname()
 
   return (
@@ -76,15 +78,17 @@ export function SidebarNav({ className, itemGroups, ...props }: SidebarNavProps)
                     asChild
                   >
                     <Link
-                      {...(href==="/contact-us"? {
-                        onClick: () => {
+                      onClick={() => {
+                        if (drawer&&setDraweropen) {
+                          setDraweropen(false);
+                        }
+
+                        if (href==="/contact-us") {
                           window.tidioChatApi.display(true);
                           window.tidioChatApi.open()
-                        },
-                        href: ""
-                      }:{
-                        href: href
-                      })}
+                        }
+                      }}
+                      href={href==="/contact-us"? "":href}
                       style={{
                         pointerEvents: disabled
                           ? "none"

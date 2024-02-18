@@ -26,6 +26,7 @@ export type Account = {
 };
 export type AttendanceReport = {
     id: GeneratedAlways<number>;
+    slug: Generated<string>;
     meetingId: number;
     isPublic: Generated<boolean>;
     sharedWith: string[];
@@ -61,6 +62,7 @@ export type Meeting = {
     isOnline: Generated<boolean>;
     name: string;
     meetLink: string | null;
+    meetPlatform: string | null;
     startTime: Timestamp | null;
     endTime: Timestamp | null;
     venue: string | null;

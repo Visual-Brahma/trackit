@@ -89,6 +89,7 @@ model Meeting {
   isOnline         Boolean           @default(true)
   name             String
   meetLink         String?
+  meetPlatform     String?
   startTime        DateTime?         @db.Timestamptz(3)
   endTime          DateTime?         @db.Timestamptz(3)
   venue            String?
@@ -99,6 +100,7 @@ model Meeting {
 
 model AttendanceReport {
   id              Int                            @id @default(autoincrement())
+  slug            String                         @unique() @default(dbgenerated("gen_random_uuid()"))
   meeting         Meeting                        @relation(fields: [meetingId], references: [id])
   meetingId       Int                            @unique()
   isPublic        Boolean                        @default(false)

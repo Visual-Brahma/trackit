@@ -8,7 +8,7 @@ import {
 
 interface AttendanceReportInfoProps {
     meetcode: string;
-    date: string;
+    date: Date;
     startTimestamp: string;
     endTimestamp: string;
     duration: string;

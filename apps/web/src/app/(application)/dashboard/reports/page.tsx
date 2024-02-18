@@ -3,6 +3,7 @@ import { AttendanceReportItem, AttendanceReportsListTable } from "@/components/d
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
 import { extractMeetCodeFromLink, getDurationBetweenDates } from "@/lib/utils/format";
+import { jsonObjectFrom } from "kysely/helpers/postgres";
 
 const ReportsPage=async () => {
 
@@ -20,17 +21,16 @@ const ReportsPage=async () => {
 
     const attendanceReports=await dbClient.selectFrom("AttendanceReport")
         .innerJoin("Meeting", "AttendanceReport.meetingId", "Meeting.id")
-        .select([
+        .select((eb) => [
             "AttendanceReport.id", "AttendanceReport.slug",
             "Meeting.date", "Meeting.startTime", "Meeting.endTime",
             "Meeting.meetLink", "Meeting.groupId", "Meeting.isOnline",
             "Meeting.meetPlatform", "Meeting.name",
-            (eb) =>
-                eb.fn.count<number>(
-                    eb.selectFrom("AttendanceReportUserPresence")
-                        .select("AttendanceReportUserPresence.id")
-                        .whereRef("AttendanceReportUserPresence.attendanceReportId", "=", "AttendanceReport.id")
-                ).as("participantsCount"),
+            jsonObjectFrom(
+                eb.selectFrom("AttendanceReportUserPresence")
+                    .select(({ fn }) => fn.count<number>("AttendanceReportUserPresence.id").as("count"))
+                    .whereRef("AttendanceReportUserPresence.attendanceReportId", "=", "AttendanceReport.id")
+            ).as("participantsCount")
         ])
         .where("Meeting.groupId", "in",
             (eb) =>
@@ -48,7 +48,7 @@ const ReportsPage=async () => {
         id: report.id,
         meetCode: report.meetPlatform==="google_meet"? extractMeetCodeFromLink(report.meetLink??""):report.meetLink??"-",
         date: report.date,
-        participantsCount: report.participantsCount,
+        participantsCount: report.participantsCount?.count??0,
         duration: report.startTime&&report.endTime? getDurationBetweenDates(report.startTime, report.endTime):"-",
         groupId: report.groupId,
         slug: report.slug,

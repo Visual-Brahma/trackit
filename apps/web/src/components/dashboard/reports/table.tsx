@@ -10,9 +10,9 @@ import Link from "next/link";
 import { useState } from "react";
 
 export interface AttendanceReportItem {
-    id: string;
+    id: number;
     meetCode: string;
-    date: string;
+    date: Date;
     participantsCount: number;
     duration: string;
     groupId: string;
@@ -61,7 +61,7 @@ const columns: ColumnDef<AttendanceReportItem>[]=[
             )
         },
         cell: ({ row }) => (
-            <div className="capitalize">{formatDatetime(row.getValue("date") as string)??"-"}</div>
+            <div className="capitalize">{formatDatetime(row.getValue("date") as Date)??"-"}</div>
         ),
     },
     {

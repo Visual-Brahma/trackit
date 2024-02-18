@@ -47,7 +47,7 @@ enum Role {
 
 /// A group represents a workspace in business context and class or its sub-unit in educational context
 model Group {
-  id                 Int           @id @default(autoincrement())
+  id                 String           @id @default(dbgenerated("gen_random_uuid()"))
   name               String
   description        String?
   banner             String?
@@ -62,7 +62,7 @@ model Group {
 model GroupMember {
   id      Int    @id @default(autoincrement())
   group   Group  @relation(fields: [groupId], references: [id])
-  groupId Int
+  groupId String
   role    Role   @default(MEMBER)
   user    User   @relation(fields: [userId], references: [id])
   userId  String
@@ -73,7 +73,7 @@ model Message {
   timestamp DateTime @default(now()) @db.Timestamptz(3)
   message   Json
   group     Group    @relation(fields: [groupId], references: [id])
-  groupId   Int
+  groupId   String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
 }
@@ -84,7 +84,7 @@ model Message {
 model Meeting {
   id               Int               @id @default(autoincrement())
   group            Group             @relation(fields: [groupId], references: [id])
-  groupId          Int
+  groupId          String
   date             DateTime          @db.Timestamptz(3)
   isOnline         Boolean           @default(true)
   name             String

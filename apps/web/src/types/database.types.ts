@@ -42,7 +42,7 @@ export type AttendanceReportUserPresence = {
     meetingTrail: unknown | null;
 };
 export type Group = {
-    id: GeneratedAlways<number>;
+    id: GeneratedAlways<string>;
     name: string;
     description: string | null;
     banner: string | null;
@@ -51,13 +51,13 @@ export type Group = {
 };
 export type GroupMember = {
     id: GeneratedAlways<number>;
-    groupId: number;
+    groupId: string;
     role: Generated<Role>;
     userId: string;
 };
 export type Meeting = {
     id: GeneratedAlways<number>;
-    groupId: number;
+    groupId: string;
     date: Timestamp;
     isOnline: Generated<boolean>;
     name: string;
@@ -80,7 +80,7 @@ export type Message = {
     id: GeneratedAlways<number>;
     timestamp: Generated<Timestamp>;
     message: unknown;
-    groupId: number;
+    groupId: string;
     userId: string;
 };
 export type Session = {

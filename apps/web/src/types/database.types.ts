@@ -10,6 +10,10 @@ export const Role = {
     MEMBER: "MEMBER"
 } as const;
 export type Role = (typeof Role)[keyof typeof Role];
+export const MeetingPlatform = {
+    GOOGLE_MEET: "GOOGLE_MEET"
+} as const;
+export type MeetingPlatform = (typeof MeetingPlatform)[keyof typeof MeetingPlatform];
 export type Account = {
     id: GeneratedAlways<string>;
     userId: string;
@@ -29,17 +33,8 @@ export type AttendanceReport = {
     slug: Generated<string>;
     meetingId: number;
     isPublic: Generated<boolean>;
-    sharedWith: string[];
-};
-export type AttendanceReportUserPresence = {
-    id: GeneratedAlways<number>;
-    attendanceReportId: number;
-    userId: string;
-    isPresent: Generated<boolean>;
-    joinTime: Timestamp;
-    leaveTime: Timestamp;
-    comment: string | null;
-    meetingTrail: unknown | null;
+    sharedWith: Generated<string[]>;
+    membersPresence: Generated<unknown>;
 };
 export type Group = {
     id: GeneratedAlways<string>;
@@ -62,7 +57,7 @@ export type Meeting = {
     isOnline: Generated<boolean>;
     name: string;
     meetLink: string | null;
-    meetPlatform: string | null;
+    meetPlatform: MeetingPlatform | null;
     startTime: Timestamp | null;
     endTime: Timestamp | null;
     venue: string | null;
@@ -105,7 +100,6 @@ export type VerificationToken = {
 export type DB = {
     Account: Account;
     AttendanceReport: AttendanceReport;
-    AttendanceReportUserPresence: AttendanceReportUserPresence;
     Group: Group;
     GroupMember: GroupMember;
     Meeting: Meeting;

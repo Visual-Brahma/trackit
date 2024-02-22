@@ -18,6 +18,15 @@ export const formatDatetime=(date: Date): string|null => {
     }
 }
 
+export const formatTime=(date: Date): string => {
+    const hours=date.getHours();
+    const minutes=date.getMinutes().toString().padStart(2, "0");
+    const meridian=hours<12? "AM":"PM";
+    const adjustedHours=hours===0? 12:(hours>12)? hours-12:hours;
+
+    return `${adjustedHours}:${minutes} ${meridian}`;
+}
+
 export const getDurationBetweenDates=(date1: Date, date2: Date): string => {
     const difference=Math.abs(date2.getTime()-date1.getTime());
 

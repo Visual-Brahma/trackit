@@ -2,9 +2,12 @@ import { TypographyH2, TypographyP } from "@repo/ui/typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/ui/tabs";
 import { AttendanceReportInfo } from "@/components/dashboard/reports/info";
 import AttendanceReportShareView from "@/components/dashboard/reports/share";
-import AttendanceReportTable from "@/components/dashboard/reports/report-table";
+import AttendanceReportTable, { AttendanceReportParticipant } from "@/components/dashboard/reports/report-table";
 import { getServerSession } from "next-auth";
-// import { dbClient } from "@/lib/db/db_client";
+import { dbClient } from "@/lib/db/db_client";
+import { notFound } from "next/navigation";
+import { extractMeetCodeFromLink, formatTime, getDurationBetweenDates } from "@/lib/utils/format";
+import { MeetingPlatform } from "@/types/database.types";
 
 const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, slug: string } }) => {
 
@@ -20,27 +23,68 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
         );
     }
 
-    // TODO: Fetch attendance report data from the database
-    // fetch report based on groupId and slug, check if the user has access to the report
-    // user can access the report if they are the member of the group to which the report belongs or if the report is shared with them
+    const report=await dbClient.selectFrom("AttendanceReport")
+        .innerJoin("Meeting", "AttendanceReport.meetingId", "Meeting.id")
+        .selectAll()
+        .select(({ fn }) =>
+            fn<number>("jsonb_array_length", ["membersPresence"]).as("participantsCount")
+        )
+        .where((eb) =>
+            eb.and([
+                eb("Meeting.groupId", "=", params.groupId),
+                eb("AttendanceReport.slug", "=", params.slug),
+                eb.or([
+                    eb("AttendanceReport.isPublic", "=", true),
+                    eb("sharedWith", "@>", [email]),
+                    eb("Meeting.groupId", "in",
+                        eb.selectFrom("GroupMember")
+                            .select("GroupMember.groupId")
+                            .where("GroupMember.userId", "=",
+                                eb.selectFrom("User")
+                                    .select("User.id")
+                                    .where("User.email", "=", email)
+                            )
+                    )
+                ])
+            ])
+        )
+        .executeTakeFirst();
 
+    if (!report) {
+        notFound();
+    }
+
+    const attendanceReportData: AttendanceReportParticipant[]=(report.membersPresence as {
+        name: string;
+        joinTime: string;
+        leaveTime: string;
+        avatarUrl?: string;
+        attendedDuration: number;
+    }[]).map((participant, idx) => (
+        {
+            id: participant.name+idx,
+            name: participant.name,
+            joinTime: formatTime(new Date(participant.joinTime)),
+            exitTime: formatTime(new Date(participant.leaveTime)),
+            attendancePercentage: participant.attendedDuration,
+            avatar: participant.avatarUrl
+        }
+    ));
+
+    console.log(attendanceReportData)
 
     const attendanceReport={
-        isPublic: false,
+        isPublic: report.isPublic,
         info: {
-            meetcode: "meet-1",
-            date: new Date("2021-10-01"),
-            startTimestamp: "10:00 AM",
-            endTimestamp: "11:30 AM",
-            duration: "1h 30m",
-            participantsCount: 20
+            meetcode: report.meetPlatform===MeetingPlatform.GOOGLE_MEET? extractMeetCodeFromLink(report.meetLink??""):report.meetLink??"-",
+            date: report.date,
+            startTimestamp: report.startTime!,
+            endTimestamp: report.endTime!,
+            duration: getDurationBetweenDates(report.startTime!, report.endTime!),
+            participantsCount: report.participantsCount
         },
-        data: [
-
-        ],
-        people: [
-
-        ]
+        data: attendanceReportData,
+        people: report.sharedWith.map((email) => ({ email }))
     }
 
     return (
@@ -61,7 +105,7 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
                     <AttendanceReportShareView
                         groupId={params.groupId}
                         slug={params.slug}
-                        downloadData={attendanceReport.data}
+                        downloadData={report.membersPresence as { [key: string]: string|number }[]}
                         people={attendanceReport.people}
                         isPublic={attendanceReport.isPublic}
                     />

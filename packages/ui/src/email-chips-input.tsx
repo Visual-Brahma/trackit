@@ -8,11 +8,12 @@ import { Badge } from "./badge";
 const isValidEmail=(email: string) => /[\w\d.-]+@[\w\d.-]+\.[\w\d.-]+/.test(email);
 
 interface EmailChipsInputProps {
+    ignore?: string[];
     emails: string[];
     setEmails: Dispatch<SetStateAction<string[]>>;
 }
 
-const EmailChipsInput=({ emails, setEmails }: EmailChipsInputProps) => {
+const EmailChipsInput=({ emails, setEmails, ignore }: EmailChipsInputProps) => {
     const [input, setInput]=useState<string>("");
     const [error, setError]=useState<string|null>(null);
 
@@ -21,7 +22,7 @@ const EmailChipsInput=({ emails, setEmails }: EmailChipsInputProps) => {
 
         if (!isValidEmail(input)) {
             error=`${input} is not a valid email address.`;
-        } else if (emails.includes(input)) {
+        } else if (emails.includes(input)||(ignore&&ignore.includes(input))) {
             error=`${input} has already been added.`;
         }
 

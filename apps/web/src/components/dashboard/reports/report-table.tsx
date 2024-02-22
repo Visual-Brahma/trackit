@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
 
 export interface AttendanceReportParticipant {
-    id: number;
+    id: string;
     name: string;
     joinTime: string;
     exitTime: string;

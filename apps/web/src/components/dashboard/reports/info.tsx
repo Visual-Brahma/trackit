@@ -1,4 +1,4 @@
-import { formatDatetime } from "@/lib/utils/format";
+import { formatDatetime, formatTime } from "@/lib/utils/format";
 import {
     Table,
     TableBody,
@@ -9,8 +9,8 @@ import {
 interface AttendanceReportInfoProps {
     meetcode: string;
     date: Date;
-    startTimestamp: string;
-    endTimestamp: string;
+    startTimestamp: Date;
+    endTimestamp: Date;
     duration: string;
     participantsCount: number;
 }
@@ -30,11 +30,11 @@ export const AttendanceReportInfo=({ meetcode, date, startTimestamp, endTimestam
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Start Time</TableCell>
-                        <TableCell>{startTimestamp}</TableCell>
+                        <TableCell>{formatTime(startTimestamp)}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">End Time</TableCell>
-                        <TableCell>{endTimestamp}</TableCell>
+                        <TableCell>{formatDatetime(endTimestamp)}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Duration</TableCell>

@@ -4,6 +4,7 @@ import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
 import { extractMeetCodeFromLink, getDurationBetweenDates } from "@/lib/utils/format";
 import { jsonObjectFrom } from "kysely/helpers/postgres";
+import { MeetingPlatform } from "@/types/database.types";
 
 const ReportsPage=async () => {
 
@@ -26,11 +27,7 @@ const ReportsPage=async () => {
             "Meeting.date", "Meeting.startTime", "Meeting.endTime",
             "Meeting.meetLink", "Meeting.groupId", "Meeting.isOnline",
             "Meeting.meetPlatform", "Meeting.name",
-            jsonObjectFrom(
-                eb.selectFrom("AttendanceReportUserPresence")
-                    .select(({ fn }) => fn.count<number>("AttendanceReportUserPresence.id").as("count"))
-                    .whereRef("AttendanceReportUserPresence.attendanceReportId", "=", "AttendanceReport.id")
-            ).as("participantsCount")
+            eb.fn<number>("jsonb_array_length", ["membersPresence"]).as("participantsCount")
         ])
         .where("Meeting.groupId", "in",
             (eb) =>
@@ -46,9 +43,9 @@ const ReportsPage=async () => {
 
     const data: AttendanceReportItem[]=attendanceReports.map((report) => ({
         id: report.id,
-        meetCode: report.meetPlatform==="google_meet"? extractMeetCodeFromLink(report.meetLink??""):report.meetLink??"-",
+        meetCode: report.meetPlatform===MeetingPlatform.GOOGLE_MEET? extractMeetCodeFromLink(report.meetLink??""):report.meetLink??"-",
         date: report.date,
-        participantsCount: report.participantsCount?.count??0,
+        participantsCount: report.participantsCount,
         duration: report.startTime&&report.endTime? getDurationBetweenDates(report.startTime, report.endTime):"-",
         groupId: report.groupId,
         slug: report.slug,

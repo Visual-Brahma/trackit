@@ -8,6 +8,8 @@ import { EmailChipsInput } from "@repo/ui/email-chips-input"
 import { TypographyP } from "@repo/ui/typography";
 import { Switch } from "@repo/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
+import { toggleReportPublicStatus } from "@/lib/api/reports";
+import { LoadingCircle } from "@repo/ui/icons";
 
 interface AttendanceReportShareViewProps {
     groupId: string;
@@ -22,7 +24,7 @@ interface AttendanceReportShareViewProps {
 }
 
 export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic, people }: AttendanceReportShareViewProps) => {
-
+    const [isloading, setIsLoading]=useState<boolean>(false);
     const [emails, setEmails]=useState<string[]>([]);
     const [isPublicReport, setIsPublicReport]=useState<boolean>(isPublic);
 
@@ -33,6 +35,16 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
             headers: ["Participant Name", "Join Time", "Exit Time", "Attendance Percentage"],
             data: downloadData
         });
+    }
+
+    const handlePublicStatusChange=async () => {
+        setIsLoading(true);
+        if (await toggleReportPublicStatus(slug, groupId, !isPublicReport)) {
+            setIsPublicReport(!isPublicReport);
+        } else {
+            toast.error("Failed to update report publci view status");
+        }
+        setIsLoading(false);
     }
 
     return (
@@ -50,13 +62,16 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
             </div>
             <div className="flex items-center space-x-4 w-full justify-between max-w-md my-4">
                 <TypographyP>Anyone with link can view</TypographyP>
-                <Switch
-                    checked={isPublicReport}
-                    onCheckedChange={() => setIsPublicReport(!isPublicReport)} />
+                <div className="flex items-center justify-center gap-1">
+                    <Switch
+                        checked={isPublicReport}
+                        onCheckedChange={handlePublicStatusChange} />
+                    {isloading&&<LoadingCircle />}
+                </div>
             </div>
             <div className="flex items-start gap-2 max-w-md w-full">
-                <EmailChipsInput emails={emails} setEmails={setEmails} />
-                <Button type="submit" disabled={emails.length===0}>
+                <EmailChipsInput ignore={people.map(p=>p.email)} emails={emails} setEmails={setEmails} />
+                <Button disabled={emails.length===0}>
                     Share
                 </Button>
             </div>

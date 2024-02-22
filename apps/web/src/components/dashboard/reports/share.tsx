@@ -8,8 +8,9 @@ import { EmailChipsInput } from "@repo/ui/email-chips-input"
 import { TypographyP } from "@repo/ui/typography";
 import { Switch } from "@repo/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
-import { toggleReportPublicStatus } from "@/lib/api/reports";
+import { shareAttendanceReport, toggleReportPublicStatus } from "@/lib/api/reports";
 import { LoadingCircle } from "@repo/ui/icons";
+import { AttendanceReportParticipant } from "./report-table";
 
 interface AttendanceReportShareViewProps {
     groupId: string;
@@ -19,13 +20,14 @@ interface AttendanceReportShareViewProps {
         avatar?: string;
         name?: string;
     }[];
-    downloadData: { [key: string]: string|number }[];
+    downloadData: AttendanceReportParticipant[];
     isPublic: boolean;
 }
 
 export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic, people }: AttendanceReportShareViewProps) => {
     const [isloading, setIsLoading]=useState<boolean>(false);
     const [emails, setEmails]=useState<string[]>([]);
+    const [sharedWith, setSharedWith]=useState(people);
     const [isPublicReport, setIsPublicReport]=useState<boolean>(isPublic);
 
     const downloadCsv=() => {
@@ -43,6 +45,18 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
             setIsPublicReport(!isPublicReport);
         } else {
             toast.error("Failed to update report publci view status");
+        }
+        setIsLoading(false);
+    }
+
+    const handleAttendanceReportShare=async () => {
+        setIsLoading(true);
+        const response=await shareAttendanceReport(slug, groupId, emails, sharedWith.map(p => p.email));
+        if (response) {
+            setSharedWith(response.map(p => ({ email: p } as AttendanceReportShareViewProps["people"][0])));
+            setEmails([]);
+        } else {
+            toast.error("Failed to share report");
         }
         setIsLoading(false);
     }
@@ -70,15 +84,18 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
                 </div>
             </div>
             <div className="flex items-start gap-2 max-w-md w-full">
-                <EmailChipsInput ignore={people.map(p=>p.email)} emails={emails} setEmails={setEmails} />
-                <Button disabled={emails.length===0}>
-                    Share
-                </Button>
+                <EmailChipsInput disabled={isloading} ignore={people.map(p => p.email)} emails={emails} setEmails={setEmails} />
+                <div className="flex items-center justify-center gap-2">
+                    <Button disabled={emails.length===0||isloading} onClick={handleAttendanceReportShare}>
+                        Share
+                    </Button>
+                    {isloading&&<LoadingCircle />}
+                </div>
             </div>
 
             <div className="max-w-md w-full mt-6">
                 {
-                    people.map(person => (
+                    sharedWith.map(person => (
                         <div key={person.email} className="flex items-center justify-start space-x-2 my-4">
                             <Avatar>
                                 <AvatarImage src={person.avatar||`https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${person.email.split("@")[0]}`} />

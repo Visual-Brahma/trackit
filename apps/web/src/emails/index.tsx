@@ -4,13 +4,14 @@ import environmentVariables from '@/config/environment';
 
 interface SendEmailProps {
     subject: string;
-    to: string;
+    to: string|string[];
+    bcc: string|string[];
     html: string;
     text: string;
     from: string;
 }
 
-export const sendEmail=async ({ to, subject, html, text, from }: SendEmailProps) => {
+export const sendEmail=async ({ to, bcc, subject, html, text, from }: SendEmailProps) => {
     const transporter=createTransport({
         host: environmentVariables.email.host,
         port: environmentVariables.email.port,
@@ -25,6 +26,7 @@ export const sendEmail=async ({ to, subject, html, text, from }: SendEmailProps)
     const options={
         from: environmentVariables.email.user,
         to: to,
+        bcc: bcc,
         subject: subject,
         html: html,
         text: text,

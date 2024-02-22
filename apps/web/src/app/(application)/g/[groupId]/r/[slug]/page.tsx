@@ -72,8 +72,6 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
             avatar: participant.avatarUrl
         }
     ));
-    console.log(report)
-    console.log(attendanceReportData)
 
     const attendanceReport={
         isPublic: report.isPublic,
@@ -107,7 +105,7 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
                     <AttendanceReportShareView
                         groupId={params.groupId}
                         slug={params.slug}
-                        downloadData={report.membersPresence as { [key: string]: string|number }[]}
+                        downloadData={attendanceReportData}
                         people={attendanceReport.people}
                         isPublic={attendanceReport.isPublic}
                     />

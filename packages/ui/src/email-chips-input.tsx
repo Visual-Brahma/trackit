@@ -11,9 +11,10 @@ interface EmailChipsInputProps {
     ignore?: string[];
     emails: string[];
     setEmails: Dispatch<SetStateAction<string[]>>;
+    disabled?: boolean;
 }
 
-const EmailChipsInput=({ emails, setEmails, ignore }: EmailChipsInputProps) => {
+const EmailChipsInput=({ emails, setEmails, ignore, disabled }: EmailChipsInputProps) => {
     const [input, setInput]=useState<string>("");
     const [error, setError]=useState<string|null>(null);
 
@@ -49,6 +50,7 @@ const EmailChipsInput=({ emails, setEmails, ignore }: EmailChipsInputProps) => {
     return (
         <div className="w-full">
             <Input
+                disabled={disabled}
                 value={input}
                 type="email"
                 onChange={(e) => {

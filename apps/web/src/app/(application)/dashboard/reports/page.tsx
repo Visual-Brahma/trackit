@@ -46,7 +46,7 @@ const ReportsPage=async () => {
         meetCode: report.meetPlatform===MeetingPlatform.GOOGLE_MEET? extractMeetCodeFromLink(report.meetLink??""):report.meetLink??"-",
         date: report.date,
         participantsCount: report.participantsCount,
-        duration: report.startTime&&report.endTime? getDurationBetweenDates(report.startTime, report.endTime):"-",
+        duration: report.startTime&&report.endTime? getDurationBetweenDates(report.startTime, report.endTime)[0]:"-",
         groupId: report.groupId,
         slug: report.slug,
     }));

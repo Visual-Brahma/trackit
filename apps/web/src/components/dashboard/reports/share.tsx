@@ -25,7 +25,7 @@ interface AttendanceReportShareViewProps {
 }
 
 export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic, people }: AttendanceReportShareViewProps) => {
-    const [isloading, setIsLoading]=useState<boolean>(false);
+    const [isloading, setIsLoading]=useState<{ loading: boolean; shareMode?: "public"|"email" }>({ loading: false });
     const [emails, setEmails]=useState<string[]>([]);
     const [sharedWith, setSharedWith]=useState(people);
     const [isPublicReport, setIsPublicReport]=useState<boolean>(isPublic);
@@ -40,17 +40,17 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
     }
 
     const handlePublicStatusChange=async () => {
-        setIsLoading(true);
+        setIsLoading({loading: true, shareMode: "public"});
         if (await toggleReportPublicStatus(slug, groupId, !isPublicReport)) {
             setIsPublicReport(!isPublicReport);
         } else {
             toast.error("Failed to update report publci view status");
         }
-        setIsLoading(false);
+        setIsLoading({loading: false});
     }
 
     const handleAttendanceReportShare=async () => {
-        setIsLoading(true);
+        setIsLoading({loading: true, shareMode: "email"});
         const response=await shareAttendanceReport(slug, groupId, emails, sharedWith.map(p => p.email));
         if (response) {
             setSharedWith(response.map(p => ({ email: p } as AttendanceReportShareViewProps["people"][0])));
@@ -58,7 +58,7 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
         } else {
             toast.error("Failed to share report");
         }
-        setIsLoading(false);
+        setIsLoading({loading: false});
     }
 
     return (
@@ -80,16 +80,16 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
                     <Switch
                         checked={isPublicReport}
                         onCheckedChange={handlePublicStatusChange} />
-                    {isloading&&<LoadingCircle />}
+                    {(isloading.loading&&isloading.shareMode==="public")&&<LoadingCircle />}
                 </div>
             </div>
             <div className="flex items-start gap-2 max-w-md w-full">
-                <EmailChipsInput disabled={isloading} ignore={people.map(p => p.email)} emails={emails} setEmails={setEmails} />
+                <EmailChipsInput disabled={isloading.loading&&isloading.shareMode==="email"} ignore={people.map(p => p.email)} emails={emails} setEmails={setEmails} />
                 <div className="flex items-center justify-center gap-2">
-                    <Button disabled={isloading||emails.length===0} onClick={handleAttendanceReportShare}>
+                    <Button disabled={(isloading.loading&&isloading.shareMode==="email")||emails.length===0} onClick={handleAttendanceReportShare}>
                         Share
                     </Button>
-                    {isloading&&<LoadingCircle />}
+                    {(isloading.loading&&isloading.shareMode==="email")&&<LoadingCircle />}
                 </div>
             </div>
 

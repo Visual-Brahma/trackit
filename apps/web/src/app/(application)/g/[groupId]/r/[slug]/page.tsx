@@ -35,7 +35,7 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
                 eb("AttendanceReport.slug", "=", params.slug),
                 eb.or([
                     eb("AttendanceReport.isPublic", "=", true),
-                    eb("sharedWith", "@>", [email]),
+                    eb("sharedWith", "@>", [[email]]),
                     eb("Meeting.groupId", "in",
                         eb.selectFrom("GroupMember")
                             .select("GroupMember.groupId")
@@ -54,6 +54,8 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
         notFound();
     }
 
+    const [meetingDuration, durationInSeconds]=getDurationBetweenDates(report.startTime!, report.endTime!);
+
     const attendanceReportData: AttendanceReportParticipant[]=(report.membersPresence as {
         name: string;
         joinTime: string;
@@ -64,13 +66,13 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
         {
             id: participant.name+idx,
             name: participant.name,
-            joinTime: formatTime(new Date(participant.joinTime)),
-            exitTime: formatTime(new Date(participant.leaveTime)),
-            attendancePercentage: participant.attendedDuration,
+            joinTime: formatTime(participant.joinTime),
+            exitTime: formatTime(participant.leaveTime),
+            attendancePercentage: parseFloat(((participant.attendedDuration/durationInSeconds)*100).toFixed(2)),
             avatar: participant.avatarUrl
         }
     ));
-
+    console.log(report)
     console.log(attendanceReportData)
 
     const attendanceReport={
@@ -80,11 +82,11 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
             date: report.date,
             startTimestamp: report.startTime!,
             endTimestamp: report.endTime!,
-            duration: getDurationBetweenDates(report.startTime!, report.endTime!),
+            duration: meetingDuration,
             participantsCount: report.participantsCount
         },
         data: attendanceReportData,
-        people: report.sharedWith.map((email) => ({ email }))
+        people: (report.sharedWith||[] as { email: string }[]).map((email) => ({ email }))
     }
 
     return (

@@ -1,3 +1,4 @@
+"use server"
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth"
 
@@ -7,28 +8,33 @@ export const toggleReportPublicStatus=async (slug: string, groupId: string, stat
         const email=session.user.email;
         try {
             const reportStatus=await dbClient.updateTable("AttendanceReport")
-                .innerJoin("Meeting", "AttendanceReport.meetingId", "Meeting.id")
                 .set({
                     isPublic: status
                 })
                 .where("AttendanceReport.slug", "=", slug)
-                .where("groupId", "=", groupId)
                 .where((eb) =>
-                    eb("Meeting.groupId", "in",
-                        eb.selectFrom("GroupMember")
-                            .select("GroupMember.groupId")
-                            .where((eb) =>
-                                eb.or([
-                                    eb("GroupMember.role", "=", "ADMIN"),
-                                    eb("GroupMember.role", "=", "OWNER"),
-                                ])
+                    eb("AttendanceReport.meetingId", "=",
+                        eb.selectFrom("Meeting").select("Meeting.id").where((eb) =>
+                            eb("Meeting.groupId", "=",
+                                eb.selectFrom("GroupMember")
+                                    .select("GroupMember.groupId")
+                                    .where((eb) =>
+                                        eb.and([
+                                            eb("GroupMember.groupId", "=", groupId),
+                                            eb.or([
+                                                eb("GroupMember.role", "=", "ADMIN"),
+                                                eb("GroupMember.role", "=", "OWNER"),
+                                            ])
+                                        ])
+                                    )
+                                    .where("GroupMember.userId", "=",
+                                        eb.selectFrom("User")
+                                            .select("User.id")
+                                            .where("User.email", "=", email)
+                                    )
                             )
-                            .where("GroupMember.userId", "=",
-                                eb.selectFrom("User")
-                                    .select("User.id")
-                                    .where("User.email", "=", email)
-                            )
-                    )
+                        ))
+
                 )
                 .executeTakeFirst();
 

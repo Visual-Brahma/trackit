@@ -62,7 +62,7 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
             </div>
             <div className="flex items-center space-x-4 w-full justify-between max-w-md my-4">
                 <TypographyP>Anyone with link can view</TypographyP>
-                <div className="flex items-center justify-center gap-1">
+                <div className="flex items-center justify-center gap-2">
                     <Switch
                         checked={isPublicReport}
                         onCheckedChange={handlePublicStatusChange} />

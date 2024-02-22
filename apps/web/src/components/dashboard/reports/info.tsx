@@ -34,7 +34,7 @@ export const AttendanceReportInfo=({ meetcode, date, startTimestamp, endTimestam
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">End Time</TableCell>
-                        <TableCell>{formatDatetime(endTimestamp)}</TableCell>
+                        <TableCell>{formatTime(endTimestamp)}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Duration</TableCell>

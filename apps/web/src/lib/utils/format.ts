@@ -18,16 +18,22 @@ export const formatDatetime=(date: Date): string|null => {
     }
 }
 
-export const formatTime=(date: Date): string => {
-    const hours=date.getHours();
-    const minutes=date.getMinutes().toString().padStart(2, "0");
-    const meridian=hours<12? "AM":"PM";
-    const adjustedHours=hours===0? 12:(hours>12)? hours-12:hours;
+export const formatTime=(date: Date|string): string => {
+    const format=new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true
+    });
 
-    return `${adjustedHours}:${minutes} ${meridian}`;
+    if (typeof date==="string") { 
+        const today=new Date();
+        date=new Date(today.getFullYear(), today.getMonth(), today.getDate(), parseInt(date.split(":")[0]!), parseInt(date.split(":")[1]!), parseInt(date.split(":")[2]!));
+    }
+
+    return format.format(date);
 }
 
-export const getDurationBetweenDates=(date1: Date, date2: Date): string => {
+export const getDurationBetweenDates=(date1: Date, date2: Date) => {
     const difference=Math.abs(date2.getTime()-date1.getTime());
 
     const seconds=Math.floor(difference/1000);
@@ -62,7 +68,7 @@ export const getDurationBetweenDates=(date1: Date, date2: Date): string => {
         durationString=`${seconds} second${seconds>1? "s":""}`;
     }
 
-    return durationString;
+    return [durationString, seconds] as const;
 }
 
 export const extractMeetCodeFromLink=(url: string): string => {

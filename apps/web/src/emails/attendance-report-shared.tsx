@@ -26,7 +26,7 @@ export const AttendanceReportSharedEmail=({ name, url }: AttendanceReportShareEm
             <Text>
                 You can view the report by clicking the button below.
             </Text>
-            <Button className={buttonVariants()}>
+            <Button className={buttonVariants()} href={url}>
                 View Report
             </Button>
             <Text>

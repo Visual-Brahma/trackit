@@ -86,7 +86,7 @@ export const AttendanceReportShareView=({ groupId, slug, downloadData, isPublic,
             <div className="flex items-start gap-2 max-w-md w-full">
                 <EmailChipsInput disabled={isloading} ignore={people.map(p => p.email)} emails={emails} setEmails={setEmails} />
                 <div className="flex items-center justify-center gap-2">
-                    <Button disabled={emails.length===0||isloading} onClick={handleAttendanceReportShare}>
+                    <Button disabled={isloading||emails.length===0} onClick={handleAttendanceReportShare}>
                         Share
                     </Button>
                     {isloading&&<LoadingCircle />}

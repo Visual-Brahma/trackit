@@ -9,6 +9,7 @@ import * as React from 'react';
 import EmailLayout from './layout';
 import { appName } from '@/lib/constants/brand';
 import { buttonVariants } from '@repo/ui/button';
+import environmentVariables from '@/config/environment';
 
 export interface MagicLinkEmailProps {
     url: string;
@@ -27,7 +28,7 @@ export const MagicLinkEmail=({ url, host }: MagicLinkEmailProps) => {
                 Welcome to {appName}!<br /><br />
                 Please click the magic link below to sign in to your account.
             </Text>
-            <Button className={buttonVariants()}>
+            <Button href={url} className={buttonVariants()}>
                 Sign in
             </Button>
             <Text>
@@ -37,7 +38,7 @@ export const MagicLinkEmail=({ url, host }: MagicLinkEmailProps) => {
 
             <Hr className="border border-solid border-[#eaeaea] my-4 mx-0 w-full" />
             <Text className="text-muted">
-                You're receiving this email because you or someone else wants to sign in to <Link href={host}>Trackit</Link>.
+                You're receiving this email because you or someone else wants to sign in to <Link href={environmentVariables.baseUrl}>Trackit</Link>.
                 If you were not expecting this email, you can ignore this email.
                 If you are concerned about your account's safety, please reply to this email to get in touch with us.
             </Text>

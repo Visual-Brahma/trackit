@@ -4,7 +4,7 @@ import environmentVariables from '@/config/environment';
 
 interface SendEmailProps {
     subject: string;
-    to: string|string[];
+    to?: string|string[];
     bcc?: string|string[];
     html: string;
     text: string;

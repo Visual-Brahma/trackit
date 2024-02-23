@@ -2,6 +2,14 @@
 const nextConfig={
     reactStrictMode: true,
     transpilePackages: ["@repo/ui"],
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
+            }
+        ]
+    },
     redirects: async () => {
         return [
             {

@@ -43,7 +43,7 @@ const Footer=() => {
                         Donate
                     </a>
                     <a
-                        href='javascript:;'
+                        href=''
                         onClick={() => {
                             window.tidioChatApi.display(true);
                             window.tidioChatApi.open()

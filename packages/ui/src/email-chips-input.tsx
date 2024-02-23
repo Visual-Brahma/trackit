@@ -65,7 +65,7 @@ const EmailChipsInput=({ emails, setEmails, ignore, disabled }: EmailChipsInputP
             }
             {
                 emails.map((email) => (
-                    <Badge variant={"default"} className={`mr-2 my-1 rounded-xl`}>
+                    <Badge key={email} variant={"default"} className={`mr-2 my-1 rounded-xl`}>
                         {email}
                         <Button variant={"ghost"} className="ml-2 hover:bg-primary/80 rounded-full" size={"icon"} onClick={() =>
                             setEmails((emails) => {

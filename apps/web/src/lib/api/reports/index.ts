@@ -94,7 +94,6 @@ export const shareAttendanceReport=async (slug: string, groupId: string, newEmai
 
             if (shareStatus) {
                 await sendEmail({
-                    to: [],
                     bcc: newEmails,
                     subject: `${session.user.name||"Someone"} has shared an attendance report with you.`,
                     from: "Trackit <trackit.visualbrahma.tech>",

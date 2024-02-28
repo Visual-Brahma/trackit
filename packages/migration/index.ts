@@ -4,13 +4,14 @@ import downloadData from "./donwload";
 
 async function main() {
     // Donwload data
-    // await downloadData();
+    await downloadData();
 
     // clean data
     await cleanData();
 
     // Merge into a single json file
     await mergeData();
+    return;
 }
 
 main();

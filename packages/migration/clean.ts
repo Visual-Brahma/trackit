@@ -39,11 +39,13 @@ const cleanUser=async (file="data/auth_user.json") => {
     const data: Array<any>=JSON.parse(jsonString);
 
     data.forEach(({ id, email, first_name, last_name }) => {
-        users.push({
-            id,
-            email,
-            name: `${first_name} ${last_name}`,
-        })
+        if(email&&email.trim().length>0){
+            users.push({
+                id,
+                email,
+                name: `${first_name} ${last_name}`,
+            })
+        }
     });
 
     await writeFile("data/cleaned-users.json", JSON.stringify(users, null, 2));

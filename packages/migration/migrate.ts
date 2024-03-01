@@ -18,7 +18,7 @@ const dbClient=new Kysely<DB>({
 
 export const migrate=async () => {
 
-    const migrationData=JSON.parse(await readFile("data/merged-data.json", "utf-8")) as {
+    const migrationData=JSON.parse(await readFile("./data/merged-data.json", "utf-8")) as {
         report: AttendanceReport[];
         user: {
             id: number;

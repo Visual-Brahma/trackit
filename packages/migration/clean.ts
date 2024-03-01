@@ -29,7 +29,7 @@ const stringTo24HourTime=(timeString: string) => {
     return `${adjustedHours.toString().padStart(2, '0')}:${minutesStr.toString().padStart(2, '0')}:${secondsStr.toString().padStart(2, '0')}`;
 }
 
-const cleanUser=async (file="data/auth_user.json") => {
+const cleanUser=async (file="./data/auth_user.json") => {
     const users: {
         id: number;
         email: string;
@@ -48,7 +48,7 @@ const cleanUser=async (file="data/auth_user.json") => {
         }
     });
 
-    await writeFile("data/cleaned-users.json", JSON.stringify(users, null, 2));
+    await writeFile("./data/cleaned-users.json", JSON.stringify(users, null, 2));
 
     console.log("Original Users count: ", data.length);
     console.log("Cleaned Users count: ", users.length);
@@ -105,7 +105,7 @@ const cleanAndStoreAttendanceReports=async (file: string) => {
     return attendanceReports;
 }
 
-const cleanAndStoreReportsV0=async (file="data/mac_attendance_record.json") => {
+const cleanAndStoreReportsV0=async (file="./data/mac_attendance_record.json") => {
     const attendanceReports: AttendanceReport[]=[];
     const jsonString=await readFile(file, 'utf8');
     const reports=JSON.parse(jsonString);
@@ -139,22 +139,22 @@ const cleanAndStoreReportsV0=async (file="data/mac_attendance_record.json") => {
 
 const cleanAttendanceReports=async () => {
 
-    const files=await readdir('data/shesh');
-    await writeFile("data/attendance-reports-v2.json", "[");
+    const files=await readdir('./data/shesh');
+    await writeFile("./data/attendance-reports-v2.json", "[");
     const reportsV0=await cleanAndStoreReportsV0();
-    await appendFile('data/attendance-reports-v2.json', JSON.stringify(reportsV0, null, 2).slice(1, -1)+",");
+    await appendFile('./data/attendance-reports-v2.json', JSON.stringify(reportsV0, null, 2).slice(1, -1)+",");
     for (const file of files) {
         console.log(`Processing ${file}`)
-        const reports=await cleanAndStoreAttendanceReports(`data/shesh/${file}`);
+        const reports=await cleanAndStoreAttendanceReports(`./data/shesh/${file}`);
         // save attendanceReports to file
         console.log(`Writing to file`);
-        await appendFile('data/attendance-reports-v2.json', JSON.stringify(reports, null, 2).slice(1, -1)+",");
+        await appendFile('./data/attendance-reports-v2.json', JSON.stringify(reports, null, 2).slice(1, -1)+",");
     }
-    const finalData=await readFile("data/attendance-reports-v2.json", "utf8");
+    const finalData=await readFile("./data/attendance-reports-v2.json", "utf8");
     const data=JSON.parse(finalData.slice(0, -1)+"]");
     console.log("Reports count: ", data.length);
     console.log("Last report slug: ", data[data.length-1].oldSlug);
-    await writeFile("data/attendance-reports-v2.json", finalData.slice(0, -1)+"]");
+    await writeFile("./data/attendance-reports-v2.json", finalData.slice(0, -1)+"]");
 }
 
 export const cleanData=async () => {

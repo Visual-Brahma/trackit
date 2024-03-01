@@ -1,110 +1,5 @@
 import { readFile, writeFile } from "fs/promises";
 import { createConnection, Connection, RowDataPacket } from "mysql2/promise";
-
-// async function exportSingleChunkFromDbtoJSON(databaseConfig, tableName='shesh_attendancereport', offset=0, chunk=0) {
-//     const connection=await createConnection(databaseConfig);
-
-//     const dataQuery=`SELECT * FROM ${tableName} where id > ${offset}`;
-//     try {
-//         // Execute query and fetch results
-//         const [dataResult]=await connection.query(dataQuery);
-
-//         // Convert data to JSON format, handling special characters
-//         const jsonData=JSON.stringify(dataResult, null, 2);
-
-//         // Write JSON data to a file
-//         const filename=`../data/shesh/${tableName}_chunk${chunk+1}.json`;
-//         await writeToFile(filename, jsonData);
-//         console.log(`Data for table '${tableName}' chunk ${chunk+1} exported to '${filename}'`);
-//     } catch (error) {
-//         console.error(`Error exporting data for table '${tableName}' chunk ${chunk+1}:`, error);
-//     } finally {
-//         await connection.end();
-//     }
-// }
-// // download in chunks if data in a table is too large
-// async function exportDatabaseToJSONChunked(databaseConfig, tableName='shesh_attendancereport', chunkSize=100) {
-//     // Connect to the database
-//     const connection=await createConnection(databaseConfig);
-
-//     try {
-//         // Get the total number of rows in the table
-//         const totalRowsQuery=`SELECT COUNT(*) FROM ${tableName}`;
-//         const [totalRowsResult]=await connection.query(totalRowsQuery);
-//         const totalRows=totalRowsResult[0]['COUNT(*)'];
-
-//         // Calculate the number of chunks
-//         const numChunks=Math.ceil(totalRows/chunkSize);
-
-//         // Iterate through each chunk
-//         for (let chunk=0; chunk<numChunks; chunk++) {
-//             const offset=chunk*chunkSize;
-
-//             // Construct query to retrieve data for this chunk
-//             const dataQuery=`SELECT * FROM ${tableName} LIMIT ${offset}, ${chunkSize}`;
-//             // const dataQuery=`SELECT * FROM ${tableName} where id > ${offset}`;
-
-//             try {
-//                 // Execute query and fetch results
-//                 const [dataResult]=await connection.query(dataQuery);
-
-//                 // Convert data to JSON format, handling special characters
-//                 const jsonData=JSON.stringify(dataResult, null, 2);
-
-//                 // Write JSON data to a file
-//                 const filename=`../data/shesh/${tableName}_chunk${chunk+1}.json`;
-//                 await writeToFile(filename, jsonData);
-//                 console.log(`Data for table '${tableName}' chunk ${chunk+1} exported to '${filename}'`);
-//             } catch (error) {
-//                 console.error(`Error exporting data for table '${tableName}' chunk ${chunk+1}:`, error);
-//             }
-//         }
-//     } catch (error) {
-//         console.error('Error connecting to database:', error);
-//     } finally {
-//         await connection.end();
-//     }
-// }
-
-// async function exportDatabaseToJSON(databaseConfig) {
-//     // Connect to the database
-//     const connection=await createConnection(databaseConfig);
-
-//     try {
-//         const tables=["account_emailaddress", "auth_user", "mac_attendance_record"];
-
-//         tables.map(async (table) => {
-//             try {
-//                 const dataQuery=`SELECT * FROM ${table}`;
-
-//                 // Execute query and fetch results
-//                 const [dataResult]=await connection.query(dataQuery);
-
-//                 // Convert data to JSON format, handling special characters
-//                 const jsonData=JSON.stringify(dataResult, null, 2);
-//                 const filename=`../data/${table}.json`;
-//                 await writeToFile(filename, jsonData);
-//                 console.log(`Data for table '${table}' exported to '${filename}'`);
-//             } catch (error) {
-//                 console.error(`Error exporting data for table '${table}'`, error);
-//             }
-//         });
-//     } catch (error) {
-//         console.error('Error connecting to database:', error);
-//     } finally {
-//         await connection.end();
-//     }
-// }
-
-// Example usage (replace with your actual database credentials)
-// const databaseConfig={
-//     host: 'trackit.mysql.database.azure.com',
-//     user: 'abhinav',
-//     password: 'Abhinav@trackit',
-//     database: 'trackit',
-//     ssl: { ca: await readFile("./DigiCertGlobalRootCA.crt.pem") }
-// };
-
 interface DownloadDataConfig {
     connection: Connection;
     tableName: string;
@@ -125,7 +20,7 @@ const exportSingleChunk=async ({ connection, tableName, offset, chunk }: Downloa
         const jsonData=JSON.stringify(dataResult, null, 2);
 
         // Write JSON data to a file
-        const filename=`data/shesh/${tableName}_chunk${chunk+1}.json`;
+        const filename=`./data/shesh/${tableName}_chunk${chunk+1}.json`;
         await writeToFile(filename, jsonData);
         console.log(`Data for table '${tableName}' chunk ${chunk+1} exported to '${filename}'`);
     } catch (error) {
@@ -161,7 +56,7 @@ const dbTableDataToJSONChunked=async ({ connection, tableName, chunkSize }: Down
                 const jsonData=JSON.stringify(dataResult, null, 2);
 
                 // Write JSON data to a file
-                const filename=`data/shesh/${tableName}_chunk${chunk+1}.json`;
+                const filename=`./data/shesh/${tableName}_chunk${chunk+1}.json`;
                 await writeToFile(filename, jsonData);
                 console.log(`Data for table '${tableName}' chunk ${chunk+1} exported to '${filename}'`);
             } catch (error) {
@@ -184,7 +79,7 @@ const dbTableDataToJSON=async ({ connection, tableName }: DownloadDataConfig) =>
 
         // Convert data to JSON format, handling special characters
         const jsonData=JSON.stringify(dataResult, null, 2);
-        const filename=`data/${tableName}.json`;
+        const filename=`./data/${tableName}.json`;
         await writeToFile(filename, jsonData);
         console.log(`Data for table '${tableName}' exported to '${filename}'`);
     } catch (error) {
@@ -206,13 +101,13 @@ export const downloadData=async () => {
     const tables=["account_emailaddress", "auth_user", "mac_attendance_record"];
     const chunkedTables=["shesh_attendancereport"]; // data is too large, hence needs to be downloaded in chunks
 
-    tables.map(async (table) => {
+    for (const table of tables) {
         await dbTableDataToJSON({ connection, tableName: table });
-    });
+    }
 
-    chunkedTables.map(async (table) => {
-        await dbTableDataToJSONChunked({ connection, tableName: table, chunkSize: 100 })
-    });
+    for (const table of chunkedTables) {
+        await dbTableDataToJSONChunked({ connection, tableName: table, chunkSize: 100 });
+    }
 }
 
 export default downloadData;

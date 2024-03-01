@@ -15,13 +15,12 @@ export const sendEmail=async ({ to, bcc, subject, html, text, from }: SendEmailP
     const transporter=createTransport({
         host: environmentVariables.email.host,
         port: environmentVariables.email.port,
-        secure: true,
+        secure: false,
         auth: {
             user: environmentVariables.email.user,
             pass: environmentVariables.email.password,
         },
-        from: from,
-        secure: false
+        from: from
     });
 
     const options={

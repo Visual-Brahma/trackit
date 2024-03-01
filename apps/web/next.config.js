@@ -16,6 +16,11 @@ const nextConfig={
                 source: "/g",
                 destination: "/dashboard/groups",
                 permanent: true,
+            },
+            {
+                source: "/mac/save",
+                destination: "/save-report",
+                permanent: true
             }
         ];
     }

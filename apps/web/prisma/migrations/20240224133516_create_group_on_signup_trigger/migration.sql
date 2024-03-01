@@ -5,8 +5,8 @@ CREATE OR REPLACE FUNCTION create_default_group_on_signup()
     AS $$
 DECLARE group_id text;
 BEGIN
-    INSERT INTO "Group" ("name", "description")
-    VALUES ('My Group', 'This group contains all your attendance reports by default. Add more groups and members to organize your reports.')
+    INSERT INTO "Group" ("name", "description", "isDefault")
+    VALUES (CONCAT(NEW.name, '''s Group'), 'This group contains all your attendance reports by default. Add more groups and members to organize your reports.', true)
     RETURNING id INTO group_id;
 
     INSERT INTO "GroupMember" ("groupId", "userId", "role")

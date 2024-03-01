@@ -24,7 +24,7 @@ datasource db {
 model User {
   id            String         @id @default(dbgenerated("gen_random_uuid()"))
   name          String?
-  email         String         @unique
+  email         String         @unique()
   emailVerified DateTime?
   image         String?
   newsletter    Boolean        @default(true)
@@ -53,6 +53,7 @@ model Group {
   banner             String?
   joinCode           String        @unique @default(dbgenerated("gen_random_uuid()"))
   isAcceptingMembers Boolean       @default(true)
+  isDefault          Boolean       @default(false) /// true, if the group was creating automatically on user signup
   groupMembers       GroupMember[]
   meetings           Meeting[]
   messages           Message[]
@@ -88,20 +89,24 @@ enum MeetingPlatform {
 
 /// A meeting or a class can be online or offline
 model Meeting {
-  id               Int               @id @default(autoincrement())
-  group            Group             @relation(fields: [groupId], references: [id])
-  groupId          String
-  date             DateTime          @db.Timestamptz(3)
-  isOnline         Boolean           @default(true)
-  name             String
-  meetLink         String?
-  meetPlatform     MeetingPlatform?
-  startTime        DateTime?         @db.Timestamptz(3)
-  endTime          DateTime?         @db.Timestamptz(3)
-  venue            String?
-  agenda           Json?
-  attendanceReport AttendanceReport?
-  notes            MeetingNotes[]
+  id                 Int                @id @default(autoincrement())
+  group              Group              @relation(fields: [groupId], references: [id])
+  groupId            String
+  date               DateTime           @db.Timestamptz(3)
+  isOnline           Boolean            @default(true)
+  name               String
+  meetLink           String?
+  meetPlatform       MeetingPlatform?
+  startTime          DateTime?          @db.Timestamptz(3)
+  endTime            DateTime?          @db.Timestamptz(3)
+  venue              String?
+  agenda             Json?
+  // isRecurring        Boolean            @default(false)
+  recurredMeetings   Meeting[]          @relation(name: "recurring_meeting_instances")
+  recurringMeeting   Meeting?           @relation(name: "recurring_meeting_instances", fields: [recurringMeetingId], references: [id], onDelete: SetNull)
+  recurringMeetingId Int?
+  attendanceReport   AttendanceReport[]
+  notes              MeetingNotes[]
 }
 
 model AttendanceReport {

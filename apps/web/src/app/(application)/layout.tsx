@@ -1,5 +1,6 @@
 import Nav from '@/components/dashboard/nav';
 import { SidebarNavProps } from '@/components/dashboard/nav/sidebar-nav';
+import { UploadAttendanceReport } from '@/components/upload-attendance-report';
 import { LayoutProps } from '@/types';
 import { BookOpenTextIcon, CogIcon, FileBarChart2Icon, LayoutDashboardIcon, MessageCircleHeartIcon, SmartphoneNfcIcon, StickyNoteIcon, UsersIcon } from 'lucide-react';
 
@@ -72,6 +73,7 @@ export default function Layout({ children }: LayoutProps) {
           <Nav itemGroups={sidebarNavItems} />
         </aside>
         <div className="flex-1 md:bg-secondary/40 p-2 sm:p-4 overflow-y-scroll">{children}</div>
+        <UploadAttendanceReport />
       </div>
     </div>
   );

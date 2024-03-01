@@ -1,0 +1,28 @@
+{
+  "name": "migration",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev --respawn index.ts",
+    "start": "ts-node index.ts",
+    "build": "echo 'Add build script here'",
+    "test": "echo 'Add test script here'",
+    "lint": "echo 'Add lint script here'"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20.11.21",
+    "@types/pg": "^8.10.9",
+    "@types/progress": "^2.0.7",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0"
+  },
+  "dependencies": {
+    "kysely": "^0.26.3",
+    "mysql2": "^3.9.1",
+    "pg": "^8.11.3",
+    "progress": "^2.0.3"
+  }
+}

@@ -21,6 +21,7 @@ export const sendEmail=async ({ to, bcc, subject, html, text, from }: SendEmailP
             pass: environmentVariables.email.password,
         },
         from: from,
+        secure: false
     });
 
     const options={
@@ -32,19 +33,8 @@ export const sendEmail=async ({ to, bcc, subject, html, text, from }: SendEmailP
         text: text,
     };
 
-    // const result=await transporter.sendMail(options);
-    const result= await new Promise((resolve, reject) => {
-        transporter.sendMail(options, (err, info) => {
-            if (err) {
-                console.error(err);
-                reject(err);
-            } else {
-                console.log(info);
-                resolve(info);
-            }
-        });
-    });
-    const failed=(result as any).rejected.concat((result as any).pending).filter(Boolean);
+    const result=await transporter.sendMail(options);
+    const failed=result.rejected.concat(result.pending).filter(Boolean);
 
     if (failed.length) {
         throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)

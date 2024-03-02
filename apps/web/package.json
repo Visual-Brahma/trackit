@@ -9,6 +9,7 @@
     "lint": "next lint",
     "prisma": "dotenv -e .env.local prisma"
   },
+  "packageManager": "pnpm@8.0.0",
   "dependencies": {
     "@hookform/resolvers": "^3.3.3",
     "@radix-ui/react-icons": "^1.3.0",

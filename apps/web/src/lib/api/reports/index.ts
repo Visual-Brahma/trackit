@@ -7,39 +7,37 @@ export const toggleReportPublicStatus=async (slug: string, groupId: string, stat
     if (session&&session.user&&session.user.email) {
         const email=session.user.email;
         try {
-            const reportStatus=await dbClient.updateTable("AttendanceReport")
-                .set({
-                    isPublic: status
-                })
-                .where("AttendanceReport.slug", "=", slug)
-                .where((eb) =>
-                    eb("AttendanceReport.meetingId", "=",
-                        eb.selectFrom("Meeting").select("Meeting.id").where((eb) =>
-                            eb("Meeting.groupId", "=",
-                                eb.selectFrom("GroupMember")
-                                    .select("GroupMember.groupId")
-                                    .where((eb) =>
-                                        eb.and([
-                                            eb("GroupMember.groupId", "=", groupId),
-                                            eb.or([
-                                                eb("GroupMember.role", "=", "ADMIN"),
-                                                eb("GroupMember.role", "=", "OWNER"),
-                                            ])
-                                        ])
-                                    )
-                                    .where("GroupMember.userId", "=",
-                                        eb.selectFrom("User")
-                                            .select("User.id")
-                                            .where("User.email", "=", email)
-                                    )
-                            )
-                        ))
 
+            const report=await dbClient.selectFrom("AttendanceReport")
+                .innerJoin("Meeting", "Meeting.id", "AttendanceReport.meetingId")
+                .innerJoin("GroupMember", "GroupMember.groupId", "Meeting.groupId")
+                .innerJoin("User", "User.id", "GroupMember.userId")
+                .select("AttendanceReport.id")
+                .where((eb) =>
+                    eb.and([
+                        eb("AttendanceReport.slug", "=", slug),
+                        eb("User.email", "=", email),
+                        eb("Meeting.groupId", "=", groupId),
+                        eb.or([
+                            eb("GroupMember.role", "=", "ADMIN"),
+                            eb("GroupMember.role", "=", "OWNER"),
+                        ])
+                    ])
                 )
                 .executeTakeFirst();
 
-            if (reportStatus.numUpdatedRows) {
-                return true;
+            if (report) {
+                const reportStatus=await dbClient.updateTable("AttendanceReport")
+                    .set({
+                        isPublic: status
+                    })
+                    .where("AttendanceReport.slug", "=", slug)
+                    .executeTakeFirst();
+
+
+                if (reportStatus.numUpdatedRows) {
+                    return true;
+                }
             }
         } catch (error) {
             console.error("Error updating report status:", error);

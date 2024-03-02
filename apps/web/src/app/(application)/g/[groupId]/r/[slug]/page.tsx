@@ -23,6 +23,24 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
         );
     }
 
+    const isOwnerOrAdmin=await dbClient.selectFrom("AttendanceReport")
+        .innerJoin("Meeting", "Meeting.id", "AttendanceReport.meetingId")
+        .innerJoin("GroupMember", "GroupMember.groupId", "Meeting.groupId")
+        .innerJoin("User", "User.id", "GroupMember.userId")
+        .select("AttendanceReport.id")
+        .where((eb) =>
+            eb.and([
+                eb("AttendanceReport.slug", "=", params.slug),
+                eb("User.email", "=", email),
+                eb("Meeting.groupId", "=", params.groupId),
+                eb.or([
+                    eb("GroupMember.role", "=", "ADMIN"),
+                    eb("GroupMember.role", "=", "OWNER"),
+                ])
+            ])
+        )
+        .executeTakeFirst();
+
     const report=await dbClient.selectFrom("AttendanceReport")
         .innerJoin("Meeting", "AttendanceReport.meetingId", "Meeting.id")
         .selectAll()
@@ -95,20 +113,25 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
             <Tabs defaultValue="report" className="my-6">
                 <TabsList>
                     <TabsTrigger value="report">Report</TabsTrigger>
-                    <TabsTrigger value="share">Share</TabsTrigger>
+                    {isOwnerOrAdmin&&(<TabsTrigger value="share">Share</TabsTrigger>)}
                     <TabsTrigger value="info">Info</TabsTrigger>
                 </TabsList>
                 <TabsContent value="report">
                     <AttendanceReportTable data={attendanceReport.data} />
                 </TabsContent>
                 <TabsContent value="share">
-                    <AttendanceReportShareView
-                        groupId={params.groupId}
-                        slug={params.slug}
-                        downloadData={attendanceReportData}
-                        people={attendanceReport.people}
-                        isPublic={attendanceReport.isPublic}
-                    />
+                    {
+                        isOwnerOrAdmin&&
+                        (
+                            <AttendanceReportShareView
+                                groupId={params.groupId}
+                                slug={params.slug}
+                                downloadData={attendanceReportData}
+                                people={attendanceReport.people}
+                                isPublic={attendanceReport.isPublic}
+                            />
+                        )
+                    }
                 </TabsContent>
                 <TabsContent value="info">
                     <AttendanceReportInfo {...attendanceReport.info} />

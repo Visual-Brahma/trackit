@@ -7,10 +7,7 @@ const environmentVariables={
         nextAuthSecret: process.env.NEXTAUTH_SECRET as string,
     },
     email: {
-        host: process.env.EMAIL_HOST as string,
-        port: parseInt(process.env.EMAIL_PORT as string),
-        user: process.env.EMAIL_USER as string,
-        password: process.env.EMAIL_PASSWORD as string,
+        plunkApiKey: process.env.PLUNK_API_KEY as string,
     },
     baseUrl: process.env.BASE_URL as string,
     databaseUrl: process.env.DATABASE_URL as string,

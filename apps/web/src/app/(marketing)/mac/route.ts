@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export function GET() {
-    return NextResponse.redirect("/");
+export function GET(req: NextRequest) {
+    return NextResponse.redirect(new URL("/", req.url));
 }

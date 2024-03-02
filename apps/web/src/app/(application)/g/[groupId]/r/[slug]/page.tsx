@@ -119,10 +119,10 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
                 <TabsContent value="report">
                     <AttendanceReportTable data={attendanceReport.data} />
                 </TabsContent>
-                <TabsContent value="share">
-                    {
-                        isOwnerOrAdmin&&
-                        (
+                {
+                    isOwnerOrAdmin&&
+                    (
+                        <TabsContent value="share">
                             <AttendanceReportShareView
                                 groupId={params.groupId}
                                 slug={params.slug}
@@ -130,9 +130,9 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
                                 people={attendanceReport.people}
                                 isPublic={attendanceReport.isPublic}
                             />
-                        )
-                    }
-                </TabsContent>
+                        </TabsContent>
+                    )
+                }
                 <TabsContent value="info">
                     <AttendanceReportInfo {...attendanceReport.info} />
                 </TabsContent>

@@ -48,7 +48,7 @@ const Layout=({ children }: LayoutProps) => {
                             Trackit
                         </p>
                     </Link>
-                    <div className='flex items-center justify-center'>
+                    <div className='flex items-center justify-center gap-1'>
                         <Link href='/dashboard' className={buttonVariants({ variant: "default" })} >
                             {"Get Started"}
                         </Link>

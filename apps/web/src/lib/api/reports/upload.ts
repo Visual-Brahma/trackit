@@ -25,7 +25,7 @@ export const saveAttendanceReport=async ({ meetCode, date, ...data }: MeetAttend
     if (session&&session.user&&session.user.email) {
         const email=session.user.email;
         const [day, month, year] = date.split("/") as [string, string, string];
-        const meetDate=new Date(parseInt(year), parseInt(month), parseInt(day));
+        const meetDate=new Date(parseInt(year), parseInt(month)-1, parseInt(day));
         const startTime = new Date(meetDate.getFullYear(), meetDate.getMonth(), meetDate.getDate(), parseInt(data.startTime.split(":")[0]!), parseInt(data.startTime.split(":")[1]!), parseInt(data.startTime.split(":")[2]!));
         const endTime = new Date(meetDate.getFullYear(), meetDate.getMonth(), meetDate.getDate(), parseInt(data.stopTime.split(":")[0]!), parseInt(data.stopTime.split(":")[1]!), parseInt(data.stopTime.split(":")[2]!));
 

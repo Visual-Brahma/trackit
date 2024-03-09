@@ -9,6 +9,8 @@ import { useEffect } from "react";
 
 export const UploadAttendanceReport=() => {
 
+    const path=usePathname();
+    
     useEffect(() => {
         const reports=[];
         const query=RegExp('meet_attendance_report_');
@@ -33,7 +35,6 @@ export const UploadAttendanceReport=() => {
             if (response) {
                 window.localStorage.removeItem(report.key);
 
-                const path=usePathname();
                 if (path.startsWith("/save-report")) {
                     toast.success((
                         <div>
@@ -42,7 +43,7 @@ export const UploadAttendanceReport=() => {
                                 <Link href={`/g/${response.groupId}/r/${response.slug}`}>View</Link>
                             </Button>
                         </div>
-                    ));    
+                    ));
                     redirect(`/g/${response.groupId}/r/${response.slug}`)
                 }
             }

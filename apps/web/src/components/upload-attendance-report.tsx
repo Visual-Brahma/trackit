@@ -4,13 +4,14 @@ import { saveAttendanceReport } from "@/lib/api/reports/upload";
 import { toast } from "@repo/ui/sonner";
 import { Button } from "@repo/ui/button";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export const UploadAttendanceReport=() => {
 
     const path=usePathname();
-    
+    const router=useRouter();
+
     useEffect(() => {
         const reports=[];
         const query=RegExp('meet_attendance_report_');
@@ -44,7 +45,7 @@ export const UploadAttendanceReport=() => {
                             </Button>
                         </div>
                     ));
-                    redirect(`/g/${response.groupId}/r/${response.slug}`)
+                    router.push(`/g/${response.groupId}/r/${response.slug}`)
                 }
             }
         });

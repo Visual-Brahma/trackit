@@ -77,6 +77,7 @@ const columns: ColumnDef<AttendanceReportItem>[]=[
                 </Button>
             )
         },
+        sortDescFirst: true,
     },
     {
         id: "participants",

@@ -48,6 +48,7 @@ const columns: ColumnDef<AttendanceReportItem>[]=[
         enableHiding: false,
     },
     {
+        id: "date",
         accessorKey: "date",
         header: ({ column }) => {
             return (
@@ -76,8 +77,7 @@ const columns: ColumnDef<AttendanceReportItem>[]=[
                     <CaretSortIcon className="ml-2 h-4 w-4" />
                 </Button>
             )
-        },
-        sortDescFirst: true,
+        }
     },
     {
         id: "participants",
@@ -131,6 +131,14 @@ export const AttendanceReportsListTable=({ data }: { data: AttendanceReportItem[
             columnVisibility,
             rowSelection,
         },
+        initialState: {
+            sorting: [
+                {
+                    id: "date",
+                    desc: true,
+                }
+            ]
+        }
     });
 
     return (

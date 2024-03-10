@@ -86,7 +86,7 @@ const AttendanceReportViewPage=async ({ params }: { params: { groupId: string, s
             name: participant.name,
             joinTime: formatTime(participant.joinTime),
             exitTime: formatTime(participant.leaveTime),
-            attendancePercentage: parseFloat(((participant.attendedDuration/durationInSeconds)*100).toFixed(2)),
+            attendancePercentage: report.slug.startsWith("mac_")? participant.attendedDuration:parseFloat(((participant.attendedDuration/durationInSeconds)*100).toFixed(2)), // In v1 we used to store attendance percentage in db, but in v2 we calculate it on the fly
             avatar: participant.avatarUrl
         }
     ));

@@ -18,6 +18,7 @@ const DashboardPage=async () => {
             title: "Groups",
             description: "Create groups for your class, team, or organization and track meetings and attendance more effectively.",
             icon: <UsersIcon className="mr-2 h-4 w-4" />,
+            href: "/dashboard/groups",
         },
         {
             title: "Notes",

@@ -17,7 +17,6 @@ const sidebarNavItems: SidebarNavProps["itemGroups"]=[
         title: "Groups",
         href: "/dashboard/groups",
         icon: <UsersIcon className="mr-2 h-4 w-4" />,
-        disabled: true,
         badge: {
           text: "Coming soon",
         }

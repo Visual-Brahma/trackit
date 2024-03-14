@@ -21,6 +21,11 @@ const nextConfig={
                 source: "/mac/save",
                 destination: "/save-report",
                 permanent: true
+            },
+            {
+                source: "/accounts/signup",
+                destination: "/dashboard",
+                permanent: false
             }
         ];
     }

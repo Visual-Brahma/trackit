@@ -26,6 +26,11 @@ const nextConfig={
                 source: "/accounts/signup",
                 destination: "/dashboard",
                 permanent: false
+            },
+            {
+                source: "/mac/dashboard",
+                destination: "/dashboard",
+                permanent: false
             }
         ];
     }

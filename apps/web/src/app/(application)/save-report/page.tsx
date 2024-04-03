@@ -36,6 +36,7 @@ const SaveAttendanceReportPage=() => {
                     <>
                         <TypographyH2>All Caught up!</TypographyH2>
                         <TypographyP>There are no reports in your browser localstorage to update.</TypographyP>
+                        <TypographyP>Refresh this page if you think there should be an attendance report.</TypographyP>
                         <Link href="/" className={buttonVariants()}>Go to Dashboard</Link>
                     </>
                 )

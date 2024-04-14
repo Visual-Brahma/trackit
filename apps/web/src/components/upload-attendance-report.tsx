@@ -22,6 +22,7 @@ export const UploadAttendanceReport=() => {
                     const value=JSON.parse(window.localStorage.getItem(item)!);
                     for (let i=0; i<(value["participants"] as any[]).length; i++) {
                         delete (value["participants"] as any[])[i]["attendance"];
+                        delete (value["participants"] as any[])[i]["lastAttendedTimeStamp"];
                     }
                     reports.push({
                         key: item,

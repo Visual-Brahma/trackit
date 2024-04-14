@@ -28,6 +28,7 @@ function track_attendance() {
             if (attendanceData.has(avatarUrl)) {
                 let data = attendanceData.get(avatarUrl);
                 data.attendedDuration += 1;
+                data.lastAttendedTimeStamp = new Date();
                 attendanceData.set(avatarUrl, data);
             } else {
                 let joinTime = new Date();
@@ -36,6 +37,7 @@ function track_attendance() {
                     name: name,
                     joinTime: joinTime.getHours() + ":" + joinTime.getMinutes() + ":" + joinTime.getSeconds(),
                     attendedDuration: 1,
+                    lastAttendedTimeStamp: new Date()
                 };
                 attendanceData.set(avatarUrl, data);
             }
@@ -71,8 +73,7 @@ let stop = STOP = function() {
     let stopTime = new Date();
 
     attendanceData.forEach(function(data, avatarUrl) {
-        currTime = new Date(startTime.getTime() + data.attendance[data.attendance.length - 1] * 1000);
-        data.leaveTime = currTime.getHours() + ":" + currTime.getMinutes() + ":" + currTime.getSeconds();
+        data.leaveTime = data.lastAttendedTimeStamp.getHours() + ":" + data.lastAttendedTimeStamp.getMinutes() + ":" + data.lastAttendedTimeStamp.getSeconds();
         attendanceData.set(avatarUrl, data);
     });
 

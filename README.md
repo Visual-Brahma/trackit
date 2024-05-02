@@ -17,7 +17,7 @@ Get the extension on
 
 ## Donate
 
-[https://www.buymeacoffee.com/blaze2004)(https://www.buymeacoffee.com/blaze2004)
+[https://www.buymeacoffee.com/blaze2004](https://www.buymeacoffee.com/blaze2004)
 
 ### Steps to Setup 🚀
 

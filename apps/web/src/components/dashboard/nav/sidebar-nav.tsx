@@ -88,7 +88,7 @@ export function SidebarNav({ className, itemGroups, drawer, setDraweropen, ...pr
                           window.tidioChatApi.open()
                         }
                       }}
-                      href={href==="/contact-us"? "":href}
+                      href={href==="/contact-us"? "#":href}
                       style={{
                         pointerEvents: disabled
                           ? "none"

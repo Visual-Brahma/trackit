@@ -1,5 +1,6 @@
 import { FeatureCard, FeatureCardProps } from "@/components/dashboard/feature-card";
 import { UpdateNotes } from "@/components/dashboard/update-notes";
+import { ExtensionDropdown } from "@/components/extension-chooser";
 import { TypographyH2, TypographyH4 } from "@repo/ui/typography"
 import { FileBarChart2Icon, StickyNoteIcon, UsersIcon } from "lucide-react";
 import { getServerSession } from "next-auth"
@@ -42,6 +43,7 @@ const DashboardPage=async () => {
                     ))
                 }
             </div>
+            <ExtensionDropdown className="mt-6 m-2 p-4" />
             <UpdateNotes />
         </div>
     )

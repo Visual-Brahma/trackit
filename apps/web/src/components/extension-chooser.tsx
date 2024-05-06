@@ -8,6 +8,38 @@ import {
 import { Button, buttonVariants } from "@repo/ui/button";
 import Link from "next/link";
 
+export const ExtensionDropdown=({ className }: { className?: string }) => {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="default" size={"xl"} className={className}>Get Free Extension</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                <Link href="https://microsoftedge.microsoft.com/addons/detail/trackit-meet-attendance/chidnckliojipjihhfmjdmehaglhplcl">
+                    <DropdownMenuItem>
+                        Microsoft Edge
+                    </DropdownMenuItem>
+                </Link>
+                <Link href="https://chromewebstore.google.com/detail/trackit-meet-attendance-t/aopejafeamijmefcoclhohoaggbfhcgh">
+                    <DropdownMenuItem>
+                        Google Chrome
+                    </DropdownMenuItem>
+                </Link>
+                <Link href="https://addons.mozilla.org/en-US/firefox/addon/trackit">
+                    <DropdownMenuItem>
+                        Mozilla Firefox
+                    </DropdownMenuItem>
+                </Link>
+                <Link href="https://chromewebstore.google.com/detail/trackit-meet-attendance-t/aopejafeamijmefcoclhohoaggbfhcgh">
+                    <DropdownMenuItem>
+                        Brave or Arc
+                    </DropdownMenuItem>
+                </Link>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
+
 const ExtensionChooser=() => {
 
     return (
@@ -18,33 +50,7 @@ const ExtensionChooser=() => {
             >
                 Get Started
             </Link>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="default" size={"xl"}>Get Free Extension</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                    <Link href="https://microsoftedge.microsoft.com/addons/detail/trackit-meet-attendance/chidnckliojipjihhfmjdmehaglhplcl">
-                        <DropdownMenuItem>
-                            Microsoft Edge
-                        </DropdownMenuItem>
-                    </Link>
-                    <Link href="https://chromewebstore.google.com/detail/trackit-meet-attendance-t/aopejafeamijmefcoclhohoaggbfhcgh">
-                        <DropdownMenuItem>
-                            Google Chrome
-                        </DropdownMenuItem>
-                    </Link>
-                    <Link href="https://addons.mozilla.org/en-US/firefox/addon/trackit">
-                        <DropdownMenuItem>
-                            Mozilla Firefox
-                        </DropdownMenuItem>
-                    </Link>
-                    <Link href="https://chromewebstore.google.com/detail/trackit-meet-attendance-t/aopejafeamijmefcoclhohoaggbfhcgh">
-                        <DropdownMenuItem>
-                            Brave
-                        </DropdownMenuItem>
-                    </Link>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <ExtensionDropdown />
         </div>
     );
 }

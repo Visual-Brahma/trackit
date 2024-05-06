@@ -42,8 +42,7 @@ const Footer=() => {
                     >
                         Donate
                     </a>
-                    <a
-                        href=''
+                    <button
                         onClick={() => {
                             window.tidioChatApi.display(true);
                             window.tidioChatApi.open()
@@ -51,7 +50,7 @@ const Footer=() => {
                         className={buttonVariants({ variant: "ghost" })}
                     >
                         Contact Us
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

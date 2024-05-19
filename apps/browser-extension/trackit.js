@@ -1,4 +1,4 @@
 chrome.tabs.create({
-    url: "https://trackit.zeabur.app/dashboard",
+    url: "https://trackit.visualbrahma.tech/dashboard",
     active: true
 });

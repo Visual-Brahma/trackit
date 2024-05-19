@@ -28,7 +28,6 @@
             "save.js"
          ],
          "matches": [
-            "https://trackit.zeabur.app/*",
             "https://trackit.visualbrahma.tech/*"
          ],
          "run_at": "document_idle"
@@ -46,5 +45,5 @@
    "permissions": [
       "storage"
    ],
-   "version": "1.5"
+   "version": "1.6"
 }

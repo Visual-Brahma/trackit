@@ -126,7 +126,7 @@ let engine = setInterval(startEngine, 1000);
 
 function startEngine() {
     try {
-        meetActionButtons = document.getElementsByClassName("VfPpkd-kBDsod NtU4hc");
+        meetActionButtons = document.getElementsByClassName("NtU4hc");
         document.getElementsByClassName("Qp8KI")[0].appendChild(statusText);
         start();
         clearInterval(engine);

@@ -92,7 +92,7 @@ let stop = STOP = function() {
         console.log("Attendance saved successfully.");
     });
 
-    window.open('https://trackit.zeabur.app/save-report');
+    window.open('https://trackit.visualbrahma.tech/save-report');
 }
 
 /*

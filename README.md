@@ -10,10 +10,10 @@ The extension records attendance automatically when you are in a meet and saves 
 
 Get the extension on
 
-* [Firefox](https://addons.mozilla.org/en-US/firefox/addon/trackit)
-* [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/trackit-meet-attendance/chidnckliojipjihhfmjdmehaglhplcl)
-* [Google Chrome](https://chrome.google.com/webstore/detail/trackit-meet-attendance-c/aopejafeamijmefcoclhohoaggbfhcgh)
-* [Others](https://chrome.google.com/webstore/detail/trackit-meet-attendance-c/aopejafeamijmefcoclhohoaggbfhcgh)
+- [Firefox](https://addons.mozilla.org/en-US/firefox/addon/trackit)
+- [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/trackit-meet-attendance/chidnckliojipjihhfmjdmehaglhplcl)
+- [Google Chrome](https://chrome.google.com/webstore/detail/trackit-meet-attendance-c/aopejafeamijmefcoclhohoaggbfhcgh)
+- [Others](https://chrome.google.com/webstore/detail/trackit-meet-attendance-c/aopejafeamijmefcoclhohoaggbfhcgh)
 
 ## Donate
 
@@ -25,7 +25,7 @@ Get the extension on
 
 1). The extension starts automatically when you enter in a meet.
 
-2). Once, the meet is  over your attendance report is displayed in a new tab.
+2). Once, the meet is over your attendance report is displayed in a new tab.
 
 No manual work required ! it's fully automatic.
 

@@ -16,7 +16,7 @@ The extension records attendance automatically when you are in a meet and saves 
 
 1). The extension starts automatically when you enter in a meet.
 
-2). Once, the meet is  over your attendance report is displayed in a new tab.
+2). Once, the meet is over your attendance report is displayed in a new tab.
 
 no manual work required ! it's fully automatic.
 

@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
 export interface LayoutProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export interface ThemeChangerProps {
-    extended?: boolean;
+  extended?: boolean;
 }

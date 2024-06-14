@@ -10,18 +10,19 @@ git clone https://github.com/Visual-Brahma/trackit
 
 ```
 
-* Set environment variables.
+- Set environment variables.
 
   ```
 
   cp .env.example .env.local
 
   ```
-* ```
+
+- ```
   pnpm install
   ```
-* Start the server with ``pnpm dev``.
-* Start developing.
+- Start the server with `pnpm dev`.
+- Start developing.
 
 ## Abbreviations
 

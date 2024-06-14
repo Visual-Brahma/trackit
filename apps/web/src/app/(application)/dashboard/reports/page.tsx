@@ -1,66 +1,91 @@
 import { TypographyH2, TypographyP } from "@repo/ui/typography";
-import { AttendanceReportItem, AttendanceReportsListTable } from "@/components/dashboard/reports/table";
+import {
+  AttendanceReportItem,
+  AttendanceReportsListTable,
+} from "@/components/dashboard/reports/table";
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
-import { extractMeetCodeFromLink, getDurationBetweenDates } from "@/lib/utils/format";
+import {
+  extractMeetCodeFromLink,
+  getDurationBetweenDates,
+} from "@/lib/utils/format";
 import { jsonObjectFrom } from "kysely/helpers/postgres";
 import { MeetingPlatform } from "@/types/database.types";
 
-const ReportsPage=async () => {
+const ReportsPage = async () => {
+  const session = await getServerSession();
+  const email = session?.user?.email;
 
-    const session=await getServerSession();
-    const email=session?.user?.email;
-
-    if (!email) {
-        return (
-            <div>
-                <TypographyH2>Attendance Reports</TypographyH2>
-                <TypographyP className="my-4">There is something wrong here, can you try refreshing the page once.</TypographyP>
-            </div>
-        );
-    }
-
-    const attendanceReports=await dbClient.selectFrom("AttendanceReport")
-        .innerJoin("Meeting", "AttendanceReport.meetingId", "Meeting.id")
-        .select((eb) => [
-            "AttendanceReport.id", "AttendanceReport.slug",
-            "Meeting.date", "Meeting.startTime", "Meeting.endTime",
-            "Meeting.meetLink", "Meeting.groupId", "Meeting.isOnline",
-            "Meeting.meetPlatform", "Meeting.name",
-            eb.fn<number>("jsonb_array_length", ["membersPresence"]).as("participantsCount")
-        ])
-        .where("Meeting.groupId", "in",
-            (eb) =>
-                eb.selectFrom("GroupMember")
-                    .select("GroupMember.groupId")
-                    .where("GroupMember.userId", "=",
-                        (eb) =>
-                            eb.selectFrom("User")
-                                .select("User.id")
-                                .where("User.email", "=", email)
-                    )
-        ).execute();
-
-    const data: AttendanceReportItem[]=attendanceReports.map((report) => ({
-        id: report.id,
-        meetCode: report.meetPlatform===MeetingPlatform.GOOGLE_MEET? extractMeetCodeFromLink(report.meetLink??""):report.meetLink??"-",
-        date: report.date,
-        participantsCount: report.participantsCount,
-        duration: report.startTime&&report.endTime? getDurationBetweenDates(report.startTime, report.endTime)[0]:"-",
-        groupId: report.groupId,
-        slug: report.slug,
-    }));
-
+  if (!email) {
     return (
-        <div>
-            <TypographyH2>Attendance Reports</TypographyH2>
-            <TypographyP className="my-4">View, share and download your attendance reports</TypographyP>
+      <div>
+        <TypographyH2>Attendance Reports</TypographyH2>
+        <TypographyP className="my-4">
+          There is something wrong here, can you try refreshing the page once.
+        </TypographyP>
+      </div>
+    );
+  }
 
-            <div className="mt-6">
-                <AttendanceReportsListTable data={data} />
-            </div>
-        </div>
+  const attendanceReports = await dbClient
+    .selectFrom("AttendanceReport")
+    .innerJoin("Meeting", "AttendanceReport.meetingId", "Meeting.id")
+    .select((eb) => [
+      "AttendanceReport.id",
+      "AttendanceReport.slug",
+      "Meeting.date",
+      "Meeting.startTime",
+      "Meeting.endTime",
+      "Meeting.meetLink",
+      "Meeting.groupId",
+      "Meeting.isOnline",
+      "Meeting.meetPlatform",
+      "Meeting.name",
+      eb
+        .fn<number>("jsonb_array_length", ["membersPresence"])
+        .as("participantsCount"),
+    ])
+    .where("Meeting.groupId", "in", (eb) =>
+      eb
+        .selectFrom("GroupMember")
+        .select("GroupMember.groupId")
+        .where("GroupMember.userId", "=", (eb) =>
+          eb
+            .selectFrom("User")
+            .select("User.id")
+            .where("User.email", "=", email),
+        ),
     )
-}
+    .execute();
+
+  const data: AttendanceReportItem[] = attendanceReports.map((report) => ({
+    id: report.id,
+    meetCode:
+      report.meetPlatform === MeetingPlatform.GOOGLE_MEET
+        ? extractMeetCodeFromLink(report.meetLink ?? "")
+        : report.meetLink ?? "-",
+    date: report.date,
+    participantsCount: report.participantsCount,
+    duration:
+      report.startTime && report.endTime
+        ? getDurationBetweenDates(report.startTime, report.endTime)[0]
+        : "-",
+    groupId: report.groupId,
+    slug: report.slug,
+  }));
+
+  return (
+    <div>
+      <TypographyH2>Attendance Reports</TypographyH2>
+      <TypographyP className="my-4">
+        View, share and download your attendance reports
+      </TypographyP>
+
+      <div className="mt-6">
+        <AttendanceReportsListTable data={data} />
+      </div>
+    </div>
+  );
+};
 
 export default ReportsPage;

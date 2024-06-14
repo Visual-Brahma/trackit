@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
 const config: Omit<Config, "content"> = {
   theme: {
@@ -66,6 +66,6 @@ const config: Omit<Config, "content"> = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")]
-}
-export default config
+  plugins: [require("tailwindcss-animate")],
+};
+export default config;

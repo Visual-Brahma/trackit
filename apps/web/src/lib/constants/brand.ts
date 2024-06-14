@@ -1,1 +1,1 @@
-export const appName="Trackit";
+export const appName = "Trackit";

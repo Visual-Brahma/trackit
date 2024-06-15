@@ -1,18 +1,20 @@
 import { TypographyH2, TypographyP } from "@repo/ui/typography";
-import Image from "next/image";
 
 const UserGuide = () => {
   return (
     <div className="flex-col mx-5 min-h-screen mt-5 sm:mt-0 max-w-screen-xl items-center justify-between xl:mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-12 w-full py-16 mt-16">
-        <div className="rounded-2xl bg-gradient-to-t from-red-700 to-red-900 p-4 border-none outline-none sm:p-8">
-          <Image
-            src={"/_static/att_report.png"}
-            width={500}
-            height={500}
-            alt="Attendance Report"
-            className="w-full h-full rounded-2xl"
-          />
+        <div>
+          <div className="rounded-2xl bg-gradient-to-r from-[#5170FF] to-[#FFA3FF] p-4 border-none outline-none w-full">
+            <div className="relative pb-[56.25%]">
+              <iframe
+                src="https://www.youtube.com/embed/t4gRNWJg1NU"
+                title="How to use Trackit : Google Meet Attendance Tracker"
+                allowFullScreen
+                className="absolute t-0 l-0 w-full h-full rounded-2xl"
+              ></iframe>
+            </div>
+          </div>
         </div>
         <div className="mt-4">
           <h1
@@ -49,13 +51,13 @@ const UserGuide = () => {
             fix various errors which can occur.
           </TypographyP>
         </div>
-        <div>
+        <div className="rounded-2xl bg-gradient-to-r from-[#5170FF] to-[#FFA3FF] p-4 border-none outline-none">
           <div className="relative pb-[56.25%]">
             <iframe
               src="https://www.youtube.com/embed/nCtUS-FPOxA"
               title="Bug Squashing : Fixing Errors in Trackit"
               allowFullScreen
-              className="absolute t-0 l-0 w-full h-full"
+              className="absolute t-0 l-0 w-full h-full rounded-2xl"
             ></iframe>
           </div>
         </div>

@@ -2,8 +2,6 @@
 
 import { saveAttendanceReport } from "@/lib/api/reports/upload";
 import { toast } from "@repo/ui/sonner";
-import { Button } from "@repo/ui/button";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -40,16 +38,13 @@ export const UploadAttendanceReport = () => {
           window.localStorage.removeItem(report.key);
 
           if (path.startsWith("/save-report")) {
-            toast.success(
-              <div>
-                <p>Report saved successfully.</p>
-                <Button asChild>
-                  <Link href={`/g/${response.groupId}/r/${response.slug}`}>
-                    View
-                  </Link>
-                </Button>
-              </div>,
-            );
+            toast.success("Report saved successfully.", {
+              action: {
+                label: "View",
+                onClick: () =>
+                  router.push(`/g/${response.groupId}/r/${response.slug}`),
+              },
+            });
             router.push(`/g/${response.groupId}/r/${response.slug}`);
           }
         }

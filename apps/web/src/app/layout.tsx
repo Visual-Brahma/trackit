@@ -10,7 +10,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Provider } from "@/components/layout/providers";
 import { getServerSession } from "next-auth";
 import { TidioUserInfo } from "@/components/layout/tidio";
-import { GlobalNotifications } from "@/components/notification";
 
 const PTsansDisplay = PT_Sans({ weight: "400", subsets: ["latin"] });
 
@@ -51,7 +50,6 @@ export default async function RootLayout({ children }: LayoutProps) {
         <Provider>
           {children}
           <TidioUserInfo {...userInfo} />
-          <GlobalNotifications />
         </Provider>
         <Toaster richColors position={"top-right"} />
         <Script

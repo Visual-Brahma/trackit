@@ -4,7 +4,6 @@ import { toast } from "@repo/ui/sonner";
 import { useEffect } from "react";
 
 export const GlobalNotifications = () => {
-
   useEffect(() => {
     const scheduledMaintenance = new Date("2024-06-27 03:00 UTC").getTime();
     setTimeout(() => {

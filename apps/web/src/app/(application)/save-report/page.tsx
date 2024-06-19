@@ -9,18 +9,22 @@ const SaveAttendanceReportPage = () => {
   const [localStorageReportsCount, setLocalStorageReportsCount] = useState(0);
 
   useEffect(() => {
-    let reportsCount = 0;
-    const query = RegExp("meet_attendance_report_");
+    const countLocalStorageReports = setInterval(() => {
+      let reportsCount = 0;
+      const query = RegExp("meet_attendance_report_");
 
-    for (const item in window.localStorage) {
-      if (window.localStorage.hasOwnProperty(item)) {
-        if (item.match(query) || (!query && typeof item === "string")) {
-          reportsCount++;
+      for (const item in window.localStorage) {
+        if (window.localStorage.hasOwnProperty(item)) {
+          if (item.match(query) || (!query && typeof item === "string")) {
+            reportsCount++;
+          }
         }
       }
-    }
 
-    setLocalStorageReportsCount(reportsCount);
+      setLocalStorageReportsCount(reportsCount);
+    }, 1000);
+
+    return () => clearInterval(countLocalStorageReports);
   }, []);
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-2 min-h-screen">

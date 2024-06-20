@@ -73,6 +73,10 @@ const ReportsPage = async () => {
     slug: report.slug,
   }));
 
+  data.sort((a, b) => {
+    return b.date.getTime() - a.date.getTime();
+  });
+
   return (
     <div>
       <TypographyH2>Attendance Reports</TypographyH2>

@@ -38,6 +38,7 @@ export const AttendanceReportSettingsView = ({
       toast.success("Report deleted successfully.");
       setIsLoading(false);
       router.push(`/dashboard/reports`);
+      router.refresh();
     } else {
       toast.error("Failed to delete the report. Please try again later.");
     }

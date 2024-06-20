@@ -115,7 +115,7 @@ model AttendanceReport {
   id              Int      @id @default(autoincrement())
   slug            String   @unique() @default(dbgenerated("gen_random_uuid()"))
   meeting         Meeting  @relation(fields: [meetingId], references: [id])
-  meetingId       Int      @unique()
+  meetingId       Int
   isPublic        Boolean  @default(false)
   sharedWith      String[] @default([])
   // membersPresence AttendanceReportUserPresence[]

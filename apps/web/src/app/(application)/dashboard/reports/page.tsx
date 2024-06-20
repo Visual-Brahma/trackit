@@ -9,7 +9,6 @@ import {
   extractMeetCodeFromLink,
   getDurationBetweenDates,
 } from "@/lib/utils/format";
-import { jsonObjectFrom } from "kysely/helpers/postgres";
 import { MeetingPlatform } from "@/types/database.types";
 
 const ReportsPage = async () => {

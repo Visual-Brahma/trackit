@@ -101,3 +101,46 @@ export const shareAttendanceReport = async (
     }
   }
 };
+
+export const deleteAttendanceReport = async (slug: string, groupId: string) => {
+  const session = await getServerSession();
+  if (session && session.user && session.user.email) {
+    const email = session.user.email;
+    try {
+      const report = await dbClient
+        .selectFrom("AttendanceReport")
+        .innerJoin("Meeting", "Meeting.id", "AttendanceReport.meetingId")
+        .innerJoin("GroupMember", "GroupMember.groupId", "Meeting.groupId")
+        .innerJoin("User", "User.id", "GroupMember.userId")
+        .select("AttendanceReport.id")
+        .where((eb) =>
+          eb.and([
+            eb("AttendanceReport.slug", "=", slug),
+            eb("User.email", "=", email),
+            eb("Meeting.groupId", "=", groupId),
+            eb.or([
+              eb("GroupMember.role", "=", "ADMIN"),
+              eb("GroupMember.role", "=", "OWNER"),
+            ]),
+          ]),
+        )
+        .executeTakeFirst();
+
+      if (report) {
+        const deleteStatus = await dbClient
+          .deleteFrom("AttendanceReport")
+          .where("AttendanceReport.id", "=", report.id)
+          .executeTakeFirst();
+
+        if (deleteStatus.numDeletedRows) {
+          return true;
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting report:", error);
+      return false;
+    }
+  }
+
+  return false;
+};

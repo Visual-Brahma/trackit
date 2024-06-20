@@ -14,6 +14,7 @@ import {
   getDurationBetweenDates,
 } from "@/lib/utils/format";
 import { MeetingPlatform } from "@/types/database.types";
+import { AttendanceReportSettingsView } from "@/components/dashboard/reports/settings";
 
 const AttendanceReportViewPage = async ({
   params,
@@ -151,6 +152,9 @@ const AttendanceReportViewPage = async ({
           <TabsTrigger value="report">Report</TabsTrigger>
           {isOwnerOrAdmin && <TabsTrigger value="share">Share</TabsTrigger>}
           <TabsTrigger value="info">Info</TabsTrigger>
+          {isOwnerOrAdmin && (
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+          )}
         </TabsList>
         <TabsContent value="report">
           <AttendanceReportTable data={attendanceReport.data} />
@@ -169,6 +173,14 @@ const AttendanceReportViewPage = async ({
         <TabsContent value="info">
           <AttendanceReportInfo {...attendanceReport.info} />
         </TabsContent>
+        {isOwnerOrAdmin && (
+          <TabsContent value="settings">
+            <AttendanceReportSettingsView
+              groupId={params.groupId}
+              slug={params.slug}
+            />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   );

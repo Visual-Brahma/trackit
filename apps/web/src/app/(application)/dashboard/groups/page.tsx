@@ -52,7 +52,10 @@ const GroupsPage = async () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
         {groups.map((group) => (
-          <Card className="w-[354px] my-5 rounded-2xl">
+          <Card
+            key={group.id}
+            className="w-full max-w-[354px] my-5 p-2 rounded-2xl"
+          >
             <CardHeader>
               <CardTitle className="text-white text-left">
                 {group.name}

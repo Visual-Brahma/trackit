@@ -53,7 +53,7 @@ const SettingsPage = async () => {
       />
       <div className="mt-6">
         <TypographyH3>Danger Zone</TypographyH3>
-        <Card className="backdrop-blur-xl backdrop-opacity-60 my-6 bg-destructive/30 ring-2 w-full max-w-md mx-2">
+        <Card className="backdrop-blur-xl backdrop-opacity-60 my-6 bg-destructive/30 ring-2 w-full max-w-md px-2">
           <CardContent className="p-4 flex flex-col items-start justify-center space-y-2">
             <p className="text-sm text-left font-semibold">
               Deleting your account will remove all your attendance reports,

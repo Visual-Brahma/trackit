@@ -8,7 +8,6 @@ import { PT_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Provider } from "@/components/layout/providers";
-import { getServerSession } from "next-auth";
 import { TidioUserInfo } from "@/components/layout/tidio";
 
 const PTsansDisplay = PT_Sans({ weight: "400", subsets: ["latin"] });
@@ -35,21 +34,13 @@ declare global {
   }
 }
 
-export default async function RootLayout({ children }: LayoutProps) {
-  const session = await getServerSession();
-
-  const userInfo = {
-    email: session?.user?.email ?? undefined,
-    name: session?.user?.name ?? undefined,
-    distinct_id: session?.user?.email ?? undefined,
-  };
-
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <body className={PTsansDisplay.className}>
         <Provider>
           {children}
-          <TidioUserInfo {...userInfo} />
+          <TidioUserInfo />
         </Provider>
         <Toaster richColors position={"top-right"} />
         <Script

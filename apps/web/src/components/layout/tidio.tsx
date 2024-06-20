@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 interface TidioIdentify {
@@ -9,20 +10,22 @@ interface TidioIdentify {
   phone?: string;
 }
 
-export const TidioUserInfo = (userInfo: TidioIdentify) => {
+export const TidioUserInfo = () => {
+  const session = useSession();
+
   useEffect(() => {
     if (window) {
+      const userInfo: TidioIdentify = {
+        email: session?.data?.user?.email ?? undefined,
+        name: session?.data?.user?.name ?? undefined,
+        distinct_id: session?.data?.user?.email ?? undefined,
+      };
+
       (
         window.document as Document & { tidioIdentify: TidioIdentify }
       ).tidioIdentify = userInfo;
     }
   }, []);
 
-  return (
-    <>
-      {
-        // empty fragment
-      }
-    </>
-  );
+  return null;
 };

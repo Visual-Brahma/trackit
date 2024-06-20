@@ -1,3 +1,4 @@
+import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 import { dbClient } from "@/lib/db/db_client";
 import { Button } from "@repo/ui/button";
 import {
@@ -15,14 +16,7 @@ const GroupsPage = async () => {
   const email = session?.user?.email;
 
   if (!email) {
-    return (
-      <div>
-        <TypographyH2>My groups</TypographyH2>
-        <TypographyP className="my-4">
-          There is something wrong here, can you try refreshing the page once.
-        </TypographyP>
-      </div>
-    );
+    return <UnAuthenticatedUserError />;
   }
 
   const groups = await dbClient

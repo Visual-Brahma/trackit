@@ -1,6 +1,5 @@
 import Nav from "@/components/dashboard/nav";
 import { SidebarNavProps } from "@/components/dashboard/nav/sidebar-nav";
-import { GlobalNotifications } from "@/components/notification";
 import { UploadAttendanceReport } from "@/components/upload-attendance-report";
 import { LayoutProps } from "@/types";
 import {
@@ -13,6 +12,7 @@ import {
   StickyNoteIcon,
   UsersIcon,
 } from "lucide-react";
+import Script from "next/script";
 
 const sidebarNavItems: SidebarNavProps["itemGroups"] = [
   {
@@ -84,7 +84,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex-1 md:bg-secondary/40 p-2 sm:p-4 overflow-y-scroll">
           {children}
         </div>
-        <GlobalNotifications />
+        <Script src="https://trackit.statuspage.io/embed/script.js"></Script>
         <UploadAttendanceReport />
       </div>
     </div>

@@ -6,4 +6,5 @@ export interface LayoutProps {
 
 export interface ThemeChangerProps {
   extended?: boolean;
+  className?: string;
 }

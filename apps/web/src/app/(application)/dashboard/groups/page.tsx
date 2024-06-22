@@ -1,28 +1,23 @@
+import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 import { dbClient } from "@/lib/db/db_client";
-import { Button } from "@repo/ui/button";
+import { Button, buttonVariants } from "@repo/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@repo/ui/card";
 import { TypographyH2, TypographyP } from "@repo/ui/typography";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 
 const GroupsPage = async () => {
   const session = await getServerSession();
   const email = session?.user?.email;
 
   if (!email) {
-    return (
-      <div>
-        <TypographyH2>My groups</TypographyH2>
-        <TypographyP className="my-4">
-          There is something wrong here, can you try refreshing the page once.
-        </TypographyP>
-      </div>
-    );
+    return <UnAuthenticatedUserError />;
   }
 
   const groups = await dbClient
@@ -65,7 +60,9 @@ const GroupsPage = async () => {
               <div className="text-left">{group.description}</div>
             </CardContent>
             <CardFooter className="text-right flex pb-5 mr-5 my-2 flex-row-reverse rounded-2xl">
-              <Button disabled>View</Button>
+              <Link href={`/g/${group.id}`} className={buttonVariants()}>
+                View
+              </Link>
             </CardFooter>
           </Card>
         ))}

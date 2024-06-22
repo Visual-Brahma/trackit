@@ -10,20 +10,14 @@ import {
   getDurationBetweenDates,
 } from "@/lib/utils/format";
 import { MeetingPlatform } from "@/types/database.types";
+import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 
 const ReportsPage = async () => {
   const session = await getServerSession();
   const email = session?.user?.email;
 
   if (!email) {
-    return (
-      <div>
-        <TypographyH2>Attendance Reports</TypographyH2>
-        <TypographyP className="my-4">
-          There is something wrong here, can you try refreshing the page once.
-        </TypographyP>
-      </div>
-    );
+    return <UnAuthenticatedUserError />;
   }
 
   const attendanceReports = await dbClient

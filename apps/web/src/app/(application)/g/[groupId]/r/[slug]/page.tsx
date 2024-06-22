@@ -15,6 +15,7 @@ import {
 } from "@/lib/utils/format";
 import { MeetingPlatform } from "@/types/database.types";
 import { AttendanceReportSettingsView } from "@/components/dashboard/reports/settings";
+import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 
 const AttendanceReportViewPage = async ({
   params,
@@ -25,14 +26,7 @@ const AttendanceReportViewPage = async ({
   const email = session?.user?.email;
 
   if (!email) {
-    return (
-      <div>
-        <TypographyH2>Attendance Report</TypographyH2>
-        <TypographyP className="my-4">
-          There is something wrong here, can you try refreshing the page once.
-        </TypographyP>
-      </div>
-    );
+    return <UnAuthenticatedUserError />
   }
 
   const isOwnerOrAdmin = await dbClient

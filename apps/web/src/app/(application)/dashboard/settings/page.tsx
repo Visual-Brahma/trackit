@@ -8,18 +8,13 @@ import {
 import { getServerSession } from "next-auth";
 import { Card, CardContent } from "@repo/ui/card";
 import { Button } from "@repo/ui/button";
+import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 
 const SettingsPage = async () => {
   const session = await getServerSession();
   if (!session?.user?.email) {
     toast.error("Error fetching user session");
-    return (
-      <div>
-        <TypographyP className="text-red-200">
-          Something unexpected happened.
-        </TypographyP>
-      </div>
-    );
+    return <UnAuthenticatedUserError />;
   }
 
   const profile = await fetchUserProfile(session.user.email);

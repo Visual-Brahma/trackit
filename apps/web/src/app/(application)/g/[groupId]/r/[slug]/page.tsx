@@ -167,6 +167,7 @@ const AttendanceReportViewPage = async ({
               downloadData={attendanceReportData}
               people={attendanceReport.people}
               isPublic={attendanceReport.isPublic}
+              reportInfo={attendanceReport.info}
             />
           </TabsContent>
         )}

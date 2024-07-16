@@ -1,7 +1,7 @@
 import { formatDatetime, formatTime } from "@/lib/utils/format";
 import { Table, TableBody, TableCell, TableRow } from "@repo/ui/table";
 
-interface AttendanceReportInfoProps {
+export interface AttendanceReportInfoProps {
   meetcode: string;
   date: Date;
   startTimestamp: Date;

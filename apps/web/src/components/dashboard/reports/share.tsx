@@ -14,6 +14,16 @@ import {
 } from "@/lib/api/reports";
 import { LoadingCircle } from "@repo/ui/icons";
 import { AttendanceReportParticipant } from "./report-table";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { AttendanceReportInfoProps } from "./info";
+import { formatDatetime, formatTime } from "@/lib/utils/format";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@repo/ui/dropdown";
 
 interface AttendanceReportShareViewProps {
   groupId: string;
@@ -24,6 +34,7 @@ interface AttendanceReportShareViewProps {
     name?: string;
   }[];
   downloadData: AttendanceReportParticipant[];
+  reportInfo: AttendanceReportInfoProps;
   isPublic: boolean;
 }
 
@@ -33,6 +44,7 @@ export const AttendanceReportShareView = ({
   downloadData,
   isPublic,
   people,
+  reportInfo,
 }: AttendanceReportShareViewProps) => {
   const [isloading, setIsLoading] = useState<{
     loading: boolean;
@@ -44,7 +56,7 @@ export const AttendanceReportShareView = ({
 
   const downloadCsv = () => {
     csvDownload({
-      filename: `attendance-report-${slug}.csv`,
+      filename: `trackit-report-${slug}.csv`,
       delimiter: ",",
       headers: [
         "Participant Name",
@@ -52,8 +64,53 @@ export const AttendanceReportShareView = ({
         "Exit Time",
         "Attendance Percentage",
       ],
-      data: downloadData,
+      data: downloadData.map((row) => [
+        row.name,
+        row.joinTime,
+        row.exitTime,
+        `${row.attendancePercentage}%`,
+      ]),
     });
+  };
+
+  const downloadPdf = () => {
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
+      format: "A4",
+    });
+
+    doc.setFontSize(15);
+
+    const title = "Trackit Attendance Report";
+    const headers = [
+      ["Participant Name", "Join Time", "Exit Time", "Attendance Percentage"],
+    ];
+
+    const data = downloadData.map((row) => [
+      row.name,
+      row.joinTime,
+      row.exitTime,
+      `${row.attendancePercentage}%`,
+    ]);
+
+    doc.text(title, 40, 40);
+    autoTable(doc, {
+      startY: 50,
+      body: [
+        ["Meetcode", reportInfo.meetcode],
+        ["Date", formatDatetime(reportInfo.date) || "-"],
+        ["Start Time", formatTime(reportInfo.startTimestamp)],
+        ["End Time", formatTime(reportInfo.endTimestamp)],
+        ["Duration", reportInfo.duration],
+        ["Participants", reportInfo.participantsCount],
+      ],
+    });
+    autoTable(doc, {
+      head: headers,
+      body: data,
+    });
+    doc.save(`trackit-report-${slug}.pdf`);
   };
 
   const handlePublicStatusChange = async () => {
@@ -61,7 +118,7 @@ export const AttendanceReportShareView = ({
     if (await toggleReportPublicStatus(slug, groupId, !isPublicReport)) {
       setIsPublicReport(!isPublicReport);
     } else {
-      toast.error("Failed to update report publci view status");
+      toast.error("Failed to update report public view status");
     }
     setIsLoading({ loading: false });
   };
@@ -100,7 +157,19 @@ export const AttendanceReportShareView = ({
         >
           Copy Link
         </Button>
-        <Button onClick={downloadCsv}>Download (.csv)</Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button> Download </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={downloadCsv}>
+              Download (.csv)
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={downloadPdf}>
+              Download (.pdf)
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="flex items-center space-x-4 w-full justify-between max-w-md my-4">
         <TypographyP>Anyone with link can view</TypographyP>

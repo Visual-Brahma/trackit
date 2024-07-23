@@ -11,6 +11,7 @@ import { Button } from "@repo/ui/button";
 import { Card, CardContent } from "@repo/ui/card";
 import { ArrowUpCircleIcon, CoffeeIcon, LogOutIcon } from "lucide-react";
 import { Badge } from "@repo/ui/badge";
+import ThemeSelector from "@/components/layout/theme_changer";
 
 export interface SidebarNavProps extends HTMLAttributes<HTMLElement> {
   itemGroups: {
@@ -106,6 +107,8 @@ export function SidebarNav({
           </div>
         ))}
       </div>
+
+      <ThemeSelector className="mx-4 mt-8" extended />
 
       <div className="self-end p-2">
         <Card className="backdrop-blur-xl my-6 bg-secondary w-full mx-2">

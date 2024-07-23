@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 
 export default async function GroupLayout({
   children,
-  params: { groupId }
+  params: { groupId },
 }: LayoutProps & {
   params: { groupId: string };
 }) {
@@ -25,7 +25,7 @@ export default async function GroupLayout({
     .innerJoin("User", "GroupMember.userId", "User.id")
     .select(["Group.id", "Group.name", "Group.description", "GroupMember.role"])
     .where((eb) =>
-      eb.and([eb("Group.id", "=", groupId), eb("User.email", "=", email)])
+      eb.and([eb("Group.id", "=", groupId), eb("User.email", "=", email)]),
     )
     .executeTakeFirst();
 
@@ -33,39 +33,42 @@ export default async function GroupLayout({
     notFound();
   }
 
-  const isOwnerOrAdmin=groupInfo.role==="OWNER"||groupInfo.role==="ADMIN";
-  
-  const groupNavbarItems=[
+  const isOwnerOrAdmin =
+    groupInfo.role === "OWNER" || groupInfo.role === "ADMIN";
+
+  const groupNavbarItems = [
     {
       title: "Stream",
-      href: `/g/${groupId}`
+      href: `/g/${groupId}`,
     },
     {
       title: "Attendance",
-      href: `/g/${groupId}/attendance`
+      href: `/g/${groupId}/attendance`,
     },
     {
       title: "Schedule",
-      href: `/g/${groupId}/schedule`
+      href: `/g/${groupId}/schedule`,
     },
     {
       title: "Members",
-      href: `/g/${groupId}/members`
+      href: `/g/${groupId}/members`,
     },
   ];
 
-  if(isOwnerOrAdmin){
+  if (isOwnerOrAdmin) {
     groupNavbarItems.push({
       title: "Settings",
-      href: `/g/${groupId}/settings`
+      href: `/g/${groupId}/settings`,
     });
   }
 
   return (
     <div>
       <TypographyH2>{groupInfo.name}</TypographyH2>
-      <TypographyP className="my-2 max-w-lg">{groupInfo.description}</TypographyP>
-      
+      <TypographyP className="my-2 max-w-lg">
+        {groupInfo.description}
+      </TypographyP>
+
       <GroupNavbar items={groupNavbarItems} />
 
       <div className="mt-2">{children}</div>

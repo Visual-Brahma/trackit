@@ -19,6 +19,7 @@ export async function middleware(req: NextRequest) {
     !session?.email &&
     (req.nextUrl.pathname.startsWith("/dashboard") ||
       req.nextUrl.pathname.startsWith("/g") ||
+      req.nextUrl.pathname.startsWith("/in-person") ||
       req.nextUrl.pathname === "/save-report")
   ) {
     return NextResponse.redirect(
@@ -38,5 +39,11 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/dashboard/:path*", "/g/:path*", "/save-report"],
+  matcher: [
+    "/",
+    "/dashboard/:path*",
+    "/g/:path*",
+    "/save-report",
+    "/in-person/:path*",
+  ],
 };

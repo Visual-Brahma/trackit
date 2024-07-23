@@ -9,7 +9,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@repo/ui/card";
 import {
   Form,
@@ -18,7 +18,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@repo/ui/form";
 import { LoadingCircle } from "@repo/ui/icons";
 import { Input } from "@repo/ui/input";
@@ -39,8 +39,8 @@ const FormSchema = z.object({
   allowedEmailDomains: z.array(z.string()).default([]),
   location: z.object({
     lat: z.number(),
-    lng: z.number()
-  })
+    lng: z.number(),
+  }),
 });
 
 export default function CreateInPersonAttendanceLinkForm() {
@@ -48,8 +48,8 @@ export default function CreateInPersonAttendanceLinkForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       allowedRange: 20,
-      allowedEmailDomains: []
-    }
+      allowedEmailDomains: [],
+    },
   });
 
   const { isSubmitting, isValidating } = form.formState;
@@ -63,7 +63,7 @@ export default function CreateInPersonAttendanceLinkForm() {
     const res = await createInPersonAttendanceLink({
       ...data,
       date: timeStamp,
-      startTime: timeStamp
+      startTime: timeStamp,
     });
 
     if (res === false) {
@@ -85,7 +85,7 @@ export default function CreateInPersonAttendanceLinkForm() {
                 variant={"secondary"}
                 onClick={async () => {
                   await navigator.clipboard.writeText(
-                    `${location.origin}/in-person/${slug}`
+                    `${location.origin}/in-person/${slug}`,
                   );
                   toast.success("Link copied to clipboard");
                 }}

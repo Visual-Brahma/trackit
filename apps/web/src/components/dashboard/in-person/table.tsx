@@ -36,12 +36,12 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
       />
     ),
     enableSorting: false,
-    enableHiding: false
+    enableHiding: false,
   },
   {
     accessorKey: "name",
     header: "Event Name",
-    enableHiding: false
+    enableHiding: false,
   },
   {
     id: "date",
@@ -61,7 +61,7 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
       <div className="capitalize">
         {formatDatetime(row.getValue("date") as Date) ?? "-"}
       </div>
-    )
+    ),
   },
   {
     id: "startTime",
@@ -81,7 +81,7 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
       <div className="capitalize">
         {formatTime(row.getValue("startTime") as Date) ?? "-"}
       </div>
-    )
+    ),
   },
   {
     id: "endTime",
@@ -103,7 +103,7 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
           ? "-"
           : formatTime(row.getValue("endTime") as Date) ?? "-"}
       </div>
-    )
+    ),
   },
 
   {
@@ -115,7 +115,7 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
           variant={"secondary"}
           onClick={async () => {
             await navigator.clipboard.writeText(
-              `${location.origin}/in-person/${row.original.slug}`
+              `${location.origin}/in-person/${row.original.slug}`,
             );
             toast.success("Link copied to clipboard");
           }}
@@ -130,6 +130,6 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
         </Link>
       </div>
     ),
-    enableHiding: false
-  }
+    enableHiding: false,
+  },
 ];

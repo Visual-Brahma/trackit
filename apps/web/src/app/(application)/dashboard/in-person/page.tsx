@@ -1,6 +1,6 @@
 import {
   InPersonEventItem,
-  inPersonEventsTableColumns
+  inPersonEventsTableColumns,
 } from "@/components/dashboard/in-person/table";
 import ListTable from "@/components/dashboard/table";
 import EmptyContentPlaceholder from "@/components/empty-content-placeholder";
@@ -30,8 +30,8 @@ export default async function OfflineAttendancePage() {
           eb
             .selectFrom("User")
             .select("User.id")
-            .where("User.email", "=", email)
-        )
+            .where("User.email", "=", email),
+        ),
     )
     .execute();
 

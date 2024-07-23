@@ -8,7 +8,7 @@ import { Badge } from "./badge";
 const isValidEmail = (email: string) =>
   /[\w\d.-]+@[\w\d.-]+\.[\w\d.-]+/.test(email);
 
-const isValidEmailDomain=(domain: string) =>
+const isValidEmailDomain = (domain: string) =>
   /^[\w\d.-]+\.[\w\d.-]+/.test(domain);
 
 interface EmailChipsInputProps {
@@ -30,12 +30,16 @@ const EmailChipsInput = ({
   const [error, setError] = useState<string | null>(null);
 
   const isValidInput = (input: string) => {
-    let error=null;
+    let error = null;
 
-    const isValid = domainOnly ? isValidEmailDomain(input) : isValidEmail(input);
+    const isValid = domainOnly
+      ? isValidEmailDomain(input)
+      : isValidEmail(input);
 
     if (!isValid) {
-      error = `${input} is not a valid email ${domainOnly ? "domain": "address"}.`;
+      error = `${input} is not a valid email ${
+        domainOnly ? "domain" : "address"
+      }.`;
     } else if (emails.includes(input) || (ignore && ignore.includes(input))) {
       error = `${input} has already been added.`;
     }

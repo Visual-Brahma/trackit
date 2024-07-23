@@ -14,7 +14,7 @@ export default function StopAcceptingResponsesForm({ id }: { id: number }) {
     setIsLoading(true);
     const res = await endInPersonEvent({
       id: id,
-      endTime: new Date().toISOString()
+      endTime: new Date().toISOString(),
     });
 
     if (res) {

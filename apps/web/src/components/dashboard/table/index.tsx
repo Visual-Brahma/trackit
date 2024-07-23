@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@repo/ui/dropdown";
 import {
   Table,
@@ -13,7 +13,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@repo/ui/table";
 import {
   ColumnDef,
@@ -25,13 +25,13 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
 
 export default function ListTable<T>({
   data,
-  columns
+  columns,
 }: {
   data: T[];
   columns: ColumnDef<T>[];
@@ -56,8 +56,8 @@ export default function ListTable<T>({
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
-    }
+      rowSelection,
+    },
   });
 
   return (
@@ -103,7 +103,7 @@ export default function ListTable<T>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -122,7 +122,7 @@ export default function ListTable<T>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

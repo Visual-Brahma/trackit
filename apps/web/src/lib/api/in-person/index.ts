@@ -22,16 +22,16 @@ export const createInPersonAttendanceLink = async (data: {
       .innerJoin("Group", (join) =>
         join
           .onRef("Group.id", "=", "GroupMember.groupId")
-          .on("Group.isDefault", "=", true)
+          .on("Group.isDefault", "=", true),
       )
       .select("Group.id")
       .where((eb) =>
         eb.and([
           eb("GroupMember.userId", "=", (eb) =>
-            eb.selectFrom("User").select("User.id").where("email", "=", email)
+            eb.selectFrom("User").select("User.id").where("email", "=", email),
           ),
-          eb("GroupMember.role", "=", "OWNER")
-        ])
+          eb("GroupMember.role", "=", "OWNER"),
+        ]),
       )
       .executeTakeFirst();
 
@@ -50,7 +50,7 @@ export const createInPersonAttendanceLink = async (data: {
         allowedEmailDomains: data.allowedEmailDomains,
         date: data.date,
         startTime: data.startTime,
-        groupId: group.id
+        groupId: group.id,
       })
       .returning("slug")
       .executeTakeFirst();
@@ -62,7 +62,7 @@ export const createInPersonAttendanceLink = async (data: {
 
 export const endInPersonEvent = async ({
   id,
-  endTime
+  endTime,
 }: {
   id: number;
   endTime: string;
@@ -74,7 +74,7 @@ export const endInPersonEvent = async ({
     const result = await dbClient
       .updateTable("InPersonEvent")
       .set({
-        endTime: endTime
+        endTime: endTime,
       })
       .where((eb) =>
         eb.and([
@@ -90,12 +90,12 @@ export const endInPersonEvent = async ({
                     eb
                       .selectFrom("User")
                       .select("User.id")
-                      .where("User.email", "=", email)
-                  )
-                ])
-              )
-          )
-        ])
+                      .where("User.email", "=", email),
+                  ),
+                ]),
+              ),
+          ),
+        ]),
       )
       .executeTakeFirst();
 

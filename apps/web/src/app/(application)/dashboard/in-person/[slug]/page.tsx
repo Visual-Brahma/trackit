@@ -1,6 +1,6 @@
 import {
   InPersonEventAttendanceReportParticipant,
-  inPersonEventAttendanceReportParticipantsTableColumns
+  inPersonEventAttendanceReportParticipantsTableColumns,
 } from "@/components/dashboard/in-person/attendees-table";
 import ListTable from "@/components/dashboard/table";
 import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
@@ -12,7 +12,7 @@ import StopAcceptingResponsesForm from "./end-link-form";
 import CopyAttendanceLink from "./copy-link";
 
 export default async function InPersonEventAttendanceReportPage({
-  params: { slug }
+  params: { slug },
 }: {
   params: { slug: string };
 }) {
@@ -35,7 +35,7 @@ export default async function InPersonEventAttendanceReportPage({
       "venue",
       "location",
       "allowedEmailDomains",
-      "allowedRange"
+      "allowedRange",
     ])
     .where((eb) =>
       eb.and([
@@ -48,10 +48,10 @@ export default async function InPersonEventAttendanceReportPage({
               eb
                 .selectFrom("User")
                 .select("User.id")
-                .where("User.email", "=", email)
-            )
-        )
-      ])
+                .where("User.email", "=", email),
+            ),
+        ),
+      ]),
     )
     .executeTakeFirst();
 

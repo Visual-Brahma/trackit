@@ -7,7 +7,7 @@ export default function CopyAttendanceLink({ slug }: { slug: string }) {
     <Button
       onClick={async () => {
         await navigator.clipboard.writeText(
-          `${location.origin}/in-person/${slug}`
+          `${location.origin}/in-person/${slug}`,
         );
         toast.success("Link copied to clipboard");
       }}

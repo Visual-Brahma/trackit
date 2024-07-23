@@ -36,7 +36,7 @@ export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<In
         />
       ),
       enableSorting: false,
-      enableHiding: false
+      enableHiding: false,
     },
     {
       accessorKey: "name",
@@ -59,7 +59,7 @@ export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<In
               src={
                 row.original.image ||
                 `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${row.getValue(
-                  "name"
+                  "name",
                 )}`
               }
             />
@@ -72,12 +72,12 @@ export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<In
           </Avatar>
           <p>{row.getValue("name")}</p>
         </div>
-      )
+      ),
     },
     {
       accessorKey: "email",
       header: "Email",
-      enableHiding: false
+      enableHiding: false,
     },
     {
       id: "checkInTime",
@@ -97,6 +97,6 @@ export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<In
         <div className="capitalize">
           {formatTime(row.getValue("checkInTime") as Date) ?? "-"}
         </div>
-      )
-    }
+      ),
+    },
   ];

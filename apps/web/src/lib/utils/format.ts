@@ -97,7 +97,7 @@ export const extractMeetCodeFromLink = (url: string): string => {
   }
 };
 
-export const point = (pt: Point): RawBuilder<Point>=> {
-  const point = `(${pt.x},${pt.y})`
-  return sql<Point>`${point}`
-}
+export const point = (pt: Point): RawBuilder<Point> => {
+  const point = `(${pt.x},${pt.y})`;
+  return sql<Point>`${point}`;
+};

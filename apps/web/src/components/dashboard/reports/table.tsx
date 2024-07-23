@@ -38,12 +38,12 @@ export const attendanceReportItemsTableColumns: ColumnDef<AttendanceReportItem>[
         />
       ),
       enableSorting: false,
-      enableHiding: false
+      enableHiding: false,
     },
     {
       accessorKey: "meetCode",
       header: "Meet Code",
-      enableHiding: false
+      enableHiding: false,
     },
     {
       id: "date",
@@ -63,7 +63,7 @@ export const attendanceReportItemsTableColumns: ColumnDef<AttendanceReportItem>[
         <div className="capitalize">
           {formatDatetime(row.getValue("date") as Date) ?? "-"}
         </div>
-      )
+      ),
     },
     {
       accessorKey: "duration",
@@ -77,7 +77,7 @@ export const attendanceReportItemsTableColumns: ColumnDef<AttendanceReportItem>[
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
-      }
+      },
     },
     {
       id: "participants",
@@ -92,7 +92,7 @@ export const attendanceReportItemsTableColumns: ColumnDef<AttendanceReportItem>[
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
-      }
+      },
     },
     {
       id: "view",
@@ -105,6 +105,6 @@ export const attendanceReportItemsTableColumns: ColumnDef<AttendanceReportItem>[
           View
         </Link>
       ),
-      enableHiding: false
-    }
+      enableHiding: false,
+    },
   ];

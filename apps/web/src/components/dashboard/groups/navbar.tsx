@@ -30,7 +30,7 @@ export const GroupNavbar = ({ items }: GroupNavbarProps) => {
           <div
             className={cn(
               "h-1 w-full rounded-t-full mt-1",
-              pathname === item.href ? "bg-primary" : "bg-transparent"
+              pathname === item.href ? "bg-primary" : "bg-transparent",
             )}
           ></div>
         </div>

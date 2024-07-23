@@ -96,7 +96,10 @@ export function SidebarNav({
                     {icon}
                     {title}
                     {badge && (
-                      <Badge variant={"default"} className={`ml-2 rounded-xl md:hidden xl:inline-flex`}>
+                      <Badge
+                        variant={"default"}
+                        className={`ml-2 rounded-xl md:hidden xl:inline-flex`}
+                      >
                         {badge.text}
                       </Badge>
                     )}

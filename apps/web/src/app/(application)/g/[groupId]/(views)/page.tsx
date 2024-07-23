@@ -1,8 +1,8 @@
 const GroupStreamPage = () => {
   return (
-      <div>
-          <h1>GroupStreamPage</h1>
-      </div>
+    <div>
+      <h1>GroupStreamPage</h1>
+    </div>
   );
 };
 

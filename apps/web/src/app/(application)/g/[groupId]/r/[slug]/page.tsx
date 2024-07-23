@@ -4,7 +4,7 @@ import { AttendanceReportInfo } from "@/components/dashboard/reports/info";
 import AttendanceReportShareView from "@/components/dashboard/reports/share";
 import {
   AttendanceReportParticipant,
-  attendanceReportParticipantsTableColumns
+  attendanceReportParticipantsTableColumns,
 } from "@/components/dashboard/reports/report-table";
 import { getServerSession } from "next-auth";
 import { dbClient } from "@/lib/db/db_client";
@@ -12,7 +12,7 @@ import { notFound } from "next/navigation";
 import {
   extractMeetCodeFromLink,
   formatTime,
-  getDurationBetweenDates
+  getDurationBetweenDates,
 } from "@/lib/utils/format";
 import { MeetingPlatform } from "@/types/database.types";
 import { AttendanceReportSettingsView } from "@/components/dashboard/reports/settings";
@@ -20,7 +20,7 @@ import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 import ListTable from "@/components/dashboard/table";
 
 const AttendanceReportViewPage = async ({
-  params
+  params,
 }: {
   params: { groupId: string; slug: string };
 }) => {
@@ -44,9 +44,9 @@ const AttendanceReportViewPage = async ({
         eb("Meeting.groupId", "=", params.groupId),
         eb.or([
           eb("GroupMember.role", "=", "ADMIN"),
-          eb("GroupMember.role", "=", "OWNER")
-        ])
-      ])
+          eb("GroupMember.role", "=", "OWNER"),
+        ]),
+      ]),
     )
     .executeTakeFirst();
 
@@ -56,8 +56,8 @@ const AttendanceReportViewPage = async ({
     .selectAll()
     .select(({ fn }) =>
       fn<number>("jsonb_array_length", ["membersPresence"]).as(
-        "participantsCount"
-      )
+        "participantsCount",
+      ),
     )
     .where((eb) =>
       eb.and([
@@ -78,11 +78,11 @@ const AttendanceReportViewPage = async ({
                 eb
                   .selectFrom("User")
                   .select("User.id")
-                  .where("User.email", "=", email)
-              )
-          )
-        ])
-      ])
+                  .where("User.email", "=", email),
+              ),
+          ),
+        ]),
+      ]),
     )
     .executeTakeFirst();
 
@@ -92,7 +92,7 @@ const AttendanceReportViewPage = async ({
 
   const [meetingDuration, durationInSeconds] = getDurationBetweenDates(
     report.startTime!,
-    report.endTime!
+    report.endTime!,
   );
 
   const attendanceReportData: AttendanceReportParticipant[] = (
@@ -111,9 +111,9 @@ const AttendanceReportViewPage = async ({
     attendancePercentage: report.slug.startsWith("mac_")
       ? participant.attendedDuration
       : parseFloat(
-          ((participant.attendedDuration / durationInSeconds) * 100).toFixed(2)
+          ((participant.attendedDuration / durationInSeconds) * 100).toFixed(2),
         ), // In v1 we used to store attendance percentage in db, but in v2 we calculate it on the fly
-    avatar: participant.avatarUrl
+    avatar: participant.avatarUrl,
   }));
 
   const attendanceReport = {
@@ -127,12 +127,12 @@ const AttendanceReportViewPage = async ({
       startTimestamp: report.startTime!,
       endTimestamp: report.endTime!,
       duration: meetingDuration,
-      participantsCount: report.participantsCount
+      participantsCount: report.participantsCount,
     },
     data: attendanceReportData,
     people: (report.sharedWith || ([] as { email: string }[])).map((email) => ({
-      email
-    }))
+      email,
+    })),
   };
 
   return (

@@ -7,7 +7,7 @@ export default function EmptyContentPlaceholder({
   children,
   message,
   icon,
-  className
+  className,
 }: LayoutProps & {
   message: string;
   icon: ReactNode;

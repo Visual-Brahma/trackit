@@ -38,7 +38,7 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
         />
       ),
       enableSorting: false,
-      enableHiding: false
+      enableHiding: false,
     },
     {
       accessorKey: "name",
@@ -61,7 +61,7 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
               src={
                 row.original.avatar ||
                 `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${row.getValue(
-                  "name"
+                  "name",
                 )}`
               }
             />
@@ -74,7 +74,7 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
           </Avatar>
           <p>{row.getValue("name")}</p>
         </div>
-      )
+      ),
     },
     {
       id: "joinTime",
@@ -89,7 +89,7 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
-      }
+      },
     },
     {
       id: "Exit time",
@@ -104,7 +104,7 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
-      }
+      },
     },
     {
       accessorKey: "attendancePercentage",
@@ -125,6 +125,6 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
           {row.getValue("attendancePercentage") + "%"}
         </div>
       ),
-      enableHiding: false
-    }
+      enableHiding: false,
+    },
   ];

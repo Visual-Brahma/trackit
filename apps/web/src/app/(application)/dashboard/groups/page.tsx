@@ -6,7 +6,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@repo/ui/card";
 import { TypographyH2, TypographyP } from "@repo/ui/typography";
 import { getServerSession } from "next-auth";

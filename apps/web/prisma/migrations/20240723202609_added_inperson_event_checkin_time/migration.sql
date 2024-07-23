@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "InPersonEventAttendee" ADD COLUMN     "checkInTime" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

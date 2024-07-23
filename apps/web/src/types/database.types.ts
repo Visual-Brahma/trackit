@@ -4,14 +4,19 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export type Point = {
+  x: number;
+  y: number;
+};
+
 export const Role = {
   OWNER: "OWNER",
   ADMIN: "ADMIN",
-  MEMBER: "MEMBER",
+  MEMBER: "MEMBER"
 } as const;
 export type Role = (typeof Role)[keyof typeof Role];
 export const MeetingPlatform = {
-  GOOGLE_MEET: "GOOGLE_MEET",
+  GOOGLE_MEET: "GOOGLE_MEET"
 } as const;
 export type MeetingPlatform =
   (typeof MeetingPlatform)[keyof typeof MeetingPlatform];
@@ -54,6 +59,25 @@ export type GroupMember = {
   groupId: string;
   role: Generated<Role>;
   userId: string;
+};
+export type InPersonEvent = {
+  id: GeneratedAlways<number>;
+  name: string;
+  slug: string;
+  groupId: string;
+  venue: string | null;
+  location: Point;
+  allowedRange: Generated<number>;
+  allowedEmailDomains: Generated<string[]>;
+  date: Timestamp;
+  startTime: Timestamp;
+  endTime: Timestamp | null;
+};
+export type InPersonEventAttendee = {
+  id: GeneratedAlways<string>;
+  userId: string;
+  eventId: number;
+  checkInTime: Generated<Timestamp>;
 };
 export type Meeting = {
   id: GeneratedAlways<number>;
@@ -108,6 +132,8 @@ export type DB = {
   AttendanceReport: AttendanceReport;
   Group: Group;
   GroupMember: GroupMember;
+  InPersonEvent: InPersonEvent;
+  InPersonEventAttendee: InPersonEventAttendee;
   Meeting: Meeting;
   MeetingNotes: MeetingNotes;
   Message: Message;

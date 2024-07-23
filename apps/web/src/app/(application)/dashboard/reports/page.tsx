@@ -1,16 +1,17 @@
 import { TypographyH2, TypographyP } from "@repo/ui/typography";
 import {
   AttendanceReportItem,
-  AttendanceReportsListTable,
+  attendanceReportItemsTableColumns
 } from "@/components/dashboard/reports/table";
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
 import {
   extractMeetCodeFromLink,
-  getDurationBetweenDates,
+  getDurationBetweenDates
 } from "@/lib/utils/format";
 import { MeetingPlatform } from "@/types/database.types";
 import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
+import ListTable from "@/components/dashboard/table";
 
 const ReportsPage = async () => {
   const session = await getServerSession();
@@ -36,7 +37,7 @@ const ReportsPage = async () => {
       "Meeting.name",
       eb
         .fn<number>("jsonb_array_length", ["membersPresence"])
-        .as("participantsCount"),
+        .as("participantsCount")
     ])
     .where("Meeting.groupId", "in", (eb) =>
       eb
@@ -46,8 +47,8 @@ const ReportsPage = async () => {
           eb
             .selectFrom("User")
             .select("User.id")
-            .where("User.email", "=", email),
-        ),
+            .where("User.email", "=", email)
+        )
     )
     .execute();
 
@@ -64,7 +65,7 @@ const ReportsPage = async () => {
         ? getDurationBetweenDates(report.startTime, report.endTime)[0]
         : "-",
     groupId: report.groupId,
-    slug: report.slug,
+    slug: report.slug
   }));
 
   data.sort((a, b) => {
@@ -79,7 +80,10 @@ const ReportsPage = async () => {
       </TypographyP>
 
       <div className="mt-6">
-        <AttendanceReportsListTable data={data} />
+        <ListTable<AttendanceReportItem>
+          data={data}
+          columns={attendanceReportItemsTableColumns}
+        />
       </div>
     </div>
   );

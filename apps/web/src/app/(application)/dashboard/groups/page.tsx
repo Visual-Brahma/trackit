@@ -60,9 +60,10 @@ const GroupsPage = async () => {
               <div className="text-left">{group.description}</div>
             </CardContent>
             <CardFooter className="text-right flex pb-5 mr-5 my-2 flex-row-reverse rounded-2xl">
-              <Link href={`/g/${group.id}`} className={buttonVariants()}>
+              {/* <Link href={`/g/${group.id}`} className={buttonVariants()}>
                 View
-              </Link>
+              </Link> */}
+              <Button disabled>View</Button>
             </CardFooter>
           </Card>
         ))}

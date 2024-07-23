@@ -22,18 +22,19 @@ datasource db {
 // ------------------------------------- User --------------------------------------
 
 model User {
-  id            String         @id @default(dbgenerated("gen_random_uuid()"))
-  name          String?
-  email         String         @unique()
-  emailVerified DateTime?
-  image         String?
-  newsletter    Boolean        @default(true)
-  accounts      Account[]
-  sessions      Session[]
-  groupsJoined  GroupMember[]
+  id                     String                  @id @default(dbgenerated("gen_random_uuid()"))
+  name                   String?
+  email                  String                  @unique()
+  emailVerified          DateTime?
+  image                  String?
+  newsletter             Boolean                 @default(true)
+  accounts               Account[]
+  sessions               Session[]
+  groupsJoined           GroupMember[]
   // attendance    AttendanceReportUserPresence[]
-  messagesSent  Message[]
-  meetingNotes  MeetingNotes[]
+  messagesSent           Message[]
+  meetingNotes           MeetingNotes[]
+  inPersonEventsAttended InPersonEventAttendee[]
 }
 
 // ------------------------------------- Group -------------------------------------
@@ -47,16 +48,17 @@ enum Role {
 
 /// A group represents a workspace in business context and class or its sub-unit in educational context
 model Group {
-  id                 String        @id @default(dbgenerated("gen_random_uuid()"))
+  id                 String          @id @default(dbgenerated("gen_random_uuid()"))
   name               String
   description        String?
   banner             String?
-  joinCode           String        @unique @default(dbgenerated("gen_random_uuid()"))
-  isAcceptingMembers Boolean       @default(true)
-  isDefault          Boolean       @default(false) /// true, if the group was creating automatically on user signup
+  joinCode           String          @unique @default(dbgenerated("gen_random_uuid()"))
+  isAcceptingMembers Boolean         @default(true)
+  isDefault          Boolean         @default(false) /// true, if the group was creating automatically on user signup
   groupMembers       GroupMember[]
   meetings           Meeting[]
   messages           Message[]
+  inPersonEvents     InPersonEvent[]
 }
 
 /// A user can be a member of multiple groups and can have different roles in each group
@@ -120,6 +122,35 @@ model AttendanceReport {
   sharedWith      String[] @default([])
   // membersPresence AttendanceReportUserPresence[]
   membersPresence Json     @default("[]")
+}
+
+model InPersonEvent {
+  id                  Int                     @id @default(autoincrement())
+  name                String
+  slug                String                  @unique()
+  group               Group                   @relation(fields: [groupId], references: [id])
+  groupId             String
+  venue               String?
+  location            Unsupported("Point")
+  allowedRange        Int                     @default(20)
+  allowedEmailDomains String[]                @default([])
+  date                DateTime                @db.Timestamptz(3)
+  startTime           DateTime                @db.Timestamptz(3)
+  endTime             DateTime?               @db.Timestamptz(3)
+  attendees           InPersonEventAttendee[]
+
+  @@index([location], type: Gist)
+}
+
+model InPersonEventAttendee {
+  id          BigInt        @id @default(autoincrement())
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  event       InPersonEvent @relation(fields: [eventId], references: [id])
+  eventId     Int
+  checkInTime DateTime      @default(now()) @db.Timestamptz(3)
+
+  @@unique([userId, eventId])
 }
 
 // model AttendanceReportUserPresence {

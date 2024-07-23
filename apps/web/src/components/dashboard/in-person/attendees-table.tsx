@@ -3,20 +3,18 @@
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Button } from "@repo/ui/button";
 import { Checkbox } from "@repo/ui/checkbox";
-import { Progress } from "@repo/ui/progress";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
+import { formatTime } from "@/lib/utils/format";
 
-export interface AttendanceReportParticipant {
-  id: string;
-  name: string;
-  joinTime: string;
-  exitTime: string;
-  attendancePercentage: number;
-  avatar?: string;
+export interface InPersonEventAttendanceReportParticipant {
+  email: string;
+  name: string | null;
+  image: string | null;
+  checkInTime: Date;
 }
 
-export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceReportParticipant>[] =
+export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<InPersonEventAttendanceReportParticipant>[] =
   [
     {
       id: "select",
@@ -59,7 +57,7 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
           <Avatar>
             <AvatarImage
               src={
-                row.original.avatar ||
+                row.original.image ||
                 `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${row.getValue(
                   "name"
                 )}`
@@ -77,54 +75,28 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
       )
     },
     {
-      id: "joinTime",
-      accessorKey: "joinTime",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Join Time
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      }
+      accessorKey: "email",
+      header: "Email",
+      enableHiding: false
     },
     {
-      id: "Exit time",
-      accessorKey: "exitTime",
+      id: "checkInTime",
+      accessorKey: "checkInTime",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Exit Time
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      }
-    },
-    {
-      accessorKey: "attendancePercentage",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Attendance Percentage
+            Check-In Time
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => (
-        <div className="flex items-center justify-between gap-2 max-w-sm">
-          <Progress value={row.getValue("attendancePercentage")} />
-          {row.getValue("attendancePercentage") + "%"}
+        <div className="capitalize">
+          {formatTime(row.getValue("checkInTime") as Date) ?? "-"}
         </div>
-      ),
-      enableHiding: false
+      )
     }
   ];

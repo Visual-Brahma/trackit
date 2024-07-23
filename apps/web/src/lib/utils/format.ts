@@ -1,3 +1,6 @@
+import { Point } from "@/types/database.types";
+import { RawBuilder, sql } from "kysely";
+
 export const formatDatetime = (date: Date): string | null => {
   try {
     if (!isNaN(date.getTime())) {
@@ -93,3 +96,8 @@ export const extractMeetCodeFromLink = (url: string): string => {
     return "-";
   }
 };
+
+export const point = (pt: Point): RawBuilder<Point>=> {
+  const point = `(${pt.x},${pt.y})`
+  return sql<Point>`${point}`
+}

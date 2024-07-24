@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "dotenv -e .env.local prisma migrate deploy",
+    "prebuild": "prisma migrate deploy",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

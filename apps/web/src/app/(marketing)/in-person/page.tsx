@@ -6,36 +6,36 @@ const features: { id: number; title: string; description: string }[] = [
     id: 1,
     title: "Restricted Range",
     description:
-      "Define a range in metres to make sure the attendance is taken only when the attendee is in that physical range."
+      "Define a range in metres to make sure the attendance is taken only when the attendee is in that physical range.",
   },
   {
     id: 2,
     title: "Secure",
-    description: "We are working very sincerely to secure your data."
+    description: "We are working very sincerely to secure your data.",
   },
   {
     id: 3,
     title: "Restrict Email Domains",
     description:
-      "You can restrict the email domains of the attendees. So only the attendees with the specified email domains can check-in the event."
+      "You can restrict the email domains of the attendees. So only the attendees with the specified email domains can check-in the event.",
   },
   {
     id: 4,
     title: "Detailed Report",
-    description: "Get detailed report of attendance for your in-person events."
+    description: "Get detailed report of attendance for your in-person events.",
   },
   {
     id: 5,
     title: "Attendance History",
     description:
-      "All your attendance reports are securely stored in our database. You can access them anytime."
+      "All your attendance reports are securely stored in our database. You can access them anytime.",
   },
   {
     id: 6,
     title: "Full Control",
     description:
-      "You have full access to your every data saved in our database."
-  }
+      "You have full access to your every data saved in our database.",
+  },
 ];
 
 export default function InPersonEventsPage() {

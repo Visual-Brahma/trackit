@@ -3,6 +3,7 @@
 import { dbClient } from "@/lib/db/db_client";
 import { point } from "@/lib/utils/format";
 import { getServerSession } from "next-auth";
+import { checkIfWithinRange } from "./location";
 
 export const createInPersonAttendanceLink = async (data: {
   name: string;
@@ -22,16 +23,16 @@ export const createInPersonAttendanceLink = async (data: {
       .innerJoin("Group", (join) =>
         join
           .onRef("Group.id", "=", "GroupMember.groupId")
-          .on("Group.isDefault", "=", true),
+          .on("Group.isDefault", "=", true)
       )
       .select("Group.id")
       .where((eb) =>
         eb.and([
           eb("GroupMember.userId", "=", (eb) =>
-            eb.selectFrom("User").select("User.id").where("email", "=", email),
+            eb.selectFrom("User").select("User.id").where("email", "=", email)
           ),
-          eb("GroupMember.role", "=", "OWNER"),
-        ]),
+          eb("GroupMember.role", "=", "OWNER")
+        ])
       )
       .executeTakeFirst();
 
@@ -50,7 +51,7 @@ export const createInPersonAttendanceLink = async (data: {
         allowedEmailDomains: data.allowedEmailDomains,
         date: data.date,
         startTime: data.startTime,
-        groupId: group.id,
+        groupId: group.id
       })
       .returning("slug")
       .executeTakeFirst();
@@ -62,7 +63,7 @@ export const createInPersonAttendanceLink = async (data: {
 
 export const endInPersonEvent = async ({
   id,
-  endTime,
+  endTime
 }: {
   id: number;
   endTime: string;
@@ -74,7 +75,7 @@ export const endInPersonEvent = async ({
     const result = await dbClient
       .updateTable("InPersonEvent")
       .set({
-        endTime: endTime,
+        endTime: endTime
       })
       .where((eb) =>
         eb.and([
@@ -90,12 +91,12 @@ export const endInPersonEvent = async ({
                     eb
                       .selectFrom("User")
                       .select("User.id")
-                      .where("User.email", "=", email),
-                  ),
-                ]),
-              ),
-          ),
-        ]),
+                      .where("User.email", "=", email)
+                  )
+                ])
+              )
+          )
+        ])
       )
       .executeTakeFirst();
 
@@ -104,5 +105,60 @@ export const endInPersonEvent = async ({
     }
   }
 
+  return false;
+};
+
+export const checkInToInPersonEvent = async ({
+  eventId,
+  eventLocation,
+  userLocation,
+  checkInTime,
+  allowedRange
+}: {
+  checkInTime: string;
+  userLocation: { lat: number; lng: number };
+  eventLocation: { lat: number; lng: number };
+  eventId: number;
+  allowedRange: number;
+}) => {
+  if (
+    !checkIfWithinRange({
+      eventLocation,
+      userLocation,
+      rangeInMeters: allowedRange
+    })
+  ) {
+    return "You are not within the allowed range to check in to this event.";
+  }
+  
+  const session = await getServerSession();
+  if (session && session.user && session.user.email) {
+    const email = session.user.email;
+
+    const user = await dbClient
+      .selectFrom("User")
+      .select("id")
+      .where("email", "=", email)
+      .executeTakeFirst();
+
+    if (!user) {
+      return false;
+    }
+
+    const eventCheckIn = await dbClient
+      .insertInto("InPersonEventAttendee")
+      .values({
+        userId: user.id,
+        eventId: eventId,
+        checkInTime: checkInTime,
+        location: point({ x: userLocation.lat, y: userLocation.lng })
+      })
+      .returning("id")
+      .executeTakeFirst();
+
+    if (eventCheckIn && eventCheckIn.id) {
+      return true;
+    }
+  }
   return false;
 };

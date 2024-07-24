@@ -8,11 +8,11 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 export const Role = {
   OWNER: "OWNER",
   ADMIN: "ADMIN",
-  MEMBER: "MEMBER"
+  MEMBER: "MEMBER",
 } as const;
 export type Role = (typeof Role)[keyof typeof Role];
 export const MeetingPlatform = {
-  GOOGLE_MEET: "GOOGLE_MEET"
+  GOOGLE_MEET: "GOOGLE_MEET",
 } as const;
 export type MeetingPlatform =
   (typeof MeetingPlatform)[keyof typeof MeetingPlatform];
@@ -65,6 +65,7 @@ export type InPersonEvent = {
   location: Point;
   allowedRange: Generated<number>;
   allowedEmailDomains: Generated<string[]>;
+  allowedEmails: Generated<string[]>;
   date: Timestamp;
   startTime: Timestamp;
   endTime: Timestamp | null;

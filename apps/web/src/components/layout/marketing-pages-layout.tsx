@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import { LayoutProps } from "@/types";
 import Link from "next/link";
-import Image from "next/image";
 import ThemeSelector from "./theme_changer";
 import { buttonVariants } from "@repo/ui/button";
 import Footer from "./footer";
+import Logo from "../logo";
 
 const Layout = ({ children }: LayoutProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,15 +34,7 @@ const Layout = ({ children }: LayoutProps) => {
       >
         <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between xl:mx-auto">
           <Link className="flex items-center font-display text-2xl" href="/">
-            <Image
-              alt="Trackit logo"
-              src="/logo.svg"
-              className="mr-2 rounded-sm"
-              height={45}
-              width={45}
-              loading="lazy"
-              style={{ color: "transparent" }}
-            />
+            <Logo />
             <p className="font-display text-2xl font-bold drop-shadow-sm md:text-3xl">
               Trackit
             </p>

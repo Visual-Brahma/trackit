@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { Button } from "@repo/ui/button";
 import { LoadingCircle } from "@repo/ui/icons";
@@ -11,12 +11,16 @@ import { useEffect, useState } from "react";
 export default function MapInput({
   location,
   onChange,
+  buttonVariant = "default",
+  defaultMessage = "Your current location is needed to use this feature. It will be used to check if the attendees are within the allowed range."
 }: {
   location?: {
     lat: number;
     lng: number;
   };
   onChange: (location: { lat: number; lng: number }) => void;
+  buttonVariant?: "default" | "secondary";
+  defaultMessage?: string;
 }) {
   const [locationError, setLocationError] = useState<{
     message: string;
@@ -24,7 +28,7 @@ export default function MapInput({
     code?: number;
   }>({
     message: "Get location",
-    isError: null,
+    isError: null
   });
   const [geolocationEnabled, setGeolocationEnabled] = useState<boolean>();
   const [loading, setLoading] = useState<{
@@ -32,13 +36,13 @@ export default function MapInput({
     initial?: boolean;
   }>({
     initial: true,
-    isLoading: true,
+    isLoading: true
   });
 
   const getLocation = () => {
     setLoading({
       isLoading: true,
-      initial: false,
+      initial: false
     });
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -47,7 +51,7 @@ export default function MapInput({
 
         setLocationError({
           message: "Location permission granted.",
-          isError: false,
+          isError: false
         });
 
         onChange({ lat: latitude, lng: longitude });
@@ -60,22 +64,22 @@ export default function MapInput({
             message:
               "Location permission denied. Please allow location permission to move ahead.",
             isError: true,
-            code: error.code,
+            code: error.code
           });
         } else if (error.code === error.TIMEOUT) {
           toast.error(
-            "Unable to get location. Make sure your device location is enabled and try again.",
+            "Unable to get location. Make sure your device location is enabled and try again."
           );
           setLocationError({
             message:
               "Unable to get location. Make sure your device location is enabled and try again.",
             isError: true,
-            code: error.code,
+            code: error.code
           });
         }
         setLoading({ isLoading: false });
       },
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
     );
   };
 
@@ -101,53 +105,34 @@ export default function MapInput({
   return (
     <div className="flex items-start justify-between gap-2">
       {locationError.isError ? (
-        <>
+        <div className="space-y-2">
           <TypographyP className="text-sm text-destructive">
             {locationError.message}
           </TypographyP>
           {locationError.code !== 1 && (
-            <Button type="button" onClick={getLocation}>
+            <Button type="button" onClick={getLocation} variant={buttonVariant}>
               {loading.isLoading ? <LoadingCircle /> : "Try Again"}
             </Button>
           )}
-        </>
+        </div>
       ) : locationError.isError === false ? (
         <>
           <div>
             <Label>Latitude</Label>
-            <Input
-              value={location?.lat}
-              onChange={(e) =>
-                onChange({
-                  lat: parseFloat(e.target.value),
-                  lng: location?.lng || 0,
-                })
-              }
-            />
+            <Input disabled value={location?.lat.toFixed(4)} />
           </div>
           <div>
             <Label>Longitude</Label>
-            <Input
-              value={location?.lng}
-              onChange={(e) =>
-                onChange({
-                  lat: location?.lat || 0,
-                  lng: parseFloat(e.target.value),
-                })
-              }
-            />
+            <Input disabled value={location?.lng.toFixed(4)} />
           </div>
         </>
       ) : (
-        <>
-          <TypographyP className="text-sm">
-            Your current location is needed to use this feature. It will be used
-            to check if the attendees are within the allowed range.
-          </TypographyP>
-          <Button type="button" onClick={getLocation}>
+        <div className="space-y-2">
+          <TypographyP className="text-sm">{defaultMessage}</TypographyP>
+          <Button type="button" onClick={getLocation} variant={buttonVariant}>
             {loading.isLoading ? <LoadingCircle /> : "Get Location"}
           </Button>
-        </>
+        </div>
       )}
     </div>
   );

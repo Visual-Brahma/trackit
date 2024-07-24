@@ -1,0 +1,49 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "spacebox.monospace-idx-theme",
+          "folke.vscode-monorepo-workspace",
+          "esbenp.prettier-vscode",
+          "yoavbls.pretty-ts-errors",
+          "pkief.material-icon-theme",
+          "be5invis.toml",
+          "denoland.vscode-deno",
+          "bradymholt.pgformatter",
+          "redhat.vscode-yaml",
+          "eamodio.gitlens",
+          "aaravb.chrome-extension-developer-tools",
+          "dbaeumer.vscode-eslint",
+          "figma.figma-vscode-extension",
+          "mhutchie.git-graph",
+          "github.copilot",
+          "github.copilot-chat",
+          "meezilla.json",
+          "hoovercj.vscode-power-mode",
+          "prisma.prisma",
+          "gruntfuggly.todo-tree",
+          "johnpapa.vscode-cloak",
+          "mikestead.dotenv",
+          "dsznajder.es7-react-js-snippets"
+        ],
+        "settings": {
+          "workbench.colorTheme": "Monospace IDX Dark",
+          "git.autofetch": true,
+          "workbench.iconTheme": "material-icon-theme",
+          "[javascript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+          },
+          "[jsonc]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+          },
+          "[typescript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+          },
+          "[typescriptreact]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+          }
+        }
+      }
+    }
+  }

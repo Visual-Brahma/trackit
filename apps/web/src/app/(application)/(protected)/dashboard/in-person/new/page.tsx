@@ -195,6 +195,7 @@ export default function CreateInPersonAttendanceLinkForm() {
                       <MapInput
                         location={field.value}
                         onChange={field.onChange}
+                        buttonVariant="secondary"
                       />
                     </FormControl>
                     <FormMessage />

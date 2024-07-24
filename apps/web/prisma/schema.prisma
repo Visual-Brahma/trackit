@@ -134,6 +134,7 @@ model InPersonEvent {
   location            Unsupported("Point")
   allowedRange        Int                     @default(20)
   allowedEmailDomains String[]                @default([])
+  allowedEmails       String[]                @default([])
   date                DateTime                @db.Timestamptz(3)
   startTime           DateTime                @db.Timestamptz(3)
   endTime             DateTime?               @db.Timestamptz(3)

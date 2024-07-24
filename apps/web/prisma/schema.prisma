@@ -143,12 +143,13 @@ model InPersonEvent {
 }
 
 model InPersonEventAttendee {
-  id          BigInt        @id @default(autoincrement())
-  user        User          @relation(fields: [userId], references: [id])
+  id          BigInt               @id @default(autoincrement())
+  user        User                 @relation(fields: [userId], references: [id])
   userId      String
-  event       InPersonEvent @relation(fields: [eventId], references: [id])
+  event       InPersonEvent        @relation(fields: [eventId], references: [id])
   eventId     Int
-  checkInTime DateTime      @default(now()) @db.Timestamptz(3)
+  checkInTime DateTime             @default(now()) @db.Timestamptz(3)
+  location    Unsupported("Point")
 
   @@unique([userId, eventId])
 }

@@ -62,7 +62,7 @@ export default async function InPersonEventAttendanceReportPage({
   const attendees = await dbClient
     .selectFrom("InPersonEventAttendee")
     .innerJoin("User", "User.id", "InPersonEventAttendee.userId")
-    .select(["User.email", "User.name", "User.image", "checkInTime"])
+    .select(["User.email", "User.name", "User.image", "checkInTime", "location"])
     .where("InPersonEventAttendee.eventId", "=", inPersonEvent.id)
     .execute();
 

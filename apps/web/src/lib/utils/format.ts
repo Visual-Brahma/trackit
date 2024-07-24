@@ -1,4 +1,4 @@
-import { Point } from "@/types/database.types";
+import { Point } from "@/types";
 import { RawBuilder, sql } from "kysely";
 
 export const formatDatetime = (date: Date): string | null => {

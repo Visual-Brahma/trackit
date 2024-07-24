@@ -1,22 +1,18 @@
 import type { ColumnType, GeneratedAlways } from "kysely";
+import { Point } from ".";
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export type Point = {
-  x: number;
-  y: number;
-};
-
 export const Role = {
   OWNER: "OWNER",
   ADMIN: "ADMIN",
-  MEMBER: "MEMBER",
+  MEMBER: "MEMBER"
 } as const;
 export type Role = (typeof Role)[keyof typeof Role];
 export const MeetingPlatform = {
-  GOOGLE_MEET: "GOOGLE_MEET",
+  GOOGLE_MEET: "GOOGLE_MEET"
 } as const;
 export type MeetingPlatform =
   (typeof MeetingPlatform)[keyof typeof MeetingPlatform];
@@ -76,6 +72,7 @@ export type InPersonEvent = {
 export type InPersonEventAttendee = {
   id: GeneratedAlways<string>;
   userId: string;
+  location: Point;
   eventId: number;
   checkInTime: Generated<Timestamp>;
 };

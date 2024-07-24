@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import environmentVariables from "./config/environment";
-// import { dbClient } from './lib/db/db_client';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
@@ -19,7 +18,6 @@ export async function middleware(req: NextRequest) {
     !session?.email &&
     (req.nextUrl.pathname.startsWith("/dashboard") ||
       req.nextUrl.pathname.startsWith("/g") ||
-      req.nextUrl.pathname.startsWith("/in-person") ||
       req.nextUrl.pathname === "/save-report")
   ) {
     return NextResponse.redirect(
@@ -44,6 +42,5 @@ export const config = {
     "/dashboard/:path*",
     "/g/:path*",
     "/save-report",
-    "/in-person/:path*",
   ],
 };

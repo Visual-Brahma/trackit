@@ -2,7 +2,9 @@ import { Point } from "@/types";
 import { buttonVariants } from "@repo/ui/button";
 import { TypographyP } from "@repo/ui/typography";
 import Link from "next/link";
+import { Alert, AlertDescription, AlertTitle } from "@repo/ui/alert";
 import InPersonEventAttendance from "./location";
+import { CheckCircleIcon } from "lucide-react";
 
 export default function PageAction({
   email,
@@ -80,10 +82,14 @@ export default function PageAction({
 
   if (hasCheckedIn) {
     return (
-      <div>
-        <TypographyP className="mb-4">
-          You have already checked in to this event.
-        </TypographyP>
+      <div className="space-y-4">
+        <Alert variant="success">
+          <CheckCircleIcon className="h-4 w-4" />
+          <AlertTitle>Success</AlertTitle>
+          <AlertDescription>
+            You have already checked in to the event.
+          </AlertDescription>
+        </Alert>
         <Link href={`/dashboard/in-person`} className={buttonVariants()}>
           Create your own Event
         </Link>

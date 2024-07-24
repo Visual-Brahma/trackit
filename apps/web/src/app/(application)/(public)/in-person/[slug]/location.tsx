@@ -52,7 +52,7 @@ export default function InPersonEventAttendance({
   return (
     <div className="max-w-lg my-4 space-y-4">
       {checkedIn ? (
-        <Alert variant="default">
+        <Alert variant="success">
           <CheckCircleIcon className="h-4 w-4" />
           <AlertTitle>Success</AlertTitle>
           <AlertDescription>

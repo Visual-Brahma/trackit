@@ -110,7 +110,7 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
     id: "view",
     header: "View Report",
     cell: ({ row }) => (
-      <div className="space-x-2">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
         <Button
           variant={"secondary"}
           onClick={async () => {

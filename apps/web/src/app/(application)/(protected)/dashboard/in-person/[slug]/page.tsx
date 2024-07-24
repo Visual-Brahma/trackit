@@ -71,7 +71,10 @@ export default async function InPersonEventAttendanceReportPage({
 
   return (
     <>
-      <InPersonEventInfo attendeesCount={attendees.length} {...inPersonEvent} />
+      <InPersonEventInfo
+        event={{ attendeesCount: attendees.length, ...inPersonEvent }}
+        downloadData={attendees}
+      />
 
       <ListTable<InPersonEventAttendanceReportParticipant>
         data={attendees}

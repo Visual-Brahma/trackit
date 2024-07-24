@@ -28,7 +28,7 @@ export default function PageAction({
 }) {
   if (event.endTime && event.endTime < new Date()) {
     return (
-      <div>
+      <div className="flex flex-col items-center justify-center lg:items-start">
         <TypographyP className="mb-4">
           This event has already ended.
         </TypographyP>
@@ -41,7 +41,7 @@ export default function PageAction({
 
   if (!email) {
     return (
-      <div>
+      <div className="flex flex-col items-center justify-center lg:items-start">
         <TypographyP className="mb-4">
           You must be signed in to check-in to this event.
         </TypographyP>
@@ -69,7 +69,7 @@ export default function PageAction({
 
   if (!hasAccess) {
     return (
-      <div>
+      <div className="flex flex-col items-center justify-center lg:items-start">
         <TypographyP className="mb-4 text-destructive">
           You do not have access to this event.
         </TypographyP>
@@ -82,7 +82,7 @@ export default function PageAction({
 
   if (hasCheckedIn) {
     return (
-      <div className="space-y-4">
+      <div className="flex flex-col items-center justify-center lg:items-start gap-4">
         <Alert variant="success">
           <CheckCircleIcon className="h-4 w-4" />
           <AlertTitle>Success</AlertTitle>

@@ -9,7 +9,7 @@ import { CheckCircleIcon } from "lucide-react";
 export default function PageAction({
   email,
   event,
-  hasCheckedIn
+  hasCheckedIn,
 }: {
   email: string | null | undefined;
   event: {
@@ -59,11 +59,11 @@ export default function PageAction({
     event.allowedEmails.length > 0
       ? event.allowedEmails.includes(email) ||
         event.allowedEmailDomains.some(
-          (domain) => email.split("@")![1] == domain
+          (domain) => email.split("@")![1] == domain,
         )
       : event.allowedEmailDomains.length > 0
         ? event.allowedEmailDomains.some(
-            (domain) => email.split("@")![1] == domain
+            (domain) => email.split("@")![1] == domain,
           )
         : true;
 

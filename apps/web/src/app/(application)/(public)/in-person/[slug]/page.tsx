@@ -11,7 +11,7 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function InPersonEventAttendancePublicPage({
-  params: { slug }
+  params: { slug },
 }: {
   params: { slug: string };
 }) {
@@ -27,7 +27,7 @@ export default async function InPersonEventAttendancePublicPage({
       "endTime",
       "allowedEmails",
       "allowedEmailDomains",
-      "allowedRange"
+      "allowedRange",
     ])
     .where("slug", "=", slug)
     .executeTakeFirst();
@@ -47,7 +47,7 @@ export default async function InPersonEventAttendancePublicPage({
       .innerJoin("User", "User.id", "InPersonEventAttendee.userId")
       .select("User.email")
       .where((eb) =>
-        eb.and([eb("eventId", "=", event.id), eb("User.email", "=", email)])
+        eb.and([eb("eventId", "=", event.id), eb("User.email", "=", email)]),
       )
       .executeTakeFirst();
 

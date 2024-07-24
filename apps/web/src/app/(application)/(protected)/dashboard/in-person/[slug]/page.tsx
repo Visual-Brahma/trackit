@@ -1,6 +1,6 @@
 import {
   InPersonEventAttendanceReportParticipant,
-  inPersonEventAttendanceReportParticipantsTableColumns
+  inPersonEventAttendanceReportParticipantsTableColumns,
 } from "@/components/dashboard/in-person/attendees-table";
 import ListTable from "@/components/dashboard/table";
 import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 import InPersonEventInfo from "./info";
 
 export default async function InPersonEventAttendanceReportPage({
-  params: { slug }
+  params: { slug },
 }: {
   params: { slug: string };
 }) {
@@ -32,7 +32,7 @@ export default async function InPersonEventAttendanceReportPage({
       "venue",
       "location",
       "allowedEmailDomains",
-      "allowedRange"
+      "allowedRange",
     ])
     .where((eb) =>
       eb.and([
@@ -45,10 +45,10 @@ export default async function InPersonEventAttendanceReportPage({
               eb
                 .selectFrom("User")
                 .select("User.id")
-                .where("User.email", "=", email)
-            )
-        )
-      ])
+                .where("User.email", "=", email),
+            ),
+        ),
+      ]),
     )
     .executeTakeFirst();
 
@@ -64,7 +64,7 @@ export default async function InPersonEventAttendanceReportPage({
       "User.name",
       "User.image",
       "checkInTime",
-      "location"
+      "location",
     ])
     .where("InPersonEventAttendee.eventId", "=", inPersonEvent.id)
     .execute();

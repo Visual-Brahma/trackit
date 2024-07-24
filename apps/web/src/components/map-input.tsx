@@ -12,7 +12,7 @@ export default function MapInput({
   location,
   onChange,
   buttonVariant = "default",
-  defaultMessage = "Your current location is needed to use this feature. It will be used to check if the attendees are within the allowed range."
+  defaultMessage = "Your current location is needed to use this feature. It will be used to check if the attendees are within the allowed range.",
 }: {
   location?: {
     lat: number;
@@ -28,7 +28,7 @@ export default function MapInput({
     code?: number;
   }>({
     message: "Get location",
-    isError: null
+    isError: null,
   });
   const [geolocationEnabled, setGeolocationEnabled] = useState<boolean>();
   const [loading, setLoading] = useState<{
@@ -36,13 +36,13 @@ export default function MapInput({
     initial?: boolean;
   }>({
     initial: true,
-    isLoading: true
+    isLoading: true,
   });
 
   const getLocation = () => {
     setLoading({
       isLoading: true,
-      initial: false
+      initial: false,
     });
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -51,7 +51,7 @@ export default function MapInput({
 
         setLocationError({
           message: "Location permission granted.",
-          isError: false
+          isError: false,
         });
 
         onChange({ lat: latitude, lng: longitude });
@@ -64,22 +64,22 @@ export default function MapInput({
             message:
               "Location permission denied. Please allow location permission to move ahead.",
             isError: true,
-            code: error.code
+            code: error.code,
           });
         } else if (error.code === error.TIMEOUT) {
           toast.error(
-            "Unable to get location. Make sure your device location is enabled and try again."
+            "Unable to get location. Make sure your device location is enabled and try again.",
           );
           setLocationError({
             message:
               "Unable to get location. Make sure your device location is enabled and try again.",
             isError: true,
-            code: error.code
+            code: error.code,
           });
         }
         setLoading({ isLoading: false });
       },
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
     );
   };
 

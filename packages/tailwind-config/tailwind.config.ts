@@ -48,7 +48,7 @@ const config: Omit<Config, "content"> = {
           DEFAULT: "hsl(var(--success-bg))",
           border: "hsl(var(--success-border))",
           foreground: "hsl(var(--success-text))",
-        }
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

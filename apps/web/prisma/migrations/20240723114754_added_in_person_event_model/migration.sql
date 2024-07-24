@@ -1,6 +1,6 @@
 CREATE schema IF NOT EXISTS "gis";
 -- enable the "postgis" extension
-CREATE extension postgis WITH schema "gis";
+CREATE extension IF NOT EXISTS  postgis WITH schema "gis";
 
 -- CreateTable
 CREATE TABLE "InPersonEvent" (

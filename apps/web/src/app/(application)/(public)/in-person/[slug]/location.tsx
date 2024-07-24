@@ -12,7 +12,7 @@ import { CheckCircleIcon } from "lucide-react";
 export default function InPersonEventAttendance({
   eventId,
   eventLocation,
-  allowedRange
+  allowedRange,
 }: {
   eventId: number;
   eventLocation: { lat: number; lng: number };
@@ -35,7 +35,7 @@ export default function InPersonEventAttendance({
       checkInTime: new Date().toISOString(),
       eventId: eventId,
       eventLocation: eventLocation,
-      allowedRange: allowedRange
+      allowedRange: allowedRange,
     });
 
     if (res === true) {
@@ -43,7 +43,7 @@ export default function InPersonEventAttendance({
       setCheckedIn(true);
     } else {
       toast.error(
-        res === false ? "Failed to check in. Please try again." : res
+        res === false ? "Failed to check in. Please try again." : res,
       );
     }
     setIsLoading(false);

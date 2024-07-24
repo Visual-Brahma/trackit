@@ -4,7 +4,7 @@ export const toRadians = (degrees: number) => {
 
 function calculateDistance({
   location1,
-  location2
+  location2,
 }: {
   location1: { lat: number; lng: number };
   location2: { lat: number; lng: number };
@@ -29,7 +29,7 @@ function calculateDistance({
 export const checkIfWithinRange = ({
   eventLocation,
   userLocation,
-  rangeInMeters
+  rangeInMeters,
 }: {
   userLocation: { lat: number; lng: number };
   eventLocation: { lat: number; lng: number };
@@ -37,7 +37,7 @@ export const checkIfWithinRange = ({
 }) => {
   const distance = calculateDistance({
     location1: userLocation,
-    location2: eventLocation
+    location2: eventLocation,
   });
   return distance <= rangeInMeters;
 };

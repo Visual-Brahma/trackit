@@ -91,8 +91,6 @@ export default function InPersonEventAttendanceGraph({
     center: true,
   });
 
-  console.log(data);
-
   return (
     <div className="flex-1 flex items-center justify-center">
       <Card>
@@ -141,7 +139,6 @@ export default function InPersonEventAttendanceGraph({
                 content={
                   <ChartTooltipContent
                     labelFormatter={(value, payload) => {
-                      console.log(payload);
                       if (payload.length > 0) {
                         return (
                           <div className="space-y-1">

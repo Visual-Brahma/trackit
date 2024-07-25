@@ -22,10 +22,8 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@repo/ui/chart";
+} from "@/components/chart";
 import { Point } from "@/types";
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "red", "pink"];
 
 const chartConfig = {
   x: {
@@ -48,7 +46,6 @@ const chartConfig = {
 
 import { calculateDistance } from "@/lib/api/in-person/location";
 import { formatDistance } from "@/lib/utils/format";
-import { TypographyP } from "@repo/ui/typography";
 import { Circle } from "lucide-react";
 
 export default function InPersonEventAttendanceGraph({
@@ -81,7 +78,7 @@ export default function InPersonEventAttendanceGraph({
             lat: center.x,
             lng: center.y,
           },
-        }).toFixed(3)
+        }).toFixed(3),
       ),
     });
   });
@@ -148,14 +145,12 @@ export default function InPersonEventAttendanceGraph({
                       if (payload.length > 0) {
                         return (
                           <div className="space-y-1">
-                            <p>
-                              {payload[0]!.payload.name}
-                            </p>
+                            <p>{payload[0]!.payload.name}</p>
                             {!payload[0]!.payload.center && (
                               <p>
                                 Distance{" "}
                                 {formatDistance(
-                                  payload[0]!.payload.distance as number
+                                  payload[0]!.payload.distance as number,
                                 )}
                               </p>
                             )}
@@ -169,7 +164,10 @@ export default function InPersonEventAttendanceGraph({
               />
               <Scatter name="Attendees" data={data} fill="var(--color-x)">
                 {data.map((value, index) => (
-                  <Cell key={index} fill={value.center ? "red" : "var(--color-x)"} />
+                  <Cell
+                    key={index}
+                    fill={value.center ? "red" : "var(--color-x)"}
+                  />
                 ))}
               </Scatter>
             </ScatterChart>

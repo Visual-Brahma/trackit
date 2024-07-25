@@ -46,10 +46,10 @@ export default async function InPersonEventAttendanceReportPage({
               eb
                 .selectFrom("User")
                 .select("User.id")
-                .where("User.email", "=", email)
-            )
+                .where("User.email", "=", email),
+            ),
         ),
-      ])
+      ]),
     )
     .executeTakeFirst();
 
@@ -79,7 +79,10 @@ export default async function InPersonEventAttendanceReportPage({
         />
         <InPersonEventAttendanceGraph
           center={inPersonEvent.location}
-          attendees={attendees.map((x) => ({ name: x.name ?? "", location: x.location }))}
+          attendees={attendees.map((x) => ({
+            name: x.name ?? "",
+            location: x.location,
+          }))}
         />
       </div>
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@repo/ui/alert";
 import InPersonEventAttendance from "./location";
 import { CheckCircleIcon } from "lucide-react";
+import SignInButton from "@/components/signin-button";
 
 export default function PageAction({
   email,
@@ -45,12 +46,7 @@ export default function PageAction({
         <TypographyP className="mb-4">
           You must be signed in to check-in to this event.
         </TypographyP>
-        <Link
-          href={`/api/auth/signin?callback=/in-person/${event.slug}`}
-          className={buttonVariants()}
-        >
-          Sign In Now
-        </Link>
+        <SignInButton callbackUrl={`/in-person/${event.slug}`} />
       </div>
     );
   }

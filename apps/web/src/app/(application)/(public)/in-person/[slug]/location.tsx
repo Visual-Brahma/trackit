@@ -64,12 +64,15 @@ export default function InPersonEventAttendance({
           <MapInput
             location={location}
             onChange={(value) => setLocation(value)}
+            style="center"
             defaultMessage="Your current location is needed to use this feature. It will be used to check if you are within the allowed range."
           />
           {location && (
-            <Button onClick={checkIn}>
-              {isLoading ? <LoadingCircle /> : "Check In"}
-            </Button>
+            <div className="flex flex-col items-center justify-center lg:items-start gap-4">
+              <Button onClick={checkIn}>
+                {isLoading ? <LoadingCircle /> : "Check In"}
+              </Button>
+            </div>
           )}
         </>
       )}

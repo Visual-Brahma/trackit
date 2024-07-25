@@ -12,6 +12,7 @@ export default function MapInput({
   location,
   onChange,
   buttonVariant = "default",
+  style = "default",
   defaultMessage = "Your current location is needed to use this feature. It will be used to check if the attendees are within the allowed range.",
 }: {
   location?: {
@@ -21,6 +22,7 @@ export default function MapInput({
   onChange: (location: { lat: number; lng: number }) => void;
   buttonVariant?: "default" | "secondary";
   defaultMessage?: string;
+  style?: "default" | "center";
 }) {
   const [locationError, setLocationError] = useState<{
     message: string;
@@ -105,7 +107,13 @@ export default function MapInput({
   return (
     <div className="flex items-start justify-between gap-2">
       {locationError.isError ? (
-        <div className="space-y-2">
+        <div
+          className={
+            style === "default"
+              ? "space-y-2"
+              : "flex flex-col items-center justify-center lg:items-start gap-4"
+          }
+        >
           <TypographyP className="text-sm text-destructive">
             {locationError.message}
           </TypographyP>
@@ -127,7 +135,13 @@ export default function MapInput({
           </div>
         </>
       ) : (
-        <div className="space-y-2">
+        <div
+          className={
+            style === "default"
+              ? "space-y-2"
+              : "flex flex-col items-center justify-center lg:items-start gap-4"
+          }
+        >
           <TypographyP className="text-sm">{defaultMessage}</TypographyP>
           <Button type="button" onClick={getLocation} variant={buttonVariant}>
             {loading.isLoading ? <LoadingCircle /> : "Get Location"}

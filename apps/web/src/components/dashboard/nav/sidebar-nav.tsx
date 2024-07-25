@@ -6,12 +6,12 @@ import { usePathname } from "next/navigation";
 import { cn } from "@repo/ui/utils";
 import { buttonVariants } from "@repo/ui/button";
 import { Dispatch, HTMLAttributes, ReactNode, SetStateAction } from "react";
-import Image from "next/image";
 import { Button } from "@repo/ui/button";
 import { Card, CardContent } from "@repo/ui/card";
 import { ArrowUpCircleIcon, CoffeeIcon, LogOutIcon } from "lucide-react";
 import { Badge } from "@repo/ui/badge";
 import ThemeSelector from "@/components/layout/theme_changer";
+import Logo from "@/components/logo";
 
 export interface SidebarNavProps extends HTMLAttributes<HTMLElement> {
   itemGroups: {
@@ -46,14 +46,7 @@ export function SidebarNav({
           className="flex items-center font-display text-2xl mb-4"
           href="/dashboard"
         >
-          <Image
-            alt="Trackit logo"
-            src="/logo.svg"
-            className="mr-2 rounded-sm"
-            height={45}
-            width={45}
-            style={{ color: "transparent" }}
-          />
+          <Logo />
           <p className="font-display text-2xl font-bold drop-shadow-sm md:text-3xl">
             Trackit
           </p>
@@ -96,7 +89,10 @@ export function SidebarNav({
                     {icon}
                     {title}
                     {badge && (
-                      <Badge variant={"default"} className={`ml-2 rounded-xl`}>
+                      <Badge
+                        variant={"default"}
+                        className={`ml-2 rounded-xl md:hidden xl:inline-flex`}
+                      >
                         {badge.text}
                       </Badge>
                     )}

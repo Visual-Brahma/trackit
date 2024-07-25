@@ -8,11 +8,15 @@ import { Badge } from "./badge";
 const isValidEmail = (email: string) =>
   /[\w\d.-]+@[\w\d.-]+\.[\w\d.-]+/.test(email);
 
+const isValidEmailDomain = (domain: string) =>
+  /^[\w\d.-]+\.[\w\d.-]+/.test(domain);
+
 interface EmailChipsInputProps {
   ignore?: string[];
   emails: string[];
   setEmails: Dispatch<SetStateAction<string[]>>;
   disabled?: boolean;
+  domainOnly?: boolean;
 }
 
 const EmailChipsInput = ({
@@ -20,6 +24,7 @@ const EmailChipsInput = ({
   setEmails,
   ignore,
   disabled,
+  domainOnly,
 }: EmailChipsInputProps) => {
   const [input, setInput] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -27,8 +32,14 @@ const EmailChipsInput = ({
   const isValidInput = (input: string) => {
     let error = null;
 
-    if (!isValidEmail(input)) {
-      error = `${input} is not a valid email address.`;
+    const isValid = domainOnly
+      ? isValidEmailDomain(input)
+      : isValidEmail(input);
+
+    if (!isValid) {
+      error = `${input} is not a valid email ${
+        domainOnly ? "domain" : "address"
+      }.`;
     } else if (emails.includes(input) || (ignore && ignore.includes(input))) {
       error = `${input} has already been added.`;
     }
@@ -47,7 +58,7 @@ const EmailChipsInput = ({
       var email = input.trim();
 
       if (email && isValidInput(email)) {
-        setEmails((emails) => [...emails, email]);
+        setEmails([...emails, email]);
         setInput("");
       }
     }

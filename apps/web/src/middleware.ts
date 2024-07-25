@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import environmentVariables from "./config/environment";
-// import { dbClient } from './lib/db/db_client';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();

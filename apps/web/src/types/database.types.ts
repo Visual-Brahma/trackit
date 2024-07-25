@@ -1,4 +1,5 @@
 import type { ColumnType, GeneratedAlways } from "kysely";
+import { Point } from ".";
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
@@ -55,6 +56,27 @@ export type GroupMember = {
   role: Generated<Role>;
   userId: string;
 };
+export type InPersonEvent = {
+  id: GeneratedAlways<number>;
+  name: string;
+  slug: string;
+  groupId: string;
+  venue: string | null;
+  location: Point;
+  allowedRange: Generated<number>;
+  allowedEmailDomains: Generated<string[]>;
+  allowedEmails: Generated<string[]>;
+  date: Timestamp;
+  startTime: Timestamp;
+  endTime: Timestamp | null;
+};
+export type InPersonEventAttendee = {
+  id: GeneratedAlways<string>;
+  userId: string;
+  location: Point;
+  eventId: number;
+  checkInTime: Generated<Timestamp>;
+};
 export type Meeting = {
   id: GeneratedAlways<number>;
   groupId: string;
@@ -108,6 +130,8 @@ export type DB = {
   AttendanceReport: AttendanceReport;
   Group: Group;
   GroupMember: GroupMember;
+  InPersonEvent: InPersonEvent;
+  InPersonEventAttendee: InPersonEventAttendee;
   Meeting: Meeting;
   MeetingNotes: MeetingNotes;
   Message: Message;

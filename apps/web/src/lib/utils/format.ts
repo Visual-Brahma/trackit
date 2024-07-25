@@ -1,3 +1,6 @@
+import { Point } from "@/types";
+import { RawBuilder, sql } from "kysely";
+
 export const formatDatetime = (date: Date): string | null => {
   try {
     if (!isNaN(date.getTime())) {
@@ -92,4 +95,17 @@ export const extractMeetCodeFromLink = (url: string): string => {
     console.error("Invalid URL format");
     return "-";
   }
+};
+
+export const point = (pt: Point): RawBuilder<Point> => {
+  const point = `(${pt.x},${pt.y})`;
+  return sql<Point>`${point}`;
+};
+
+export const formatDistance = (distance: number) => {
+  if (distance < 500) {
+    return `${distance} m`;
+  }
+
+  return `${(distance / 1000).toFixed(2)} Km`;
 };

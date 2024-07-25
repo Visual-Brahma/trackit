@@ -1,43 +1,48 @@
 import Image from "next/image";
 import ExtensionChooser from "@/components/extension-chooser";
+import AnimatedGradientText from "@repo/ui/animated-gradient-text";
+import { ChevronRight } from "lucide-react";
+import { cn } from "@repo/ui/utils";
+import Link from "next/link";
+
+const features: { id: number; title: string; description: string }[] = [
+  {
+    id: 1,
+    title: "Fully Automatic",
+    description:
+      "Everything is done for you automatically. Just download trackit extension and relax.",
+  },
+  {
+    id: 2,
+    title: "Secure",
+    description: "We are working very sincerely to secure your data.",
+  },
+  {
+    id: 3,
+    title: "Simple Interface",
+    description: "Trackit is built to provide simplicity to users.",
+  },
+  {
+    id: 4,
+    title: "Detailed Report",
+    description:
+      "Get detailed report of attendance for every google meet videocall.",
+  },
+  {
+    id: 5,
+    title: "Attendance History",
+    description:
+      "All your attendance reports are securely stored in our database. You can access them anytime.",
+  },
+  {
+    id: 6,
+    title: "Full Control",
+    description:
+      "You have full access to your every data saved in our database.",
+  },
+];
 
 const Home = () => {
-  const features: { id: number; title: string; description: string }[] = [
-    {
-      id: 1,
-      title: "Fully Automatic",
-      description:
-        "Everything is done for you automatically. Just download trackit extension and relax.",
-    },
-    {
-      id: 2,
-      title: "Secure",
-      description: "We are working very sincerely to secure your data.",
-    },
-    {
-      id: 3,
-      title: "Simple Interface",
-      description: "Trackit is built to provide simplicity to users.",
-    },
-    {
-      id: 4,
-      title: "Detailed Report",
-      description:
-        "Get detailed report of attendance for every google meet videocall.",
-    },
-    {
-      id: 5,
-      title: "Attendance History",
-      description:
-        "All your attendance reports are securely stored in our database. You can access them anytime.",
-    },
-    {
-      id: 6,
-      title: "Full Control",
-      description:
-        "You have full access to your every data saved in our database.",
-    },
-  ];
   return (
     <div className="snap-y">
       <div
@@ -45,6 +50,19 @@ const Home = () => {
           "flex flex-col items-center justify-center h-screen snap-always snap-center"
         }
       >
+        <Link href="/in-person">
+          <AnimatedGradientText>
+            🎉 <hr className="mx-2 h-4 w-[1px] shrink-0 bg-gray-300" />{" "}
+            <span
+              className={cn(
+                `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
+              )}
+            >
+              Introducing In-Person Events
+            </span>
+            <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+          </AnimatedGradientText>
+        </Link>
         <h1
           className={
             "text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-center mb-8 max-w-screen-md"

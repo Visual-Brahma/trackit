@@ -7,6 +7,7 @@ import {
   CogIcon,
   FileBarChart2Icon,
   LayoutDashboardIcon,
+  MapPinIcon,
   MessageCircleHeartIcon,
   SmartphoneNfcIcon,
   StickyNoteIcon,
@@ -27,8 +28,13 @@ const sidebarNavItems: SidebarNavProps["itemGroups"] = [
         title: "Groups",
         href: "/dashboard/groups",
         icon: <UsersIcon className="mr-2 h-4 w-4" />,
+      },
+      {
+        title: "In-Person",
+        href: "/dashboard/in-person",
+        icon: <MapPinIcon className="mr-2 h-4 w-4" />,
         badge: {
-          text: "Coming soon",
+          text: "New",
         },
       },
       {
@@ -81,7 +87,7 @@ export default function Layout({ children }: LayoutProps) {
         <aside className="md:w-1/4 lg:w-1/5 xl:w-1/6 pt-4 px-6 md:p-0">
           <Nav itemGroups={sidebarNavItems} />
         </aside>
-        <div className="flex-1 md:bg-secondary/40 p-2 sm:p-4 overflow-y-scroll">
+        <div className="flex-1 md:bg-secondary/40 p-2 sm:p-4 overflow-y-scroll max-h-screen">
           {children}
         </div>
         <Script src="https://trackit.statuspage.io/embed/script.js"></Script>

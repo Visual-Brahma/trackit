@@ -2,8 +2,9 @@ import { TypographyH2, TypographyP } from "@repo/ui/typography";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/ui/tabs";
 import { AttendanceReportInfo } from "@/components/dashboard/reports/info";
 import AttendanceReportShareView from "@/components/dashboard/reports/share";
-import AttendanceReportTable, {
+import {
   AttendanceReportParticipant,
+  attendanceReportParticipantsTableColumns,
 } from "@/components/dashboard/reports/report-table";
 import { getServerSession } from "next-auth";
 import { dbClient } from "@/lib/db/db_client";
@@ -15,6 +16,8 @@ import {
 } from "@/lib/utils/format";
 import { MeetingPlatform } from "@/types/database.types";
 import { AttendanceReportSettingsView } from "@/components/dashboard/reports/settings";
+import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
+import ListTable from "@/components/dashboard/table";
 
 const AttendanceReportViewPage = async ({
   params,
@@ -25,14 +28,7 @@ const AttendanceReportViewPage = async ({
   const email = session?.user?.email;
 
   if (!email) {
-    return (
-      <div>
-        <TypographyH2>Attendance Report</TypographyH2>
-        <TypographyP className="my-4">
-          There is something wrong here, can you try refreshing the page once.
-        </TypographyP>
-      </div>
-    );
+    return <UnAuthenticatedUserError />;
   }
 
   const isOwnerOrAdmin = await dbClient
@@ -157,7 +153,10 @@ const AttendanceReportViewPage = async ({
           )}
         </TabsList>
         <TabsContent value="report">
-          <AttendanceReportTable data={attendanceReport.data} />
+          <ListTable<AttendanceReportParticipant>
+            data={attendanceReport.data}
+            columns={attendanceReportParticipantsTableColumns}
+          />
         </TabsContent>
         {isOwnerOrAdmin && (
           <TabsContent value="share">

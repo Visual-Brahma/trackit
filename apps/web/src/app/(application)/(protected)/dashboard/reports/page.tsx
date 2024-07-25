@@ -1,7 +1,7 @@
 import { TypographyH2, TypographyP } from "@repo/ui/typography";
 import {
   AttendanceReportItem,
-  AttendanceReportsListTable,
+  attendanceReportItemsTableColumns,
 } from "@/components/dashboard/reports/table";
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
@@ -10,20 +10,15 @@ import {
   getDurationBetweenDates,
 } from "@/lib/utils/format";
 import { MeetingPlatform } from "@/types/database.types";
+import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
+import ListTable from "@/components/dashboard/table";
 
 const ReportsPage = async () => {
   const session = await getServerSession();
   const email = session?.user?.email;
 
   if (!email) {
-    return (
-      <div>
-        <TypographyH2>Attendance Reports</TypographyH2>
-        <TypographyP className="my-4">
-          There is something wrong here, can you try refreshing the page once.
-        </TypographyP>
-      </div>
-    );
+    return <UnAuthenticatedUserError />;
   }
 
   const attendanceReports = await dbClient
@@ -85,7 +80,10 @@ const ReportsPage = async () => {
       </TypographyP>
 
       <div className="mt-6">
-        <AttendanceReportsListTable data={data} />
+        <ListTable<AttendanceReportItem>
+          data={data}
+          columns={attendanceReportItemsTableColumns}
+        />
       </div>
     </div>
   );

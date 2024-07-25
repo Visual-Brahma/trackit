@@ -7,6 +7,7 @@ import {
   YAxis,
   CartesianGrid,
   Cell,
+  ReferenceArea,
 } from "recharts";
 
 import {
@@ -24,6 +25,12 @@ import {
   ChartTooltipContent,
 } from "@/components/chart";
 import { Point } from "@/types";
+import { Circle, X } from "lucide-react";
+import { calculateDistance } from "@/lib/api/in-person/location";
+import { formatDistance } from "@/lib/utils/format";
+import { useState } from "react";
+import { CategoricalChartState } from "recharts/types/chart/types";
+import { Button } from "@repo/ui/button";
 
 const chartConfig = {
   x: {
@@ -44,9 +51,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-import { calculateDistance } from "@/lib/api/in-person/location";
-import { formatDistance } from "@/lib/utils/format";
-import { Circle } from "lucide-react";
+const MIN_ZOOM = 0.0001;
 
 export default function InPersonEventAttendanceGraph({
   center,
@@ -91,6 +96,68 @@ export default function InPersonEventAttendanceGraph({
     center: true,
   });
 
+  const [filteredData, setFilteredData] = useState(data);
+  const [zoomArea, setZoomArea] = useState<{
+    x1: number;
+    x2: number;
+    y1: number;
+    y2: number;
+  } | null>(null);
+  const [isZooming, setIsZooming] = useState(false);
+  const isZoomed = filteredData.length !== data.length;
+
+  const showZoomBox =
+    isZooming &&
+    zoomArea !== null &&
+    !(Math.abs(zoomArea.x1 - zoomArea.x2) < MIN_ZOOM) &&
+    !(Math.abs(zoomArea.y1 - zoomArea.y2) < MIN_ZOOM);
+
+  const handleZoomOut = () => {
+    setFilteredData(data);
+    setZoomArea(null);
+  };
+
+  const handleMouseDown = (e: CategoricalChartState) => {
+    setIsZooming(true);
+    const { xValue, yValue } = e;
+    if (xValue && yValue)
+      setZoomArea({ x1: xValue, y1: yValue, x2: xValue, y2: yValue });
+  };
+
+  const handleMouseMove = (e: CategoricalChartState) => {
+    if (isZooming) {
+      setZoomArea((prev) => {
+        if (prev && e.xValue && e.yValue) {
+          return { ...prev, x2: e.xValue, y2: e.yValue };
+        }
+        return prev;
+      });
+    }
+  };
+
+  const handleMouseUp = (e: CategoricalChartState) => {
+    if (isZooming && zoomArea) {
+      setIsZooming(false);
+      let { x1, y1, x2, y2 } = zoomArea;
+
+      // ensure x1 <= x2 and y1 <= y2
+      if (x1 > x2) [x1, x2] = [x2, x1];
+      if (y1 > y2) [y1, y2] = [y2, y1];
+
+      if (!(x2 - x1 < MIN_ZOOM || y2 - y1 < MIN_ZOOM)) {
+        const dataPointsInRange = filteredData.filter(
+          (d) => d.x >= x1 && d.x <= x2 && d.y >= y1 && d.y <= y2,
+        );
+        if (dataPointsInRange.length === 0) {
+          setFilteredData(data);
+        } else {
+          setFilteredData(dataPointsInRange);
+        }
+        setZoomArea(null);
+      }
+    }
+  };
+
   return (
     <div className="flex-1 flex items-center justify-center">
       <Card>
@@ -99,6 +166,11 @@ export default function InPersonEventAttendanceGraph({
           <CardDescription>
             Showing attendees location relative to event location.
           </CardDescription>
+          {isZoomed && (
+            <Button variant={"secondary"} onClick={handleZoomOut}>
+              Zoom Out
+            </Button>
+          )}
         </CardHeader>
         <CardContent>
           <ChartContainer
@@ -112,6 +184,9 @@ export default function InPersonEventAttendanceGraph({
                 bottom: 20,
                 left: 20,
               }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
             >
               <CartesianGrid />
               <XAxis
@@ -159,8 +234,20 @@ export default function InPersonEventAttendanceGraph({
                   />
                 }
               />
-              <Scatter name="Attendees" data={data} fill="var(--color-x)">
-                {data.map((value, index) => (
+              {showZoomBox && (
+                <ReferenceArea
+                  x1={zoomArea?.x1}
+                  x2={zoomArea?.x2}
+                  y1={zoomArea?.y1}
+                  y2={zoomArea?.y2}
+                />
+              )}
+              <Scatter
+                name="Attendees"
+                data={filteredData}
+                fill="var(--color-x)"
+              >
+                {filteredData.map((value, index) => (
                   <Cell
                     key={index}
                     fill={value.center ? "red" : "var(--color-x)"}

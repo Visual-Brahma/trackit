@@ -31,7 +31,7 @@ export default function DistanceInput({
           onChange(
             unit === "m"
               ? parseFloat(e.target.value)
-              : parseFloat(e.target.value) * 1000
+              : parseFloat(e.target.value) * 1000,
           );
         }}
         type="number"

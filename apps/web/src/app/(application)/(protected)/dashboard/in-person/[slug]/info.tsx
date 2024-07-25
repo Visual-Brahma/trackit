@@ -5,6 +5,7 @@ import StopAcceptingResponsesForm from "./end-link-form";
 import CopyAttendanceLink from "./copy-link";
 import { useEffect, useState } from "react";
 import DownloadInPersonEventAttendance from "./download";
+import EditInPersonEventAllowedRange from "./edit-range";
 
 export default function InPersonEventInfo({
   event,
@@ -36,7 +37,7 @@ export default function InPersonEventInfo({
   }, []);
 
   return (
-    <div className="max-w-sm mt-6">
+    <div className="max-w-lg mt-6">
       <Table>
         <TableBody>
           <TableRow>
@@ -77,7 +78,12 @@ export default function InPersonEventInfo({
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Allowed Range</TableCell>
-            <TableCell>{formatDistance(event.allowedRange)}</TableCell>
+            <TableCell>
+              <EditInPersonEventAllowedRange
+                allowedRange={event.allowedRange}
+                eventId={event.id}
+              />
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Allowed Email Domains</TableCell>

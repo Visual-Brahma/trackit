@@ -17,8 +17,8 @@ export default function DistanceInput({
   value: number;
   onChange: (range: number) => void;
 }) {
-  const [unit, setUnit] = useState<"Km" | "m">("m");
-  const [distance, setDistance] = useState(value);
+  const [unit, setUnit] = useState<"Km" | "m">(value < 1000 ? "m" : "Km");
+  const [distance, setDistance] = useState(value < 1000 ? value : value / 1000);
 
   return (
     <div className="flex">

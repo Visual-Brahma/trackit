@@ -162,3 +162,55 @@ export const checkInToInPersonEvent = async ({
   }
   return false;
 };
+
+export const editInPersonEvent = async ({
+  id,
+  ...data
+}: {
+  name?: string;
+  venue?: string;
+  allowedRange?: number;
+  id: number;
+}) => {
+  // check if all of the fields are empty or not
+  if (Object.values(data).every((val) => !val)) {
+    return true;
+  }
+
+  const session = await getServerSession();
+  if (session && session.user && session.user.email) {
+    const email = session.user.email;
+
+    const result = await dbClient
+      .updateTable("InPersonEvent")
+      .set(data)
+      .where((eb) =>
+        eb.and([
+          eb("id", "=", id),
+          eb("groupId", "in", (eb) =>
+            eb
+              .selectFrom("GroupMember")
+              .select("GroupMember.groupId")
+              .where((eb) =>
+                eb.and([
+                  eb("role", "in", ["ADMIN", "OWNER"]),
+                  eb("GroupMember.userId", "=", (eb) =>
+                    eb
+                      .selectFrom("User")
+                      .select("User.id")
+                      .where("User.email", "=", email),
+                  ),
+                ]),
+              ),
+          ),
+        ]),
+      )
+      .executeTakeFirst();
+
+    if (result.numUpdatedRows > 0) {
+      return true;
+    }
+  }
+
+  return false;
+};

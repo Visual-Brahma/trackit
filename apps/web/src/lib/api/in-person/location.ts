@@ -2,13 +2,13 @@ export const toRadians = (degrees: number) => {
   return degrees * (Math.PI / 180);
 };
 
-function calculateDistance({
+export const calculateDistance = ({
   location1,
   location2,
 }: {
   location1: { lat: number; lng: number };
   location2: { lat: number; lng: number };
-}) {
+}) => {
   const { lat: lat1, lng: lng1 } = location1;
   const { lat: lat2, lng: lng2 } = location2;
 

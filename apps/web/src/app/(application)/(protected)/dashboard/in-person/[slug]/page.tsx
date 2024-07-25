@@ -7,6 +7,7 @@ import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
 import InPersonEventInfo from "./info";
+import InPersonEventAttendanceGraph from "./chart";
 
 export default async function InPersonEventAttendanceReportPage({
   params: { slug },
@@ -45,10 +46,10 @@ export default async function InPersonEventAttendanceReportPage({
               eb
                 .selectFrom("User")
                 .select("User.id")
-                .where("User.email", "=", email),
-            ),
+                .where("User.email", "=", email)
+            )
         ),
-      ]),
+      ])
     )
     .executeTakeFirst();
 
@@ -71,10 +72,16 @@ export default async function InPersonEventAttendanceReportPage({
 
   return (
     <>
-      <InPersonEventInfo
-        event={{ attendeesCount: attendees.length, ...inPersonEvent }}
-        downloadData={attendees}
-      />
+      <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+        <InPersonEventInfo
+          event={{ attendeesCount: attendees.length, ...inPersonEvent }}
+          downloadData={attendees}
+        />
+        <InPersonEventAttendanceGraph
+          center={inPersonEvent.location}
+          attendees={attendees.map((x) => ({ name: x.name ?? "", location: x.location }))}
+        />
+      </div>
 
       <ListTable<InPersonEventAttendanceReportParticipant>
         data={attendees}

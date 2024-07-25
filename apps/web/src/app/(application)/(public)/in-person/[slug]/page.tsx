@@ -9,6 +9,12 @@ import { buttonVariants } from "@repo/ui/button";
 import { TypographyP } from "@repo/ui/typography";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Trackit - In-Person event check-In",
+  description: "In-Person event check-In Link",
+};
 
 export default async function InPersonEventAttendancePublicPage({
   params: { slug },

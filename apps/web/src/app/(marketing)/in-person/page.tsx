@@ -2,7 +2,22 @@ import AnimatedGradientText from "@repo/ui/animated-gradient-text";
 import { buttonVariants } from "@repo/ui/button";
 import { cn } from "@repo/ui/utils";
 import { ChevronRight } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Trackit - In-Person event Check-In made easy",
+  description:
+    "Introducing In-Person event check-In with Trackit. Track attendance for your in-person events with ease. Get detailed reports on who attended, when and from where.",
+  keywords: [
+    "trackit",
+    "visual brahma",
+    "attendance",
+    "google meet",
+    "offline events",
+    "in-person event",
+  ],
+};
 
 const features: { id: number; title: string; description: string }[] = [
   {

@@ -102,10 +102,17 @@ export const point = (pt: Point): RawBuilder<Point> => {
   return sql<Point>`${point}`;
 };
 
+export const formatDecimal = (number: number) => {
+  if (number % 1 === 0) {
+    return `${number}`;
+  }
+  return number.toFixed(2);
+};
+
 export const formatDistance = (distance: number) => {
   if (distance < 500) {
-    return `${distance} m`;
+    return `${formatDecimal(distance)} m`;
   }
 
-  return `${(distance / 1000).toFixed(2)} Km`;
+  return `${formatDecimal(distance / 1000)} Km`;
 };

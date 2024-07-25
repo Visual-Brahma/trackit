@@ -1,5 +1,5 @@
 "use client";
-import { formatDatetime, formatTime } from "@/lib/utils/format";
+import { formatDatetime, formatDistance, formatTime } from "@/lib/utils/format";
 import { Table, TableBody, TableCell, TableRow } from "@repo/ui/table";
 import StopAcceptingResponsesForm from "./end-link-form";
 import CopyAttendanceLink from "./copy-link";
@@ -77,7 +77,7 @@ export default function InPersonEventInfo({
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Allowed Range</TableCell>
-            <TableCell>{event.allowedRange} metres</TableCell>
+            <TableCell>{formatDistance(event.allowedRange)}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Allowed Email Domains</TableCell>

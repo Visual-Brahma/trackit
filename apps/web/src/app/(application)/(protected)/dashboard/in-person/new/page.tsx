@@ -29,6 +29,7 @@ import { toast } from "@repo/ui/sonner";
 import Link from "next/link";
 import { TypographyP } from "@repo/ui/typography";
 import { useState } from "react";
+import DistanceInput from "./distance";
 
 const FormSchema = z.object({
   name: z.string().min(2),
@@ -58,7 +59,6 @@ export default function CreateInPersonAttendanceLinkForm() {
   const isLoading = isSubmitting || isValidating;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     const timeStamp = new Date().toISOString();
     const res = await createInPersonAttendanceLink({
       ...data,
@@ -80,12 +80,12 @@ export default function CreateInPersonAttendanceLinkForm() {
         <Card className="w-full max-w-lg">
           <CardContent className="mt-4 flex items-center justify-between gap-2">
             <TypographyP>Attendance Link created successfully.</TypographyP>
-            <div className="space-x-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
               <Button
                 variant={"secondary"}
                 onClick={async () => {
                   await navigator.clipboard.writeText(
-                    `${location.origin}/in-person/${slug}`,
+                    `${location.origin}/in-person/${slug}`
                   );
                   toast.success("Link copied to clipboard");
                 }}
@@ -150,11 +150,9 @@ export default function CreateInPersonAttendanceLinkForm() {
                   <FormItem>
                     <FormLabel>Allowed Range</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Allowed Range in metres e.g. 20"
-                        defaultValue={field.value}
+                      <DistanceInput
+                        value={field.value}
                         onChange={field.onChange}
-                        type="number"
                       />
                     </FormControl>
                     <FormDescription>

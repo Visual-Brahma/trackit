@@ -48,7 +48,6 @@ export default function MapInput({
     });
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position);
         const { latitude, longitude } = position.coords;
 
         setLocationError({

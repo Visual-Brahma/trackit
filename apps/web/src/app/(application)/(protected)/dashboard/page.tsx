@@ -5,13 +5,25 @@ import {
 import { UpdateNotes } from "@/components/dashboard/update-notes";
 import { ExtensionDropdown } from "@/components/extension-chooser";
 import { TypographyH2, TypographyH4 } from "@repo/ui/typography";
-import { FileBarChart2Icon, StickyNoteIcon, UsersIcon } from "lucide-react";
+import {
+  FileBarChart2Icon,
+  MapPinIcon,
+  // StickyNoteIcon,
+  UsersIcon,
+} from "lucide-react";
 import { getServerSession } from "next-auth";
 
 const DashboardPage = async () => {
   const session = await getServerSession();
 
   const features: FeatureCardProps[] = [
+    {
+      title: "In-Person Events",
+      description:
+        "Easy check-in for your in-person events. Create attendance links and track attendance.",
+      icon: <MapPinIcon className="mr-2 h-4 w-4" />,
+      href: "/dashboard/in-person",
+    },
     {
       title: "Attendance Reports",
       description:
@@ -25,13 +37,6 @@ const DashboardPage = async () => {
         "Create groups for your class, team, or organization and track meetings and attendance more effectively.",
       icon: <UsersIcon className="mr-2 h-4 w-4" />,
       href: "/dashboard/groups",
-    },
-    {
-      title: "Notes",
-      description:
-        "Take notes in your meetings or later and keep track of your progress.",
-      icon: <StickyNoteIcon className="mr-2 h-4 w-4" />,
-      disabled: true,
     },
   ];
 

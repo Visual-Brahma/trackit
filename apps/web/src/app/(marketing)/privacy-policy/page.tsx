@@ -31,8 +31,8 @@ const PrivacyPolicy = () => {
         </TypographyP>
         <TypographyP className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-12 text-left font-bold">
           For In-Person events participants email address is shared with the
-          event organier. By checking in to an event you agree to share your
-          email with the event organiser.
+          event organizer. By checking in to an event you agree to share your
+          email address with the event organizer.
         </TypographyP>
       </div>
     </div>

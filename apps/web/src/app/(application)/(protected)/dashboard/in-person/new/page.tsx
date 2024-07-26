@@ -196,6 +196,13 @@ export default function CreateInPersonAttendanceLinkForm() {
                         buttonVariant="secondary"
                       />
                     </FormControl>
+                    <FormDescription>
+                      The location of the event. This will be used to check if
+                      the attendees are within the allowed range.{" "}
+                      <span className="font-bold">
+                        Use a mobile device for better accuracy.
+                      </span>
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

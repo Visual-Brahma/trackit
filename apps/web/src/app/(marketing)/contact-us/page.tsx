@@ -3,7 +3,7 @@ import { Button } from "@repo/ui/button";
 
 export default function ContactUs() {
   return (
-    <div className="flex mx-5 h-screen max-w-screen-xl items-center justify-between xl:mx-auto">
+    <div className="flex mx-5 min-h-screen max-w-screen-xl items-center justify-between xl:mx-auto">
       <div className="mt-4">
         <h1
           className={

@@ -8,6 +8,7 @@ import { toast } from "@repo/ui/sonner";
 import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@repo/ui/alert";
 import { CheckCircleIcon } from "lucide-react";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 export default function InPersonEventAttendance({
   eventId,
@@ -61,6 +62,13 @@ export default function InPersonEventAttendance({
         </Alert>
       ) : (
         <>
+          <Alert>
+            <InfoCircledIcon className="h-4 w-4" />
+            <AlertDescription>
+              By checking in to this event, you agree to share your email with
+              the event organiser.
+            </AlertDescription>
+          </Alert>
           <MapInput
             location={location}
             onChange={(value) => setLocation(value)}

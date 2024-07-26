@@ -7,7 +7,9 @@ const Footer = () => {
     <div className="w-full border-t border-border py-5 text-center self-end">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
         <div className="text-center sm:text-left">
-          <p className="text-sm">&copy; Trackit. All rights reserved.</p>
+          <p className="text-sm">
+            &copy; {new Date().getFullYear()} Trackit. All rights reserved.
+          </p>
         </div>
         <div className="flex flex-col mt-4 sm:mt-0 sm:flex-row">
           <Link

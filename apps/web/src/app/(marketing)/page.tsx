@@ -19,8 +19,8 @@ const features: { id: number; title: string; description: string }[] = [
   },
   {
     id: 3,
-    title: "Simple Interface",
-    description: "Trackit is built to provide simplicity to users.",
+    title: "In-Person Events",
+    description: "Easy check-in management for in-person events.",
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ const Home = () => {
     <div className="snap-y">
       <div
         className={
-          "flex flex-col items-center justify-center h-screen snap-always snap-center"
+          "flex flex-col items-center justify-center pt-16 min-h-screen snap-always snap-center"
         }
       >
         <Link href="/in-person">
@@ -72,11 +72,18 @@ const Home = () => {
         </h1>
         <p
           className={
-            "text-lg sm:text-xl md:text-2xl text-muted-foreground text-center mb-12 max-w-screen-sm"
+            "text-lg sm:text-xl md:text-2xl text-muted-foreground text-center mb-4 max-w-screen-sm"
           }
         >
           Automatically track attendance for your Google Meet meetings and get
           detailed reports on who attended and how much.
+        </p>
+        <p
+          className={
+            "text-lg sm:text-xl md:text-2xl text-muted-foreground text-center mb-12 max-w-screen-sm"
+          }
+        >
+          Now with In-Person events check-in management.
         </p>
         <ExtensionChooser />
       </div>
@@ -126,8 +133,8 @@ const Home = () => {
               <Image
                 src={"/_static/chrome_ext.png"}
                 alt="Chrome Extension"
-                width={500}
-                height={500}
+                width={1920}
+                height={1080}
                 sizes="100vw"
                 className="w-full h-full rounded-2xl"
               />
@@ -141,8 +148,8 @@ const Home = () => {
               <Image
                 src={"/_static/att_report.png"}
                 alt="Attendance Report"
-                width={500}
-                height={500}
+                width={1894}
+                height={1020}
                 className="w-full h-full rounded-2xl"
               />
             </div>
@@ -169,7 +176,7 @@ const Home = () => {
 
       <div
         className={
-          "flex flex-col items-center justify-center h-screen snap-always snap-center"
+          "flex flex-col items-center justify-center p-2 min-h-screen snap-always snap-center"
         }
       >
         <h1

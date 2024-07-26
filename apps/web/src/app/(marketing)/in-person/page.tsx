@@ -61,7 +61,7 @@ export default function InPersonEventsPage() {
     <div className="snap-y">
       <div
         className={
-          "flex flex-col items-center justify-center h-screen snap-always snap-center"
+          "flex flex-col items-center justify-center p-2 min-h-screen snap-always snap-center"
         }
       >
         <Link href="/in-person">
@@ -119,7 +119,7 @@ export default function InPersonEventsPage() {
 
       <div
         className={
-          "flex flex-col items-center justify-center h-screen snap-always snap-center"
+          "flex flex-col items-center justify-center p-2 min-h-screen snap-always snap-center"
         }
       >
         <h1

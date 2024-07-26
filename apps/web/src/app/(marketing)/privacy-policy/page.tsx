@@ -30,9 +30,9 @@ const PrivacyPolicy = () => {
           location. The location data is not used for any other purpose.
         </TypographyP>
         <TypographyP className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-12 text-left font-bold">
-          For In-Person events participants email address is shared with the event
-          organier. By checking in to an event you agree to share your email
-          with the event organiser.
+          For In-Person events participants email address is shared with the
+          event organier. By checking in to an event you agree to share your
+          email with the event organiser.
         </TypographyP>
       </div>
     </div>

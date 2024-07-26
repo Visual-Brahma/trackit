@@ -48,7 +48,7 @@ export default function CreateInPersonAttendanceLinkForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      allowedRange: 20,
+      allowedRange: 1000,
       allowedEmailDomains: [],
     },
   });
@@ -157,7 +157,7 @@ export default function CreateInPersonAttendanceLinkForm() {
                     </FormControl>
                     <FormDescription>
                       The range(in metres) within which attendees can check-in.
-                      Default is 20 metres.
+                      Default is 1 Kilo metres.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

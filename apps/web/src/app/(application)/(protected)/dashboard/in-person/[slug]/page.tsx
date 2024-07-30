@@ -7,7 +7,6 @@ import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
 import InPersonEventInfo from "./info";
-import InPersonEventAttendanceGraph from "./chart";
 
 export default async function InPersonEventAttendanceReportPage({
   params: { slug },
@@ -31,9 +30,7 @@ export default async function InPersonEventAttendanceReportPage({
       "startTime",
       "endTime",
       "venue",
-      "location",
       "allowedEmailDomains",
-      "allowedRange",
     ])
     .where((eb) =>
       eb.and([
@@ -65,7 +62,7 @@ export default async function InPersonEventAttendanceReportPage({
       "User.name",
       "User.image",
       "checkInTime",
-      "location",
+      "registrationTime"
     ])
     .where("InPersonEventAttendee.eventId", "=", inPersonEvent.id)
     .execute();
@@ -76,13 +73,6 @@ export default async function InPersonEventAttendanceReportPage({
         <InPersonEventInfo
           event={{ attendeesCount: attendees.length, ...inPersonEvent }}
           downloadData={attendees}
-        />
-        <InPersonEventAttendanceGraph
-          center={inPersonEvent.location}
-          attendees={attendees.map((x) => ({
-            name: x.name ?? "",
-            location: x.location,
-          }))}
         />
       </div>
 

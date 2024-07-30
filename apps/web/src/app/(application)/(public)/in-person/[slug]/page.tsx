@@ -28,12 +28,10 @@ export default async function InPersonEventAttendancePublicPage({
       "name",
       "venue",
       "slug",
-      "location",
       "startTime",
       "endTime",
       "allowedEmails",
       "allowedEmailDomains",
-      "allowedRange",
     ])
     .where("slug", "=", slug)
     .executeTakeFirst();
@@ -46,19 +44,24 @@ export default async function InPersonEventAttendancePublicPage({
   const email = session?.user?.email;
 
   let hasCheckedIn = false;
+  let hasRegistered = false;
 
   if (email) {
     const checkedIn = await dbClient
       .selectFrom("InPersonEventAttendee")
       .innerJoin("User", "User.id", "InPersonEventAttendee.userId")
-      .select("User.email")
+      .select(["checkInTime", "registrationTime"])
       .where((eb) =>
-        eb.and([eb("eventId", "=", event.id), eb("User.email", "=", email)]),
+        eb.and([eb("eventId", "=", event.id), eb("User.email", "=", email)])
       )
       .executeTakeFirst();
 
     if (checkedIn) {
-      hasCheckedIn = true;
+      hasRegistered = true;
+
+      if (checkedIn.checkInTime) {
+        hasCheckedIn = true;
+      }
     }
   }
 
@@ -80,9 +83,8 @@ export default async function InPersonEventAttendancePublicPage({
         <blockquote className="mt-auto">
           <TypographyP>
             &ldquo;Go beyond the headcount: Trackit tracks attendance for
-            in-person events with pinpoint accuracy using location verification.
-            Gain valuable insights, enforce location restrictions, and manage
-            your event seamlessly – all with Trackit.&rdquo;
+            in-person events. Gain valuable insights and manage your event
+            seamlessly – all with Trackit.&rdquo;
           </TypographyP>
         </blockquote>
       </div>
@@ -115,7 +117,12 @@ export default async function InPersonEventAttendancePublicPage({
             <TypographyH1>{event.name}</TypographyH1>
             <TypographyH3>{event.venue}</TypographyH3>
           </div>
-          <PageAction email={email} event={event} hasCheckedIn={hasCheckedIn} />
+          <PageAction
+            email={email}
+            event={event}
+            hasCheckedIn={hasCheckedIn}
+            hasRegistered={hasRegistered}
+          />
         </div>
       </div>
     </div>

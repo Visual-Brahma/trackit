@@ -1,11 +1,10 @@
 "use client";
-import { formatDatetime, formatDistance, formatTime } from "@/lib/utils/format";
+import { formatDatetime, formatTime } from "@/lib/utils/format";
 import { Table, TableBody, TableCell, TableRow } from "@repo/ui/table";
 import StopAcceptingResponsesForm from "./end-link-form";
 import CopyAttendanceLink from "./copy-link";
 import { useEffect, useState } from "react";
 import DownloadInPersonEventAttendance from "./download";
-import EditInPersonEventAllowedRange from "./edit-range";
 
 export default function InPersonEventInfo({
   event,
@@ -16,7 +15,6 @@ export default function InPersonEventInfo({
     id: number;
     name: string;
     venue: string | null;
-    allowedRange: number;
     allowedEmailDomains: string[];
     date: Date;
     startTime: Date;
@@ -27,7 +25,7 @@ export default function InPersonEventInfo({
     image: string | null;
     name: string | null;
     email: string;
-    checkInTime: Date;
+    checkInTime: Date | null;
   }[];
 }) {
   const [isClient, setIsClient] = useState(false);
@@ -75,15 +73,6 @@ export default function InPersonEventInfo({
           <TableRow>
             <TableCell className="font-medium">Attendees</TableCell>
             <TableCell>{event.attendeesCount}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">Allowed Range</TableCell>
-            <TableCell>
-              <EditInPersonEventAllowedRange
-                allowedRange={event.allowedRange}
-                eventId={event.id}
-              />
-            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Allowed Email Domains</TableCell>

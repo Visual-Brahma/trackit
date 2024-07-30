@@ -20,13 +20,12 @@ export default function DownloadInPersonEventAttendance({
     image: string | null;
     name: string | null;
     email: string;
-    checkInTime: Date;
+    checkInTime: Date | null;
   }[];
   info: {
     slug: string;
     name: string;
     venue: string | null;
-    allowedRange: number;
     allowedEmailDomains: string[];
     date: Date;
     startTime: Date;
@@ -42,7 +41,7 @@ export default function DownloadInPersonEventAttendance({
       data: downloadData.map((row) => [
         row.name,
         row.email,
-        formatTime(row.checkInTime),
+        row.checkInTime ? formatTime(row.checkInTime): "Not Checked-In",
       ]),
     });
   };
@@ -62,7 +61,7 @@ export default function DownloadInPersonEventAttendance({
     const data = downloadData.map((row) => [
       row.name,
       row.email,
-      formatTime(row.checkInTime),
+      row.checkInTime ? formatTime(row.checkInTime): "Not Checked-In",
     ]);
 
     doc.text(title, 40, 40);
@@ -75,7 +74,6 @@ export default function DownloadInPersonEventAttendance({
         ["Start Time", formatTime(info.startTime)],
         ["End Time", info.endTime ? formatTime(info.endTime) : ""],
         ["Participants", info.attendeesCount],
-        ["Allowed range", info.allowedRange + " metres"],
         ["Allowed Email Domains", info.allowedEmailDomains.join(", ")],
       ],
     });

@@ -131,26 +131,22 @@ model InPersonEvent {
   group               Group                   @relation(fields: [groupId], references: [id])
   groupId             String
   venue               String?
-  location            Unsupported("Point")
-  allowedRange        Int                     @default(20)
   allowedEmailDomains String[]                @default([])
   allowedEmails       String[]                @default([])
   date                DateTime                @db.Timestamptz(3)
   startTime           DateTime                @db.Timestamptz(3)
   endTime             DateTime?               @db.Timestamptz(3)
   attendees           InPersonEventAttendee[]
-
-  @@index([location], type: Gist)
 }
 
 model InPersonEventAttendee {
-  id          BigInt               @id @default(autoincrement())
-  user        User                 @relation(fields: [userId], references: [id])
-  userId      String
-  event       InPersonEvent        @relation(fields: [eventId], references: [id])
-  eventId     Int
-  checkInTime DateTime             @default(now()) @db.Timestamptz(3)
-  location    Unsupported("Point")
+  id               BigInt        @id @default(autoincrement())
+  user             User          @relation(fields: [userId], references: [id])
+  userId           String
+  event            InPersonEvent @relation(fields: [eventId], references: [id])
+  eventId          Int
+  checkInTime      DateTime?     @db.Timestamptz(3)
+  registrationTime DateTime      @default(now()) @db.Timestamptz(3)
 
   @@unique([userId, eventId])
 }

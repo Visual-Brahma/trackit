@@ -1,16 +1,13 @@
 "use server";
 
 import { dbClient } from "@/lib/db/db_client";
-import { point } from "@/lib/utils/format";
 import { getServerSession } from "next-auth";
-import { checkIfWithinRange } from "./location";
 
 export const createInPersonAttendanceLink = async (data: {
   name: string;
   venue?: string;
-  location: { lat: number; lng: number };
-  allowedRange: number;
   allowedEmailDomains: string[];
+  allowedEmails: string[];
   date: string;
   startTime: string;
 }) => {
@@ -23,16 +20,16 @@ export const createInPersonAttendanceLink = async (data: {
       .innerJoin("Group", (join) =>
         join
           .onRef("Group.id", "=", "GroupMember.groupId")
-          .on("Group.isDefault", "=", true),
+          .on("Group.isDefault", "=", true)
       )
       .select("Group.id")
       .where((eb) =>
         eb.and([
           eb("GroupMember.userId", "=", (eb) =>
-            eb.selectFrom("User").select("User.id").where("email", "=", email),
+            eb.selectFrom("User").select("User.id").where("email", "=", email)
           ),
           eb("GroupMember.role", "=", "OWNER"),
-        ]),
+        ])
       )
       .executeTakeFirst();
 
@@ -46,9 +43,8 @@ export const createInPersonAttendanceLink = async (data: {
         name: data.name,
         slug: "",
         venue: data.venue,
-        location: point({ x: data.location.lat, y: data.location.lng }),
-        allowedRange: data.allowedRange,
         allowedEmailDomains: data.allowedEmailDomains,
+        allowedEmails: data.allowedEmails,
         date: data.date,
         startTime: data.startTime,
         groupId: group.id,
@@ -91,12 +87,12 @@ export const endInPersonEvent = async ({
                     eb
                       .selectFrom("User")
                       .select("User.id")
-                      .where("User.email", "=", email),
+                      .where("User.email", "=", email)
                   ),
-                ]),
-              ),
+                ])
+              )
           ),
-        ]),
+        ])
       )
       .executeTakeFirst();
 
@@ -108,51 +104,89 @@ export const endInPersonEvent = async ({
   return false;
 };
 
-export const checkInToInPersonEvent = async ({
+export const registerToInPersonEvent = async ({
   eventId,
-  eventLocation,
-  userLocation,
-  checkInTime,
-  allowedRange,
+  registrationTime,
 }: {
-  checkInTime: string;
-  userLocation: { lat: number; lng: number };
-  eventLocation: { lat: number; lng: number };
   eventId: number;
-  allowedRange: number;
+  registrationTime: string;
 }) => {
-  if (
-    !checkIfWithinRange({
-      eventLocation,
-      userLocation,
-      rangeInMeters: allowedRange,
-    })
-  ) {
-    return "You are not within the allowed range to check in to this event.";
-  }
-
   const session = await getServerSession();
   if (session && session.user && session.user.email) {
     const email = session.user.email;
-
     const user = await dbClient
       .selectFrom("User")
       .select("id")
       .where("email", "=", email)
       .executeTakeFirst();
-
     if (!user) {
       return false;
     }
-
     const eventCheckIn = await dbClient
       .insertInto("InPersonEventAttendee")
       .values({
         userId: user.id,
         eventId: eventId,
-        checkInTime: checkInTime,
-        location: point({ x: userLocation.lat, y: userLocation.lng }),
+        registrationTime: registrationTime,
       })
+      .returning("id")
+      .executeTakeFirst();
+    if (eventCheckIn && eventCheckIn.id) {
+      return true;
+    }
+  }
+  return false;
+};
+
+export const checkInToInPersonEvent = async ({
+  eventId,
+  userId,
+  checkInTime,
+}: {
+  checkInTime: string;
+  eventId: number;
+  userId: string;
+}) => {
+  const session = await getServerSession();
+  if (session && session.user && session.user.email) {
+    const email = session.user.email;
+
+    const userPerm = await dbClient
+      .selectFrom("InPersonEvent")
+      .select("id")
+      .where((eb) =>
+        eb.and([
+          eb("id", "=", eventId),
+          eb("groupId", "in", (eb) =>
+            eb
+              .selectFrom("GroupMember")
+              .select("GroupMember.groupId")
+              .where((eb) =>
+                eb.and([
+                  eb("role", "in", ["ADMIN", "OWNER"]),
+                  eb("GroupMember.userId", "=", (eb) =>
+                    eb
+                      .selectFrom("User")
+                      .select("User.id")
+                      .where("User.email", "=", email)
+                  ),
+                ])
+              )
+          ),
+        ])
+      )
+      .executeTakeFirst();
+
+    if (!userPerm) {
+      return false;
+    }
+
+    const eventCheckIn = await dbClient
+      .updateTable("InPersonEventAttendee")
+      .set({
+        checkInTime: checkInTime,
+      })
+      .where("userId", "=", userId)
       .returning("id")
       .executeTakeFirst();
 
@@ -169,7 +203,6 @@ export const editInPersonEvent = async ({
 }: {
   name?: string;
   venue?: string;
-  allowedRange?: number;
   id: number;
 }) => {
   // check if all of the fields are empty or not
@@ -198,12 +231,12 @@ export const editInPersonEvent = async ({
                     eb
                       .selectFrom("User")
                       .select("User.id")
-                      .where("User.email", "=", email),
+                      .where("User.email", "=", email)
                   ),
-                ]),
-              ),
+                ])
+              )
           ),
-        ]),
+        ])
       )
       .executeTakeFirst();
 

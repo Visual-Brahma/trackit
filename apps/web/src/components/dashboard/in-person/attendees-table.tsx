@@ -11,7 +11,7 @@ export interface InPersonEventAttendanceReportParticipant {
   email: string;
   name: string | null;
   image: string | null;
-  checkInTime: Date;
+  checkInTime: Date | null;
 }
 
 export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<InPersonEventAttendanceReportParticipant>[] =
@@ -59,7 +59,7 @@ export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<In
               src={
                 row.original.image ||
                 `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${row.getValue(
-                  "name",
+                  "name"
                 )}`
               }
             />
@@ -95,7 +95,9 @@ export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<In
       },
       cell: ({ row }) => (
         <div className="capitalize">
-          {formatTime(row.getValue("checkInTime") as Date) ?? "-"}
+          {row.getValue("checkInTime")
+            ? formatTime(row.getValue("checkInTime") as Date)
+            : "Not Checked-In"}
         </div>
       ),
     },

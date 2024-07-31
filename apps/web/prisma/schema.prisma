@@ -143,7 +143,7 @@ model InPersonEventAttendee {
   id               BigInt        @id @default(autoincrement())
   user             User          @relation(fields: [userId], references: [id])
   userId           String
-  event            InPersonEvent @relation(fields: [eventId], references: [id])
+  event            InPersonEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId          Int
   checkInTime      DateTime?     @db.Timestamptz(3)
   registrationTime DateTime      @default(now()) @db.Timestamptz(3)

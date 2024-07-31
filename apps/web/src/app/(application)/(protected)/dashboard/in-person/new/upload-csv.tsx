@@ -73,7 +73,7 @@ export const UploadEmailCsv = ({
       header: true,
       error: () => {
         toast.error(
-          "Error extracting emails from file. Please make sure there is a column containing emails."
+          "Error extracting emails from file. Please make sure there is a column containing emails.",
         );
       },
       complete: (results) => {
@@ -89,8 +89,8 @@ export const UploadEmailCsv = ({
             (row: any) =>
               row[col] &&
               typeof row[col] === "string" &&
-              emailSchema.safeParse(row[col]).success
-          )
+              emailSchema.safeParse(row[col]).success,
+          ),
         );
 
         if (!emailsColumn) {

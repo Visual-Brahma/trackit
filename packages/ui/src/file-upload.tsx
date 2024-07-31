@@ -72,7 +72,7 @@ export const FileUploader = forwardRef<
       dir,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [isFileTooBig, setIsFileTooBig] = useState(false);
     const [isLOF, setIsLOF] = useState(false);
@@ -95,7 +95,7 @@ export const FileUploader = forwardRef<
         const newFiles = value.filter((_, index) => index !== i);
         onValueChange(newFiles);
       },
-      [value, onValueChange]
+      [value, onValueChange],
     );
 
     const handleKeyDown = useCallback(
@@ -150,7 +150,7 @@ export const FileUploader = forwardRef<
           setActiveIndex(-1);
         }
       },
-      [value, activeIndex, removeFileFromSet]
+      [value, activeIndex, removeFileFromSet],
     );
 
     const onDrop = useCallback(
@@ -180,7 +180,7 @@ export const FileUploader = forwardRef<
           for (let i = 0; i < rejectedFiles.length; i++) {
             if (rejectedFiles[i]!.errors[0]?.code === "file-too-large") {
               toast.error(
-                `File is too large. Max size is ${maxSize / 1024 / 1024}MB`
+                `File is too large. Max size is ${maxSize / 1024 / 1024}MB`,
               );
               break;
             }
@@ -191,7 +191,7 @@ export const FileUploader = forwardRef<
           }
         }
       },
-      [reSelectAll, value]
+      [reSelectAll, value],
     );
 
     useEffect(() => {
@@ -236,7 +236,7 @@ export const FileUploader = forwardRef<
             className,
             {
               "gap-2": value && value.length > 0,
-            }
+            },
           )}
           dir={dir}
           {...props}
@@ -245,7 +245,7 @@ export const FileUploader = forwardRef<
         </div>
       </FileUploaderContext.Provider>
     );
-  }
+  },
 );
 
 FileUploader.displayName = "FileUploader";
@@ -269,7 +269,7 @@ export const FileUploaderContent = forwardRef<
         className={cn(
           "flex rounded-xl gap-1",
           orientation === "horizontal" ? "flex-raw flex-wrap" : "flex-col",
-          className
+          className,
         )}
       >
         {children}
@@ -293,7 +293,7 @@ export const FileUploaderItem = forwardRef<
         buttonVariants({ variant: "ghost" }),
         "h-6 p-1 justify-between cursor-pointer relative",
         className,
-        isSelected ? "bg-muted" : ""
+        isSelected ? "bg-muted" : "",
       )}
       {...props}
     >
@@ -304,7 +304,7 @@ export const FileUploaderItem = forwardRef<
         type="button"
         className={cn(
           "absolute",
-          direction === "rtl" ? "top-1 left-1" : "top-1 right-1"
+          direction === "rtl" ? "top-1 left-1" : "top-1 right-1",
         )}
         onClick={() => removeFileFromSet(index)}
       >
@@ -341,7 +341,7 @@ export const FileInput = forwardRef<
                ? "border-red-500"
                : "border-gray-300"
          }`,
-          className
+          className,
         )}
         {...rootProps}
       >

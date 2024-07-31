@@ -78,7 +78,7 @@ export default function CreateInPersonAttendanceLinkForm() {
                 variant={"secondary"}
                 onClick={async () => {
                   await navigator.clipboard.writeText(
-                    `${location.origin}/in-person/${slug}`
+                    `${location.origin}/in-person/${slug}`,
                   );
                   toast.success("Link copied to clipboard");
                 }}

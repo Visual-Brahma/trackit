@@ -63,6 +63,16 @@ const EmailChipsInput = ({
       }
     }
   };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData("text");
+    const emails = text.split(/[\s,;]+/);
+    setEmails((prev) => {
+      return [...prev, ...emails.filter((email) => isValidInput(email))];
+    });
+  };
+
   return (
     <div className="w-full">
       <Input
@@ -74,30 +84,36 @@ const EmailChipsInput = ({
           setError(null);
         }}
         onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
         className="w-full"
       />
       {error && <p className="text-red-500">{error}</p>}
-      {emails.map((email) => (
-        <Badge
-          key={email}
-          variant={"default"}
-          className={`mr-2 my-1 rounded-xl`}
-        >
-          {email}
-          <Button
-            variant={"ghost"}
-            className="ml-2 hover:bg-primary/80 rounded-full"
-            size={"icon"}
-            onClick={() =>
-              setEmails((emails) => {
-                return emails.filter((e) => e !== email);
-              })
-            }
-          >
-            <CrossCircledIcon />
-          </Button>
-        </Badge>
-      ))}
+      <div className="max-h-48 overflow-y-auto p-2 mt-2">
+        {emails
+          .slice()
+          .reverse()
+          .map((email) => (
+            <Badge
+              key={email}
+              variant={"default"}
+              className={`mr-2 my-1 rounded-xl`}
+            >
+              {email}
+              <Button
+                variant={"ghost"}
+                className="ml-2 hover:bg-primary/80 rounded-full"
+                size={"icon"}
+                onClick={() =>
+                  setEmails((emails) => {
+                    return emails.filter((e) => e !== email);
+                  })
+                }
+              >
+                <CrossCircledIcon />
+              </Button>
+            </Badge>
+          ))}
+      </div>
     </div>
   );
 };

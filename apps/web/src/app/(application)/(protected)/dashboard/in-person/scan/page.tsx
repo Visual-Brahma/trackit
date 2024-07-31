@@ -30,40 +30,29 @@ export default function QrCodeScanner() {
         if (error.type === MediaPermissionsErrorType.SystemPermissionDenied) {
           // user denied permission
           setError(
-            "Permission to access camera was denied. Please allow camera access to scan Qr code."
+            "Permission to access camera was denied. Please allow camera access to scan Qr code.",
           );
         } else if (
           error.type === MediaPermissionsErrorType.UserPermissionDenied
         ) {
           // browser doesn't have access to devices
           setError(
-            "It seems like your browser doesn't have access to camera. Please allow camera access to scan Qr code."
+            "It seems like your browser doesn't have access to camera. Please allow camera access to scan Qr code.",
           );
         } else if (
           error.type === MediaPermissionsErrorType.CouldNotStartVideoSource
         ) {
           // most likely when other apps or tabs are using the cam/mic (mostly windows)
           setError(
-            "Other applications or browser tab might be using camera. Please close other camera applications or tabs and try again."
+            "Other applications or browser tab might be using camera. Please close other camera applications or tabs and try again.",
           );
         }
       });
   };
 
-  const stopCamera = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: false,
-    });
-    stream.getTracks().forEach((t) => {
-      t.stop();
-    });
-  };
-
   const checkInUser = async (data: { eventId: number; userId: string }) => {
     setIsLoading(true);
     setIsScanning(false);
-    await stopCamera();
     const res = await checkInToInPersonEvent({
       ...data,
       checkInTime: new Date().toISOString(),
@@ -96,7 +85,7 @@ export default function QrCodeScanner() {
                   JSON.parse(result.getText()) as {
                     eventId: number;
                     userId: string;
-                  }
+                  },
                 );
               }
             }

@@ -55,13 +55,10 @@ export default function PageAction({
 
   const hasAccess =
     event.allowedEmails.length > 0
-      ? event.allowedEmails.includes(email) ||
-        event.allowedEmailDomains.some(
-          (domain) => email.split("@")![1] == domain,
-        )
+      ? event.allowedEmails.includes(email)
       : event.allowedEmailDomains.length > 0
         ? event.allowedEmailDomains.some(
-            (domain) => email.split("@")![1] == domain,
+            (domain) => email.split("@")![1] == domain
           )
         : true;
 

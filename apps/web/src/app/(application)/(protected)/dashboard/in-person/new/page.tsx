@@ -28,6 +28,7 @@ import { toast } from "@repo/ui/sonner";
 import Link from "next/link";
 import { TypographyP } from "@repo/ui/typography";
 import { useState } from "react";
+import UploadEmailCsv from "./upload-csv";
 
 const FormSchema = z.object({
   name: z.string().min(2),
@@ -77,7 +78,7 @@ export default function CreateInPersonAttendanceLinkForm() {
                 variant={"secondary"}
                 onClick={async () => {
                   await navigator.clipboard.writeText(
-                    `${location.origin}/in-person/${slug}`,
+                    `${location.origin}/in-person/${slug}`
                   );
                   toast.success("Link copied to clipboard");
                 }}
@@ -163,15 +164,21 @@ export default function CreateInPersonAttendanceLinkForm() {
                   <FormItem>
                     <FormLabel>Allowed Emails</FormLabel>
                     <FormControl>
-                      <EmailChipsInput
-                        domainOnly
-                        emails={field.value}
-                        setEmails={field.onChange}
-                      />
+                      <div>
+                        <EmailChipsInput
+                          emails={field.value}
+                          setEmails={field.onChange}
+                        />
+                        <TypographyP className="my-2 text-center">
+                          Or
+                        </TypographyP>
+                        <UploadEmailCsv onComplete={field.onChange} />
+                      </div>
                     </FormControl>
                     <FormDescription>
                       Only users with these emails will be allowed to check-in.
-                      Leave empty to allow all everyone.
+                      This will override the allowed email domains. Leave empty
+                      to allow anyone.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

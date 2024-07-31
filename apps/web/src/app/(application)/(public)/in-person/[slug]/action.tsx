@@ -5,12 +5,14 @@ import { Alert, AlertDescription, AlertTitle } from "@repo/ui/alert";
 import { CheckCircleIcon } from "lucide-react";
 import SignInButton from "@/components/signin-button";
 import RegisterToInPersonEventAction from "./register";
+import InPersonEventQrCode from "./qr";
 
 export default function PageAction({
   email,
   event,
   hasCheckedIn,
   hasRegistered,
+  userId,
 }: {
   email: string | null | undefined;
   event: {
@@ -25,6 +27,7 @@ export default function PageAction({
   };
   hasCheckedIn: boolean;
   hasRegistered: boolean;
+  userId?: string;
 }) {
   if (event.endTime && event.endTime < new Date()) {
     return (
@@ -54,11 +57,11 @@ export default function PageAction({
     event.allowedEmails.length > 0
       ? event.allowedEmails.includes(email) ||
         event.allowedEmailDomains.some(
-          (domain) => email.split("@")![1] == domain
+          (domain) => email.split("@")![1] == domain,
         )
       : event.allowedEmailDomains.length > 0
         ? event.allowedEmailDomains.some(
-            (domain) => email.split("@")![1] == domain
+            (domain) => email.split("@")![1] == domain,
           )
         : true;
 
@@ -92,9 +95,10 @@ export default function PageAction({
     );
   }
 
-  if (hasRegistered) {
+  if (hasRegistered && userId) {
     return (
       <div className="flex flex-col items-center justify-center lg:items-start gap-4">
+        <InPersonEventQrCode eventId={event.id} userId={userId} />
         <TypographyP>
           Show this QR code to the event organizer to check-in.
         </TypographyP>

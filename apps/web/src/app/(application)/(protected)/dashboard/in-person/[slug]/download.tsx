@@ -41,7 +41,7 @@ export default function DownloadInPersonEventAttendance({
       data: downloadData.map((row) => [
         row.name,
         row.email,
-        row.checkInTime ? formatTime(row.checkInTime): "Not Checked-In",
+        row.checkInTime ? formatTime(row.checkInTime) : "Not Checked-In",
       ]),
     });
   };
@@ -61,7 +61,7 @@ export default function DownloadInPersonEventAttendance({
     const data = downloadData.map((row) => [
       row.name,
       row.email,
-      row.checkInTime ? formatTime(row.checkInTime): "Not Checked-In",
+      row.checkInTime ? formatTime(row.checkInTime) : "Not Checked-In",
     ]);
 
     doc.text(title, 40, 40);

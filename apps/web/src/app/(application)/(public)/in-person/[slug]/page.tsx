@@ -45,19 +45,21 @@ export default async function InPersonEventAttendancePublicPage({
 
   let hasCheckedIn = false;
   let hasRegistered = false;
+  let userId;
 
   if (email) {
     const checkedIn = await dbClient
       .selectFrom("InPersonEventAttendee")
       .innerJoin("User", "User.id", "InPersonEventAttendee.userId")
-      .select(["checkInTime", "registrationTime"])
+      .select(["checkInTime", "registrationTime", "userId"])
       .where((eb) =>
-        eb.and([eb("eventId", "=", event.id), eb("User.email", "=", email)])
+        eb.and([eb("eventId", "=", event.id), eb("User.email", "=", email)]),
       )
       .executeTakeFirst();
 
     if (checkedIn) {
       hasRegistered = true;
+      userId = checkedIn.userId;
 
       if (checkedIn.checkInTime) {
         hasCheckedIn = true;
@@ -122,6 +124,7 @@ export default async function InPersonEventAttendancePublicPage({
             event={event}
             hasCheckedIn={hasCheckedIn}
             hasRegistered={hasRegistered}
+            userId={userId}
           />
         </div>
       </div>

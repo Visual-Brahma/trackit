@@ -5,6 +5,8 @@ import StopAcceptingResponsesForm from "./end-link-form";
 import CopyAttendanceLink from "./copy-link";
 import { useEffect, useState } from "react";
 import DownloadInPersonEventAttendance from "./download";
+import Link from "next/link";
+import { buttonVariants } from "@repo/ui/button";
 
 export default function InPersonEventInfo({
   event,
@@ -86,6 +88,17 @@ export default function InPersonEventInfo({
             <TableCell className="font-medium">Share Attendance Link</TableCell>
             <TableCell>
               <CopyAttendanceLink slug={event.slug} />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">Scan QR Code</TableCell>
+            <TableCell>
+              <Link
+                href="/dashboard/in-person/scan"
+                className={buttonVariants()}
+              >
+                Scan
+              </Link>
             </TableCell>
           </TableRow>
           <TableRow>

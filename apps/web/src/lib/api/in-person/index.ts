@@ -20,16 +20,16 @@ export const createInPersonAttendanceLink = async (data: {
       .innerJoin("Group", (join) =>
         join
           .onRef("Group.id", "=", "GroupMember.groupId")
-          .on("Group.isDefault", "=", true)
+          .on("Group.isDefault", "=", true),
       )
       .select("Group.id")
       .where((eb) =>
         eb.and([
           eb("GroupMember.userId", "=", (eb) =>
-            eb.selectFrom("User").select("User.id").where("email", "=", email)
+            eb.selectFrom("User").select("User.id").where("email", "=", email),
           ),
           eb("GroupMember.role", "=", "OWNER"),
-        ])
+        ]),
       )
       .executeTakeFirst();
 
@@ -87,12 +87,12 @@ export const endInPersonEvent = async ({
                     eb
                       .selectFrom("User")
                       .select("User.id")
-                      .where("User.email", "=", email)
+                      .where("User.email", "=", email),
                   ),
-                ])
-              )
+                ]),
+              ),
           ),
-        ])
+        ]),
       )
       .executeTakeFirst();
 
@@ -168,17 +168,17 @@ export const checkInToInPersonEvent = async ({
                     eb
                       .selectFrom("User")
                       .select("User.id")
-                      .where("User.email", "=", email)
+                      .where("User.email", "=", email),
                   ),
-                ])
-              )
+                ]),
+              ),
           ),
-        ])
+        ]),
       )
       .executeTakeFirst();
 
     if (!userPerm) {
-      return false;
+      return "You do not have permission to check-in to this event";
     }
 
     const eventCheckIn = await dbClient
@@ -231,12 +231,12 @@ export const editInPersonEvent = async ({
                     eb
                       .selectFrom("User")
                       .select("User.id")
-                      .where("User.email", "=", email)
+                      .where("User.email", "=", email),
                   ),
-                ])
-              )
+                ]),
+              ),
           ),
-        ])
+        ]),
       )
       .executeTakeFirst();
 

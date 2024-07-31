@@ -59,7 +59,7 @@ export const inPersonEventAttendanceReportParticipantsTableColumns: ColumnDef<In
               src={
                 row.original.image ||
                 `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${row.getValue(
-                  "name"
+                  "name",
                 )}`
               }
             />

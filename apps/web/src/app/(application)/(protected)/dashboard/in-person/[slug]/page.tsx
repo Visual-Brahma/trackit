@@ -62,7 +62,7 @@ export default async function InPersonEventAttendanceReportPage({
       "User.name",
       "User.image",
       "checkInTime",
-      "registrationTime"
+      "registrationTime",
     ])
     .where("InPersonEventAttendee.eventId", "=", inPersonEvent.id)
     .execute();

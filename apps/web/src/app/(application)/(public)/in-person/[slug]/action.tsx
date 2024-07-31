@@ -1,16 +1,18 @@
-import { Point } from "@/types";
 import { buttonVariants } from "@repo/ui/button";
 import { TypographyP } from "@repo/ui/typography";
 import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@repo/ui/alert";
-import InPersonEventAttendance from "./location";
 import { CheckCircleIcon } from "lucide-react";
 import SignInButton from "@/components/signin-button";
+import RegisterToInPersonEventAction from "./register";
+import InPersonEventQrCode from "./qr";
 
 export default function PageAction({
   email,
   event,
   hasCheckedIn,
+  hasRegistered,
+  userId,
 }: {
   email: string | null | undefined;
   event: {
@@ -18,14 +20,14 @@ export default function PageAction({
     id: number;
     name: string;
     venue: string | null;
-    location: Point;
-    allowedRange: number;
     allowedEmailDomains: string[];
     allowedEmails: string[];
     startTime: Date;
     endTime: Date | null;
   };
   hasCheckedIn: boolean;
+  hasRegistered: boolean;
+  userId?: string;
 }) {
   if (event.endTime && event.endTime < new Date()) {
     return (
@@ -93,11 +95,20 @@ export default function PageAction({
     );
   }
 
+  if (hasRegistered && userId) {
+    return (
+      <div className="flex flex-col items-center justify-center lg:items-start gap-4">
+        <InPersonEventQrCode eventId={event.id} userId={userId} />
+        <TypographyP>
+          Show this QR code to the event organizer to check-in.
+        </TypographyP>
+      </div>
+    );
+  }
+
   return (
-    <InPersonEventAttendance
-      eventId={event.id}
-      allowedRange={event.allowedRange}
-      eventLocation={{ lat: event.location.x, lng: event.location.y }}
-    />
+    <div className="flex flex-col items-center justify-center lg:items-start gap-4">
+      <RegisterToInPersonEventAction eventId={event.id} />
+    </div>
   );
 }

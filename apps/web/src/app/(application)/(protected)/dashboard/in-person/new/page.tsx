@@ -23,33 +23,25 @@ import {
 import { LoadingCircle } from "@repo/ui/icons";
 import { Input } from "@repo/ui/input";
 import { EmailChipsInput } from "@repo/ui/email-chips-input";
-import MapInput from "@/components/map-input";
 import { createInPersonAttendanceLink } from "@/lib/api/in-person";
 import { toast } from "@repo/ui/sonner";
 import Link from "next/link";
 import { TypographyP } from "@repo/ui/typography";
 import { useState } from "react";
-import DistanceInput from "./distance";
 
 const FormSchema = z.object({
   name: z.string().min(2),
   venue: z.string().optional(),
-  allowedRange: z.coerce
-    .number()
-    .min(5, { message: "Range should be atleast 5 metres" }),
   allowedEmailDomains: z.array(z.string()).default([]),
-  location: z.object({
-    lat: z.number(),
-    lng: z.number(),
-  }),
+  allowedEmails: z.array(z.string()).default([]),
 });
 
 export default function CreateInPersonAttendanceLinkForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      allowedRange: 1000,
       allowedEmailDomains: [],
+      allowedEmails: [],
     },
   });
 
@@ -145,26 +137,6 @@ export default function CreateInPersonAttendanceLinkForm() {
               />
               <FormField
                 control={form.control}
-                name={"allowedRange"}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Allowed Range</FormLabel>
-                    <FormControl>
-                      <DistanceInput
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      The range(in metres) within which attendees can check-in.
-                      Default is 1 Kilo metres.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name={"allowedEmailDomains"}
                 render={({ field }) => (
                   <FormItem>
@@ -186,22 +158,20 @@ export default function CreateInPersonAttendanceLinkForm() {
               />
               <FormField
                 control={form.control}
-                name={"location"}
+                name={"allowedEmails"}
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Allowed Emails</FormLabel>
                     <FormControl>
-                      <MapInput
-                        location={field.value}
-                        onChange={field.onChange}
-                        buttonVariant="secondary"
+                      <EmailChipsInput
+                        domainOnly
+                        emails={field.value}
+                        setEmails={field.onChange}
                       />
                     </FormControl>
                     <FormDescription>
-                      The location of the event. This will be used to check if
-                      the attendees are within the allowed range.{" "}
-                      <span className="font-bold">
-                        Use a mobile device for better accuracy.
-                      </span>
+                      Only users with these emails will be allowed to check-in.
+                      Leave empty to allow all everyone.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

@@ -1,11 +1,12 @@
 "use client";
-import { formatDatetime, formatDistance, formatTime } from "@/lib/utils/format";
+import { formatDatetime, formatTime } from "@/lib/utils/format";
 import { Table, TableBody, TableCell, TableRow } from "@repo/ui/table";
 import StopAcceptingResponsesForm from "./end-link-form";
 import CopyAttendanceLink from "./copy-link";
 import { useEffect, useState } from "react";
 import DownloadInPersonEventAttendance from "./download";
-import EditInPersonEventAllowedRange from "./edit-range";
+import Link from "next/link";
+import { buttonVariants } from "@repo/ui/button";
 
 export default function InPersonEventInfo({
   event,
@@ -16,7 +17,6 @@ export default function InPersonEventInfo({
     id: number;
     name: string;
     venue: string | null;
-    allowedRange: number;
     allowedEmailDomains: string[];
     date: Date;
     startTime: Date;
@@ -27,7 +27,7 @@ export default function InPersonEventInfo({
     image: string | null;
     name: string | null;
     email: string;
-    checkInTime: Date;
+    checkInTime: Date | null;
   }[];
 }) {
   const [isClient, setIsClient] = useState(false);
@@ -77,15 +77,6 @@ export default function InPersonEventInfo({
             <TableCell>{event.attendeesCount}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className="font-medium">Allowed Range</TableCell>
-            <TableCell>
-              <EditInPersonEventAllowedRange
-                allowedRange={event.allowedRange}
-                eventId={event.id}
-              />
-            </TableCell>
-          </TableRow>
-          <TableRow>
             <TableCell className="font-medium">Allowed Email Domains</TableCell>
             <TableCell>
               {event.allowedEmailDomains.length > 0
@@ -97,6 +88,17 @@ export default function InPersonEventInfo({
             <TableCell className="font-medium">Share Attendance Link</TableCell>
             <TableCell>
               <CopyAttendanceLink slug={event.slug} />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">Scan QR Code</TableCell>
+            <TableCell>
+              <Link
+                href="/dashboard/in-person/scan"
+                className={buttonVariants()}
+              >
+                Scan
+              </Link>
             </TableCell>
           </TableRow>
           <TableRow>

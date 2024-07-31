@@ -8,8 +8,3 @@ export interface ThemeChangerProps {
   extended?: boolean;
   className?: string;
 }
-
-export type Point = {
-  x: number;
-  y: number;
-};

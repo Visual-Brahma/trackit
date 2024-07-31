@@ -1,6 +1,7 @@
 "use client";
 import { checkInToInPersonEvent } from "@/lib/api/in-person";
 import { Button } from "@repo/ui/button";
+import Loading from "@repo/ui/loading";
 import { toast } from "@repo/ui/sonner";
 import { useState } from "react";
 import { QrReader } from "react-qr-reader";
@@ -8,13 +9,8 @@ import { QrReader } from "react-qr-reader";
 export default function QrCodeScanner() {
   const [isLoading, setIsLoading] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
-  const [data, setData] = useState<{
-    eventId: number;
-    userId: string;
-  }>();
 
-  const checkInUser = async () => {
-    if (!data) return;
+  const checkInUser = async (data: { eventId: number; userId: string }) => {
     setIsLoading(true);
     const res = await checkInToInPersonEvent({
       ...data,
@@ -35,19 +31,18 @@ export default function QrCodeScanner() {
   if (isScanning) {
     return (
       <div className="p-4">
+        {isLoading && <Loading />}
         <QrReader
           onResult={(result) => {
             if (!!result) {
-              setData(
-                JSON.parse(result.getText()) as {
-                  eventId: number;
-                  userId: string;
-                },
-              );
               if (!isLoading) {
-                checkInUser();
+                checkInUser(
+                  JSON.parse(result.getText()) as {
+                    eventId: number;
+                    userId: string;
+                  },
+                );
               }
-              console.log(result);
             }
           }}
           constraints={{

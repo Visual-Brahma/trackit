@@ -181,12 +181,25 @@ export const checkInToInPersonEvent = async ({
       return "You do not have permission to check-in to this event";
     }
 
+    const attendance = await dbClient
+      .selectFrom("InPersonEventAttendee")
+      .select(["id", "checkInTime"])
+      .where((eb) =>
+        eb.and([eb("userId", "=", userId), eb("eventId", "=", eventId)]),
+      )
+      .executeTakeFirst();
+
+    if (attendance && attendance.checkInTime) {
+      return "User already checked in";
+    }
+
     const eventCheckIn = await dbClient
       .updateTable("InPersonEventAttendee")
       .set({
         checkInTime: checkInTime,
       })
       .where("userId", "=", userId)
+      .where("eventId", "=", eventId)
       .returning("id")
       .executeTakeFirst();
 

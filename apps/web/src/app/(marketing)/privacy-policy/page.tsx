@@ -25,9 +25,9 @@ const PrivacyPolicy = () => {
         </p>
         <TypographyH2>In-Person Events</TypographyH2>
         <TypographyP className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-12 text-left">
-          To check-in to an in-person event, users need to provide access to
-          their location. This is used to verify that the user is at the event
-          location. The location data is not used for any other purpose.
+          To check-in a user to in-person event, event organizers need to
+          provide access to their device camera. This is used to check-In users
+          to the event and is not used for any other purpose.
         </TypographyP>
         <TypographyP className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-12 text-left font-bold">
           For In-Person events participants email address is shared with the

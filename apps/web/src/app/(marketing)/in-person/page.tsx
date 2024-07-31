@@ -22,14 +22,14 @@ export const metadata: Metadata = {
 const features: { id: number; title: string; description: string }[] = [
   {
     id: 1,
-    title: "Restricted Range",
+    title: "Easy Check-In",
     description:
-      "Define a range in metres to make sure the attendance is taken only when the attendee is in that physical range.",
+      "Simply scan the attendee QR code to check-in them for your in-person events.",
   },
   {
     id: 2,
-    title: "Beautiful Chart",
-    description: "Visualize where your attendees are on beautiful chart.",
+    title: "Secure",
+    description: "We are working very sincerely to secure your data.",
   },
   {
     id: 3,
@@ -90,7 +90,7 @@ export default function InPersonEventsPage() {
           }
         >
           Track attendance for your in-person events with ease. Get detailed
-          reports on who attended, when and from where.
+          reports on of your events.
         </p>
         <Link href="/dashboard/in-person" className={buttonVariants()}>
           Create an Event

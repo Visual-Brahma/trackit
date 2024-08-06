@@ -86,6 +86,9 @@ importers:
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@14.0.4(@opentelemetry/api@1.4.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      next13-progressbar:
+        specifier: ^1.2.1
+        version: 1.2.1(next@14.0.4(@opentelemetry/api@1.4.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)
       papaparse:
         specifier: ^5.4.1
         version: 5.4.1
@@ -1690,6 +1693,9 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/nprogress@0.2.3':
+    resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
 
   '@types/papaparse@5.3.14':
     resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
@@ -3705,6 +3711,12 @@ packages:
       react: '*'
       react-dom: '*'
 
+  next13-progressbar@1.2.1:
+    resolution: {integrity: sha512-VjO5eHSWa2TSPVX6EHFqdkPaJ4a8UrfK4QuUbjslkVkIxM2EQpg6LrIKmh9qKrlTLC0zOGenhjUoyYappVgOug==}
+    peerDependencies:
+      next: '>= 13.0.0'
+      react: '>= 18.0.0'
+
   next@14.0.4:
     resolution: {integrity: sha512-qbwypnM7327SadwFtxXnQdGiKpkuhaRLE2uq62/nRul9cj9KhQ5LhHmlziTNqUidZotw/Q1I9OjirBROdUJNgA==}
     engines: {node: '>=18.17.0'}
@@ -3784,6 +3796,9 @@ packages:
   npm-run-path@5.1.0:
     resolution: {integrity: sha512-sJOdmRGrY2sjNTRMbSvluQqg+8X7ZK61yvzBEIDhz4f8z1TZFYABsqjjCBd/0PUNE9M6QDgHJXQkGUEm7Q+l9Q==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  nprogress@0.2.0:
+    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
 
   oauth@0.9.15:
     resolution: {integrity: sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==}
@@ -6614,6 +6629,8 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
+  '@types/nprogress@0.2.3': {}
+
   '@types/papaparse@5.3.14':
     dependencies:
       '@types/node': 20.11.21
@@ -9097,6 +9114,14 @@ snapshots:
       react: 18.2.0
       react-dom: 18.3.1(react@18.2.0)
 
+  next13-progressbar@1.2.1(next@14.0.4(@opentelemetry/api@1.4.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0):
+    dependencies:
+      '@types/nprogress': 0.2.3
+      next: 14.0.4(@opentelemetry/api@1.4.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      nprogress: 0.2.0
+      prop-types: 15.8.1
+      react: 18.2.0
+
   next@14.0.4(@opentelemetry/api@1.4.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@next/env': 14.0.4
@@ -9214,6 +9239,8 @@ snapshots:
   npm-run-path@5.1.0:
     dependencies:
       path-key: 4.0.0
+
+  nprogress@0.2.0: {}
 
   oauth@0.9.15: {}
 

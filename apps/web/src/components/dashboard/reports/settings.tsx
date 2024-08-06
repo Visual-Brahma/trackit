@@ -18,7 +18,7 @@ import { useState } from "react";
 import { deleteAttendanceReport } from "@/lib/api/reports";
 import { toast } from "@repo/ui/sonner";
 import { LoadingCircle } from "@repo/ui/icons";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 
 interface AttendanceReportSettingsViewProps {
   groupId: string;

@@ -2,7 +2,8 @@
 
 import { saveAttendanceReport } from "@/lib/api/reports/upload";
 import { toast } from "@repo/ui/sonner";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import {useRouter} from "next13-progressbar"
 import { useEffect } from "react";
 
 export const UploadAttendanceReport = () => {

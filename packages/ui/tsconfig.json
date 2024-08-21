@@ -1,8 +1,11 @@
 {
   "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@/lib/utils": ["./lib/utils"]
+    }
   },
-  "include": ["src", "lib", "postcss.config.js", "tailwind.config.ts"],
+  "include": ["src", "lib", "tailwind.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

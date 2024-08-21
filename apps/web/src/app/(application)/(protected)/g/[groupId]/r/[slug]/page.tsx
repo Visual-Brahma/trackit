@@ -122,7 +122,7 @@ const AttendanceReportViewPage = async ({
       meetcode:
         report.meetPlatform === MeetingPlatform.GOOGLE_MEET
           ? extractMeetCodeFromLink(report.meetLink ?? "")
-          : report.meetLink ?? "-",
+          : (report.meetLink ?? "-"),
       date: report.date,
       startTimestamp: report.startTime!,
       endTimestamp: report.endTime!,

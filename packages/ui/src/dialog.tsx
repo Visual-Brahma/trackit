@@ -3,7 +3,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { CrossCircledIcon as X } from "@radix-ui/react-icons";
 
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 import {
   ComponentPropsWithoutRef,
   ElementRef,

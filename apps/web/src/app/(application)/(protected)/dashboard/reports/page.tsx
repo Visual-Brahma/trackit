@@ -57,7 +57,7 @@ const ReportsPage = async () => {
     meetCode:
       report.meetPlatform === MeetingPlatform.GOOGLE_MEET
         ? extractMeetCodeFromLink(report.meetLink ?? "")
-        : report.meetLink ?? "-",
+        : (report.meetLink ?? "-"),
     date: report.date,
     participantsCount: report.participantsCount,
     duration:

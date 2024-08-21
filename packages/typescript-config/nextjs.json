@@ -8,8 +8,6 @@
     "moduleResolution": "Bundler",
     "allowJs": true,
     "jsx": "preserve",
-    "noEmit": true,
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"]
+    "noEmit": true
   }
 }

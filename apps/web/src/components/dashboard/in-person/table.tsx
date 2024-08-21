@@ -101,7 +101,7 @@ export const inPersonEventsTableColumns: ColumnDef<InPersonEventItem>[] = [
       <div className="capitalize">
         {row.original.endTime === null
           ? "-"
-          : formatTime(row.getValue("endTime") as Date) ?? "-"}
+          : (formatTime(row.getValue("endTime") as Date) ?? "-")}
       </div>
     ),
   },

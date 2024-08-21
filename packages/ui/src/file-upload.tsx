@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "./input";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 import {
   Dispatch,
   HTMLAttributes,

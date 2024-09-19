@@ -9,7 +9,7 @@ export default function Logo({ className }: { className?: string }) {
       height={50}
       src="/logo.svg"
       style={{ color: "transparent" }}
-      title="Shanti.ai"
+      title="Trackit logo"
       width={50}
     />
   );

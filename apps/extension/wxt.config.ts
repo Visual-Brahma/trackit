@@ -4,15 +4,17 @@ import path from "path";
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   modules: ["@wxt-dev/module-react"],
+  dev: {
+    server: {
+      port: 5000,
+    },
+  },
   vite: () => ({
     resolve: {
       alias: {
         "@/lib/utils": path.resolve(__dirname, "../../packages/ui/lib/utils"),
       },
     },
-    server: {
-      port: 5000
-    }
   }),
   manifest: {
     name: "Trackit | Meet Attendance Tracker",

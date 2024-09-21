@@ -3,7 +3,7 @@ import { ThemeChangerProps } from "@/types";
 import { useTheme } from "next-themes";
 import { LaptopIcon } from "lucide-react";
 import { Button } from "@repo/ui/button";
-import { SunIcon, MoonIcon } from "@/components/icons";
+import { SunIcon, MoonIcon } from "@repo/ui/icons";
 import { cn } from "@repo/ui/utils";
 
 const ThemeSelector = ({ extended, className }: ThemeChangerProps) => {

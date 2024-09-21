@@ -18,14 +18,30 @@ export default function AttendanceTracker() {
     { id: "2", name: "Group 2" },
   ]);
 
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement>();
+
+  useEffect(() => {
+    // creates a portal container for radix ui select popover wrapper so that it renders inside the shadow dom
+    const shadowRootBody = document.querySelector("trackit-attendance-ui")
+      ?.shadowRoot?.firstElementChild?.children[1];
+    if (shadowRootBody) {
+      const container = document.createElement("div");
+      shadowRootBody.appendChild(container);
+      setPortalContainer(container);
+      return () => {
+        shadowRootBody.removeChild(container);
+      };
+    }
+  }, []);
+
   return (
     <>
       <TypographyH3>Select Group</TypographyH3>
       <Select>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Theme" />
+          <SelectValue placeholder="Group" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent container={portalContainer}>
           {groups.map((group) => (
             <SelectItem key={group.id} value={group.id}>
               {group.name}

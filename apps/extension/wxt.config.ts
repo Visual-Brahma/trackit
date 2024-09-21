@@ -10,6 +10,9 @@ export default defineConfig({
         "@/lib/utils": path.resolve(__dirname, "../../packages/ui/lib/utils"),
       },
     },
+    server: {
+      port: 5000
+    }
   }),
   manifest: {
     name: "Trackit | Meet Attendance Tracker",

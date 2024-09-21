@@ -13,7 +13,10 @@ type Group = {
 };
 
 export default function AttendanceTracker() {
-  const [groups, setGroups] = useState<Group[]>([]);
+  const [groups, setGroups] = useState<Group[]>([
+    { id: "1", name: "Group 1" },
+    { id: "2", name: "Group 2" },
+  ]);
 
   return (
     <>
@@ -23,9 +26,11 @@ export default function AttendanceTracker() {
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
+          {groups.map((group) => (
+            <SelectItem key={group.id} value={group.id}>
+              {group.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </>

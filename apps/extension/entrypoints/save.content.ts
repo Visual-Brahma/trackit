@@ -1,6 +1,6 @@
 export default defineContentScript({
   matches: import.meta.env.DEV
-    ? ["http://localhost:3000/*"]
+    ? ["http://localhost/*"]
     : ["https://trackit.visualbrahma.tech/*"],
   async main() {
     const attendanceRecords = await browser.storage.local.get(null);

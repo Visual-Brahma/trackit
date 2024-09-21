@@ -19,7 +19,6 @@ function App() {
 
   useEffect(() => {
     let checkIfMeetingStartedInterval: NodeJS.Timeout;
-    console.log("Checking if meeting started");
 
     const checkIfMeetingStarted = () => {
       const meetActionButtons = document.getElementsByClassName("NtU4hc");

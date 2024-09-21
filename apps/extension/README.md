@@ -38,6 +38,6 @@ pnpm dev
 import { defineRunnerConfig } from 'wxt';
 
 export default defineRunnerConfig({
-  startUrls: ['https://meet.google.com/ake-xewk-sgq', 'https://localhost:3000'],
+  startUrls: ['https://meet.google.com/ake-xewk-sgq', 'http://localhost:3000'],
 });
 ```

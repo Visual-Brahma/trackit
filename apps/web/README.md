@@ -4,7 +4,7 @@ Introducing TrackIt - the ultimate Google Meet attendance tracker extension! Tra
 
 # Contributing
 
-```
+```bash
 
 git clone https://github.com/Visual-Brahma/trackit
 
@@ -12,13 +12,12 @@ git clone https://github.com/Visual-Brahma/trackit
 
 - Set environment variables.
 
-  ```
+  ```bash
 
   cp .env.example .env.local
 
   ```
-
-- ```
+- ```bash
   pnpm install
   ```
 - Start the server with `pnpm dev`.

@@ -10,7 +10,7 @@ The extension records attendance automatically when you are in a meet and saves 
 
 [https://www.buymeacoffee.com/blaze2004]()
 
-### Images 🚀
+### How it Works🚀
 
 ---
 
@@ -19,3 +19,25 @@ The extension records attendance automatically when you are in a meet and saves 
 2). Once, the meet is over your attendance report is displayed in a new tab.
 
 no manual work required ! it's fully automatic.
+
+### Contributing
+
+---
+
+```bash
+cd apps/extension
+cp .env.example .env.local
+pnpm i
+pnpm dev
+```
+
+* A browser window will open with the extension installed.
+* To automatically open google meet in the new browser window, add `web-ext.config.ts` with below content.
+
+```bash
+import { defineRunnerConfig } from 'wxt';
+
+export default defineRunnerConfig({
+  startUrls: ['https://meet.google.com/ake-xewk-sgq', 'https://localhost:3000'],
+});
+```

@@ -123,12 +123,12 @@ export const saveAttendanceReport = async ({
             endTime: endTime,
           })
           .returning(["id"])
-          .executeTakeFirst();
+          .executeTakeFirstOrThrow();
 
         return await trx
           .insertInto("AttendanceReport")
           .values({
-            meetingId: meeting!.id,
+            meetingId: meeting.id,
             membersPresence: JSON.stringify(data.participants),
           })
           .returning(["slug"])

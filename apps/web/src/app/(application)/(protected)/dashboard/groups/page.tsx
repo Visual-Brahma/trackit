@@ -1,6 +1,6 @@
 import { UnAuthenticatedUserError } from "@/components/errors/unauthenticated";
 import { dbClient } from "@/lib/db/db_client";
-import { Button, buttonVariants } from "@repo/ui/button";
+import { buttonVariants } from "@repo/ui/button";
 import {
   Card,
   CardContent,
@@ -11,6 +11,8 @@ import {
 import { TypographyH2, TypographyP } from "@repo/ui/typography";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import CreateGroupModal from "./create-group";
+import JoinGroupModal from "./join-group";
 
 const GroupsPage = async () => {
   const session = await getServerSession();
@@ -40,8 +42,8 @@ const GroupsPage = async () => {
         </TypographyP>
 
         <div className="flex items-center justify-center gap-1">
-          <Button>Create</Button>
-          <Button>Join</Button>
+          <CreateGroupModal />
+          <JoinGroupModal />
         </div>
       </div>
 
@@ -49,7 +51,7 @@ const GroupsPage = async () => {
         {groups.map((group) => (
           <Card
             key={group.id}
-            className="w-full max-w-[354px] my-5 p-2 rounded-2xl"
+            className="w-full my-5 p-2 rounded-2xl flex flex-col justify-between"
           >
             <CardHeader>
               <CardTitle className="text-white text-left">
@@ -60,10 +62,9 @@ const GroupsPage = async () => {
               <div className="text-left">{group.description}</div>
             </CardContent>
             <CardFooter className="text-right flex pb-5 mr-5 my-2 flex-row-reverse rounded-2xl">
-              {/* <Link href={`/g/${group.id}`} className={buttonVariants()}>
+              <Link href={`/g/${group.id}`} className={buttonVariants()}>
                 View
-              </Link> */}
-              <Button disabled>View</Button>
+              </Link>
             </CardFooter>
           </Card>
         ))}

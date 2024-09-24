@@ -12,11 +12,12 @@ import { AuthContext } from "./providers/auth";
 type Group = {
   id: string;
   name: string;
+  isDefault: boolean;
 };
 
 export default function AttendanceTracker() {
-  const [groups, setGroups]=useState<Group[]>([]);
-  const authCookie = useContext(AuthContext);
+  const [groups, setGroups] = useState<Group[]>([]);
+  const authToken = useContext(AuthContext);
 
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement>();
 
@@ -24,15 +25,19 @@ export default function AttendanceTracker() {
     const response = await fetch(buildUrl("/groups"), {
       headers: {
         "Content-Type": "application/json",
-        "Cookie": authCookie?.token?.name + "=" + authCookie?.token?.value,
+        Authorization: "Bearer " + authToken?.token,
       },
     });
-    const data=await response.json();
-    
-    const groups: Group[]=[];
-    
+    const data = await response.json();
+
+    const groups: Group[] = [];
+
     for (const group of data) {
-      groups.push({ id: group.id, name: group.name });
+      groups.push({
+        id: group.id,
+        name: group.name,
+        isDefault: group.isDefault,
+      });
     }
     setGroups(groups);
   };

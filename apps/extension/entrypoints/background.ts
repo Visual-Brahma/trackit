@@ -1,3 +1,5 @@
+const nextAuthCookieNameRegex = /^(__Secure-)?next-auth\.session-token$/;
+
 export default defineBackground(async () => {
   const extension = await browser.management.getSelf();
   if (extension.installType !== "development") {
@@ -15,12 +17,12 @@ export default defineBackground(async () => {
       : "trackit.visulabrahma.tech";
     if (
       changeInfo.cookie.domain === domain &&
-      changeInfo.cookie.name === "next-auth.session-token"
+      changeInfo.cookie.name.match(nextAuthCookieNameRegex)
     ) {
       if (changeInfo.removed) {
-        browser.storage.local.remove("authToken");
+        browser.storage.local.remove("authCookie");
       } else {
-        browser.storage.local.set({ authToken: changeInfo.cookie.value });
+        browser.storage.local.set({ authCookie: changeInfo.cookie });
       }
     }
   });

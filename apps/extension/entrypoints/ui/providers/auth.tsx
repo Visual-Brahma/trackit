@@ -1,43 +1,45 @@
 import { LayoutProps } from "@/types";
 import { createContext } from "react";
-import { Storage } from "wxt/browser";
+import { Cookies, Storage } from "wxt/browser";
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  token: string;
-  setToken: (token: string) => void;
+  token?: Cookies.Cookie;
+  setToken: (token: Cookies.Cookie) => void;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthProvider({ children }: LayoutProps) {
-  const [token, setToken] = useState<string>("");
+  const [authCookie, setAuthCookie] = useState<Cookies.Cookie>();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const getAuthToken = async () => {
-    const authToken = (await browser.storage.local.get("authToken"))[
-      "authToken"
+  const getAuthCookie = async () => {
+    const authCookie = (await browser.storage.local.get("authCookie"))[
+      "authCookie"
     ];
 
-    if (authToken) {
-      setToken(authToken);
-      setIsAuthenticated(authToken.length > 0);
+    console.log(authCookie);
+
+    if (authCookie) {
+      setAuthCookie(authCookie);
+      setIsAuthenticated(authCookie.length > 0);
     }
   };
 
   useEffect(() => {
-    getAuthToken();
+    getAuthCookie();
 
     const listener = (
       changes: Record<string, Storage.StorageChange>,
       areaName: string
     ) => {
-      if (areaName === "local" && "authToken" in changes) {
-        if (changes["authToken"].newValue) {
-          setToken(changes["authToken"].newValue);
+      if (areaName === "local" && "authCookie" in changes) {
+        if (changes["authCookie"].newValue) {
+          setAuthCookie(changes["authCookie"].newValue);
           setIsAuthenticated(true);
         } else {
-          setToken("");
+          setAuthCookie(undefined);
           setIsAuthenticated(false);
         }
       }
@@ -51,7 +53,7 @@ export default function AuthProvider({ children }: LayoutProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token, setToken, isAuthenticated }}>
+    <AuthContext.Provider value={{ token: authCookie, setToken: setAuthCookie, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

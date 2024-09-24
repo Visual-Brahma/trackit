@@ -13,6 +13,7 @@ interface MemberPresence {
 }
 
 interface MeetAttendanceReportData {
+  groupId?: string;
   meetCode: string;
   date: string;
   startTime: string;
@@ -32,7 +33,7 @@ export const saveAttendanceReport = async ({
     const meetDate = new Date(
       parseInt(year),
       parseInt(month) - 1,
-      parseInt(day),
+      parseInt(day)
     );
     const startTime = new Date(
       meetDate.getFullYear(),
@@ -40,7 +41,7 @@ export const saveAttendanceReport = async ({
       meetDate.getDate(),
       parseInt(data.startTime.split(":")[0]!),
       parseInt(data.startTime.split(":")[1]!),
-      parseInt(data.startTime.split(":")[2]!),
+      parseInt(data.startTime.split(":")[2]!)
     );
     const endTime = new Date(
       meetDate.getFullYear(),
@@ -48,7 +49,7 @@ export const saveAttendanceReport = async ({
       meetDate.getDate(),
       parseInt(data.stopTime.split(":")[0]!),
       parseInt(data.stopTime.split(":")[1]!),
-      parseInt(data.stopTime.split(":")[2]!),
+      parseInt(data.stopTime.split(":")[2]!)
     );
 
     if (endTime < startTime) {
@@ -56,29 +57,58 @@ export const saveAttendanceReport = async ({
     }
 
     try {
-      const group = await dbClient
-        .selectFrom("GroupMember")
-        .innerJoin("Group", (join) =>
-          join
-            .onRef("Group.id", "=", "GroupMember.groupId")
-            .on("Group.isDefault", "=", true),
-        )
-        .select("Group.id")
-        .where((eb) =>
-          eb.and([
-            eb("GroupMember.userId", "=", (eb) =>
-              eb
-                .selectFrom("User")
-                .select("User.id")
-                .where("email", "=", email),
-            ),
-            eb("GroupMember.role", "=", "OWNER"),
-          ]),
-        )
-        .executeTakeFirst();
+      let groupId = data.groupId;
 
-      if (!group) {
-        return;
+      if (groupId) {
+        const group = await dbClient
+          .selectFrom("GroupMember")
+          .innerJoin("Group", (join) =>
+            join.onRef("Group.id", "=", "GroupMember.groupId")
+          )
+          .select("Group.id")
+          .where((eb) =>
+            eb.and([
+              eb("GroupMember.userId", "=", (eb) =>
+                eb
+                  .selectFrom("User")
+                  .select("User.id")
+                  .where("email", "=", email)
+              ),
+              eb("Group.id", "=", groupId!),
+            ])
+          )
+          .executeTakeFirst();
+
+        if (!group) {
+          return;
+        }
+      } else {
+        const group = await dbClient
+          .selectFrom("GroupMember")
+          .innerJoin("Group", (join) =>
+            join
+              .onRef("Group.id", "=", "GroupMember.groupId")
+              .on("Group.isDefault", "=", true)
+          )
+          .select("Group.id")
+          .where((eb) =>
+            eb.and([
+              eb("GroupMember.userId", "=", (eb) =>
+                eb
+                  .selectFrom("User")
+                  .select("User.id")
+                  .where("email", "=", email)
+              ),
+              eb("GroupMember.role", "=", "OWNER"),
+            ])
+          )
+          .executeTakeFirst();
+
+        if (!group) {
+          return;
+        }
+
+        groupId = group.id;
       }
       const report = await dbClient.transaction().execute(async (trx) => {
         const meeting = await trx
@@ -86,7 +116,7 @@ export const saveAttendanceReport = async ({
           .values({
             name: meetCode,
             date: meetDate,
-            groupId: group.id,
+            groupId: groupId,
             meetLink: `https://meet.google.com/${meetCode}`,
             meetPlatform: MeetingPlatform.GOOGLE_MEET,
             startTime: startTime,
@@ -107,7 +137,7 @@ export const saveAttendanceReport = async ({
 
       if (report) {
         return {
-          groupId: group.id,
+          groupId: groupId,
           slug: report.slug,
         };
       }

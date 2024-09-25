@@ -14,24 +14,16 @@ export const TidioUserInfo = () => {
   const session = useSession();
 
   useEffect(() => {
-    const addTidioIdentityInfo = setInterval(() => {
-      if (window) {
-        if (session.status === "authenticated") {
-          const userInfo: TidioIdentify = {
-            email: session?.data?.user?.email ?? undefined,
-            name: session?.data?.user?.name ?? undefined,
-            distinct_id: session?.data?.user?.email ?? undefined,
-          };
-
-          (
-            window.document as Document & { tidioIdentify: TidioIdentify }
-          ).tidioIdentify = userInfo;
-          clearInterval(addTidioIdentityInfo);
-        }
-      }
-    }, 1000);
-    return () => clearInterval(addTidioIdentityInfo);
-  }, []);
+    if (window) {
+      (
+        window.document as Document & { tidioIdentify: TidioIdentify }
+      ).tidioIdentify = {
+        email: session?.data?.user?.email ?? undefined,
+        name: session?.data?.user?.name ?? undefined,
+        distinct_id: session?.data?.user?.email ?? undefined,
+      };
+    }
+  }, [session]);
 
   return null;
 };

@@ -1,4 +1,3 @@
-import environmentVariables from "@/config/environment";
 import { appName } from "@/lib/constants/brand";
 import {
   Body,
@@ -12,6 +11,7 @@ import {
 } from "@react-email/components";
 import config from "../../tailwind.config";
 import { LayoutProps } from "@/types";
+import { clientEnv } from "@/config/env/client";
 
 export interface EmailLayoutProps extends LayoutProps {
   previewText: string;
@@ -27,7 +27,7 @@ export const EmailLayout = ({ previewText, children }: EmailLayoutProps) => {
           <Container className="border border-solid border-[#eaeaea] rounded my-8 mx-auto p-8 w-[465px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${environmentVariables.baseUrl}/logo.svg`}
+                src={`${clientEnv.NEXT_PUBLIC_PRODUCTION_URL}/logo.svg`}
                 width="40"
                 height="37"
                 alt={appName}

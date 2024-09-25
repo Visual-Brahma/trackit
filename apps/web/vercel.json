@@ -1,3 +1,0 @@
-{
-    "buildCommand": "pnpm migrate && turbo build"
-}

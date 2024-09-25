@@ -1,3 +1,10 @@
+import { fileURLToPath } from "node:url";
+import createJiti from "jiti";
+const jiti = createJiti(fileURLToPath(import.meta.url));
+
+jiti("./src/config/env/client.ts")
+jiti("./src/config/env/server.ts")
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,

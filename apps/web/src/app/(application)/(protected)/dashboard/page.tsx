@@ -18,6 +18,13 @@ const DashboardPage = async () => {
 
   const features: FeatureCardProps[] = [
     {
+      title: "Groups",
+      description:
+        "Create groups for your class, team, or organization and track meetings and attendance more effectively.",
+      icon: <UsersIcon className="mr-2 h-4 w-4" />,
+      href: "/dashboard/groups",
+    },
+    {
       title: "In-Person Events",
       description:
         "Easy check-in for your in-person events. Create attendance links and track attendance.",
@@ -30,13 +37,6 @@ const DashboardPage = async () => {
         "Keep track of your attendance and generate reports for your meetings and classes.",
       icon: <FileBarChart2Icon className="mr-2 h-4 w-4" />,
       href: "/dashboard/reports",
-    },
-    {
-      title: "Groups",
-      description:
-        "Create groups for your class, team, or organization and track meetings and attendance more effectively.",
-      icon: <UsersIcon className="mr-2 h-4 w-4" />,
-      href: "/dashboard/groups",
     },
   ];
 

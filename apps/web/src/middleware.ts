@@ -1,18 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import environmentVariables from "./config/environment";
+import { serverEnv } from "./config/env/server";
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
   const session = await getToken({
     req,
-    secret: environmentVariables.auth.nextAuthSecret,
+    secret: serverEnv.NEXTAUTH_SECRET,
   });
 
-  // if (process.env.NODE_ENV==='development') {
-  //     console.log('session', session);
-  // }
   // if user is not signed in and the current path is not / redirect the user to /
   if (
     !session?.email &&

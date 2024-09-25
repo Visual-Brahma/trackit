@@ -3,7 +3,7 @@ import * as React from "react";
 import EmailLayout from "./layout";
 import { appName } from "@/lib/constants/brand";
 import { buttonVariants } from "@repo/ui/button";
-import environmentVariables from "@/config/environment";
+import { clientEnv } from "@/config/env/client";
 
 export interface MagicLinkEmailProps {
   url: string;
@@ -32,7 +32,7 @@ export const MagicLinkEmail = ({ url, host }: MagicLinkEmailProps) => {
       <Hr className="border border-solid border-[#eaeaea] my-4 mx-0 w-full" />
       <Text className="text-muted">
         You're receiving this email because you or someone else wants to sign in
-        to <Link href={environmentVariables.baseUrl}>Trackit</Link>. If you were
+        to <Link href={clientEnv.NEXT_PUBLIC_URL}>Trackit</Link>. If you were
         not expecting this email, you can ignore this email. If you are
         concerned about your account's safety, please reply to this email to get
         in touch with us.

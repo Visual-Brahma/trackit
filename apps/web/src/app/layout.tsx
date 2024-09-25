@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Provider } from "@/components/layout/providers";
 import { TidioUserInfo } from "@/components/layout/tidio";
+import { serverEnv } from "@/config/env/server";
 
 const PTsansDisplay = PT_Sans({ weight: "400", subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export const viewport: Viewport = {
 };
 
 declare global {
+  // eslint-disable-next-line no-unused-vars
   interface Window {
     tidioChatApi: any;
   }
@@ -43,10 +45,12 @@ export default function RootLayout({ children }: LayoutProps) {
           <TidioUserInfo />
         </Provider>
         <Toaster richColors position={"top-right"} />
-        <Script
-          src="//code.tidio.co/zyi8qkhaweop5tc4oenpsdstwnvcjw6j.js"
-          async={true}
-        />
+        {serverEnv.NODE_ENV === "production" && (
+          <Script
+            src="//code.tidio.co/zyi8qkhaweop5tc4oenpsdstwnvcjw6j.js"
+            async={true}
+          />
+        )}
         <Analytics />
         <SpeedInsights />
       </body>

@@ -2,7 +2,7 @@ import { Heading, Hr, Button, Text, Link } from "@react-email/components";
 import * as React from "react";
 import EmailLayout from "./layout";
 import { buttonVariants } from "@repo/ui/button";
-import environmentVariables from "@/config/environment";
+import { clientEnv } from "@/config/env/client";
 
 export interface AttendanceReportShareEmailProps {
   name: string;
@@ -31,7 +31,7 @@ export const AttendanceReportSharedEmail = ({
       <Text className="text-muted">
         You're receiving this email because someone has shared an attendance
         report with you on{" "}
-        <Link href={environmentVariables.baseUrl}>Trackit</Link>. If you were
+        <Link href={clientEnv.NEXT_PUBLIC_URL}>Trackit</Link>. If you were
         not expecting this email, you can ignore this email. If you are
         concerned about your account's safety, please reply to this email to get
         in touch with us.

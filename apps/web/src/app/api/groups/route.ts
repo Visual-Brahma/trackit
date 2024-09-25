@@ -1,4 +1,4 @@
-import environmentVariables from "@/config/environment";
+import { serverEnv } from "@/config/env/server";
 import { dbClient } from "@/lib/db/db_client";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,7 +14,7 @@ const corsHeaders = {
 export async function GET(req: NextRequest) {
   const session = await getToken({
     req,
-    secret: environmentVariables.auth.nextAuthSecret,
+    secret: serverEnv.NEXTAUTH_SECRET,
   });
 
   const email = session?.email;

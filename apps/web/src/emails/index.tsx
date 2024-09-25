@@ -1,4 +1,4 @@
+import { serverEnv } from "@/config/env/server";
 import Plunk from "@plunk/node";
-import environmentVariables from "@/config/environment";
 
-export const plunk = new Plunk(environmentVariables.email.plunkApiKey);
+export const plunk = new Plunk(serverEnv.PLUNK_API_KEY);

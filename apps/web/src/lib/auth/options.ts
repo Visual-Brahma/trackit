@@ -3,11 +3,11 @@ import GoogleProvider from "next-auth/providers/google";
 import { KyselyAdapter } from "@/lib/db/adapter";
 import { dbClient } from "@/lib/db/db_client";
 import EmailProvider from "next-auth/providers/email";
-import environmentVariables from "@/config/environment";
 import { render } from "@react-email/render";
 import MagicLinkEmail from "@/emails/magic-link-email";
 import { plunk } from "@/emails";
 import { appName } from "../constants/brand";
+import { serverEnv } from "@/config/env/server";
 
 export const authOptions: NextAuthOptions = {
   adapter: KyselyAdapter(dbClient),
@@ -36,8 +36,8 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     GoogleProvider({
-      clientId: environmentVariables.auth.google.clientId,
-      clientSecret: environmentVariables.auth.google.clientSecret,
+      clientId:serverEnv.GOOGLE_CLIENT_ID,
+      clientSecret: serverEnv.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
   ],

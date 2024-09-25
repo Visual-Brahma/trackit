@@ -9,6 +9,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/lib/utils": ["../../packages/ui/lib/utils"],
+      "@public/*": ["./public/*"]
     }
   },
   "include": [

@@ -4,6 +4,8 @@ import AnimatedGradientText from "@repo/ui/animated-gradient-text";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@repo/ui/utils";
 import Link from "next/link";
+import chromeExtensionImage from "@public/_static/chrome_ext.webp";
+import attendanceReportImage from "@public/_static/att_report.webp";
 
 const features: { id: number; title: string; description: string }[] = [
   {
@@ -131,11 +133,8 @@ const Home = () => {
             </div>
             <div className="rounded-2xl bg-gradient-to-t from-red-700 to-red-900 p-4 border-none outline-none sm:p-8">
               <Image
-                src={"/_static/chrome_ext.png"}
+                src={chromeExtensionImage}
                 alt="Chrome Extension"
-                width={1920}
-                height={1080}
-                sizes="100vw"
                 className="w-full h-full rounded-2xl"
               />
             </div>
@@ -146,10 +145,8 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-2xl p-12 w-full py-16">
             <div className="rounded-2xl bg-gradient-to-t from-red-700 to-red-900 p-4 border-none outline-none sm:p-8">
               <Image
-                src={"/_static/att_report.png"}
+                src={attendanceReportImage}
                 alt="Attendance Report"
-                width={1894}
-                height={1020}
                 className="w-full h-full rounded-2xl"
               />
             </div>

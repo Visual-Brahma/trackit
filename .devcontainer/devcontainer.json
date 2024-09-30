@@ -1,41 +1,49 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/universal:2",
-    "customizations": {
-      "vscode": {
-        "extensions": [
-          "spacebox.monospace-idx-theme",
-          "folke.vscode-monorepo-workspace",
-          "esbenp.prettier-vscode",
-          "yoavbls.pretty-ts-errors",
-          "pkief.material-icon-theme",
-          "bradymholt.pgformatter",
-          "redhat.vscode-yaml",
-          "aaravb.chrome-extension-developer-tools",
-          "dbaeumer.vscode-eslint",
-          "mhutchie.git-graph",
-          "meezilla.json",
-          "prisma.prisma",
-          "gruntfuggly.todo-tree",
-          "johnpapa.vscode-cloak",
-          "mikestead.dotenv"
-        ],
-        "settings": {
-          "workbench.colorTheme": "Monospace IDX Dark",
-          "git.autofetch": true,
-          "workbench.iconTheme": "material-icon-theme",
-          "[javascript]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
-          },
-          "[jsonc]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
-          },
-          "[typescript]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
-          },
-          "[typescriptreact]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
-          }
+  "name": "trackit",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/kreemer/features/chrometesting:1": {}
+  },
+  "mounts": [
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
+  ],
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY:host.docker.internal:0}",
+    "CHROME_PATH": "/opt/chrome/chrome"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "spacebox.monospace-idx-theme",
+        "folke.vscode-monorepo-workspace",
+        "esbenp.prettier-vscode",
+        "yoavbls.pretty-ts-errors",
+        "pkief.material-icon-theme",
+        "bradymholt.pgformatter",
+        "dbaeumer.vscode-eslint",
+        "mhutchie.git-graph",
+        "meezilla.json",
+        "prisma.prisma",
+        "gruntfuggly.todo-tree",
+        "dotenv.dotenv-vscode"
+      ],
+      "settings": {
+        "workbench.colorTheme": "Monospace IDX Dark",
+        "git.autofetch": true,
+        "workbench.iconTheme": "material-icon-theme",
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
         }
       }
     }
   }
+}

@@ -30,11 +30,10 @@ export const AttendanceReportSharedEmail = ({
       <Hr className="border border-solid border-[#eaeaea] my-4 mx-0 w-full" />
       <Text className="text-muted">
         You're receiving this email because someone has shared an attendance
-        report with you on{" "}
-        <Link href={clientEnv.NEXT_PUBLIC_URL}>Trackit</Link>. If you were
-        not expecting this email, you can ignore this email. If you are
-        concerned about your account's safety, please reply to this email to get
-        in touch with us.
+        report with you on <Link href={clientEnv.NEXT_PUBLIC_URL}>Trackit</Link>
+        . If you were not expecting this email, you can ignore this email. If
+        you are concerned about your account's safety, please reply to this
+        email to get in touch with us.
       </Text>
     </EmailLayout>
   );

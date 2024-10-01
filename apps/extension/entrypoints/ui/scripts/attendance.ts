@@ -21,7 +21,7 @@ const track_attendance = () => {
     for (let i = 0; i < currentParticipants.length; i++) {
       participantsList.set(
         (currentParticipants[i]! as HTMLImageElement).src,
-        currentParticipantsName[i]!.innerHTML.toUpperCase()
+        currentParticipantsName[i]!.innerHTML.toUpperCase(),
       );
     }
 

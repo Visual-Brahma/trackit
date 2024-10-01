@@ -31,8 +31,8 @@ pnpm i
 pnpm dev
 ```
 
-* A browser window will open with the extension installed.
-* To automatically open google meet in the new browser window, add `web-ext.config.ts` with below content.
+- A browser window will open with the extension installed.
+- To automatically open google meet in the new browser window, add `web-ext.config.ts` with below content.
 
 ```bash
 import { defineRunnerConfig } from 'wxt';

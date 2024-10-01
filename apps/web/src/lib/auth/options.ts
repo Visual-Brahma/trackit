@@ -28,6 +28,11 @@ export const authOptions: NextAuthOptions = {
 
         const html = render(MagicLinkEmail({ url, host: escapedHost }));
 
+        if (serverEnv.NODE_ENV === "development") {
+          console.log(`Email verification link: ${url}`);
+          return;
+        }
+
         await plunk.emails.send({
           to: identifier,
           subject: `Your ${appName} Login Link`,
@@ -36,7 +41,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     GoogleProvider({
-      clientId:serverEnv.GOOGLE_CLIENT_ID,
+      clientId: serverEnv.GOOGLE_CLIENT_ID,
       clientSecret: serverEnv.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),

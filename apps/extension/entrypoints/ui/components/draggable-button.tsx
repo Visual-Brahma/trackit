@@ -1,4 +1,6 @@
 import { Button } from "@repo/ui/button";
+import { Card, CardHeader, CardTitle } from "@repo/ui/card";
+import { Maximize2Icon, MoveIcon } from "lucide-react";
 import {
   useState,
   useCallback,
@@ -36,7 +38,7 @@ const DraggableButton = ({
     hasMoved: false,
   });
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
 
   const startDragging = useCallback(
     (e: MouseEvent<HTMLButtonElement>) => {
@@ -110,18 +112,24 @@ const DraggableButton = ({
   }, [drag, stopDragging]);
 
   return (
-    <Button
+    <Card
       ref={buttonRef}
       className="fixed"
       style={{
         left: `${position.left}px`,
         bottom: `${position.bottom}px`,
       }}
-      onMouseDown={startDragging}
-      onClick={handleClick}
     >
-      Trackit
-    </Button>
+      <CardHeader>
+        <Button size={"icon"} onMouseDown={startDragging} onClick={handleClick}>
+          <MoveIcon className="h-4 w-4" />
+        </Button>
+        <CardTitle>Trackit</CardTitle>
+        <Button size={"icon"} onClick={onClick}>
+          <Maximize2Icon className="h-4 w-4" />
+        </Button>
+      </CardHeader>
+    </Card>
   );
 };
 

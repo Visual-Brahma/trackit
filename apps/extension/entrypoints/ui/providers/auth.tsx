@@ -30,7 +30,7 @@ export default function AuthProvider({ children }: LayoutProps) {
 
     const listener = (
       changes: Record<string, Storage.StorageChange>,
-      areaName: string
+      areaName: string,
     ) => {
       if (areaName === "local" && "authToken" in changes) {
         if (changes["authToken"].newValue) {
@@ -51,7 +51,9 @@ export default function AuthProvider({ children }: LayoutProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ token: authToken, setToken: setAuthToken, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ token: authToken, setToken: setAuthToken, isAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

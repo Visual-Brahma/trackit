@@ -17,6 +17,7 @@ git clone https://github.com/Visual-Brahma/trackit
   cp .env.example .env.local
 
   ```
+
 - ```bash
   pnpm install
   ```

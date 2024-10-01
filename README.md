@@ -1,12 +1,13 @@
 # Trackit✨
 
+Simple attendance management solution for In-Person events and google meet calls.
 Easy, simple and automatic meet attendance collector application 🚀
 
 ###### Browser Extensions
 
 Automatically save attendance during google meet video calls.
 
-The extension records attendance automatically when you are in a meet and saves it. Once the meet is over it will open the attendance report in a new tab. You can access your saved attendance data anytime on our website [https://trackit.zeabur.app](https://trackit.zeabur.app).
+The extension records attendance automatically when you are in a meet and saves it. Once the meet is over it will open the attendance report in a new tab. You can access your saved attendance data anytime on our website [https://trackit.visualbrahma.tech](https://trackit.visualbrahma.tech).
 
 Get the extension on
 
@@ -23,9 +24,9 @@ Get the extension on
 
 ---
 
-1). The extension starts automatically when you enter in a meet.
+1. The extension starts automatically when you enter in a meet.
 
-2). Once, the meet is over your attendance report is displayed in a new tab.
+2. Once, the meet is over your attendance report is displayed in a new tab.
 
 No manual work required ! it's fully automatic.
 
@@ -33,12 +34,13 @@ No manual work required ! it's fully automatic.
 
 # Contributing
 
-New Design [Figma](https://www.figma.com/proto/gqSo5VbVo3wUsCNWHrnDNh/Trackit?node-id=4-2&starting-point-node-id=4%3A2&mode=design&t=9vNyIJ3d1GOdYt8D-1)
+Design [Figma](https://www.figma.com/proto/gqSo5VbVo3wUsCNWHrnDNh/Trackit?node-id=4-2&starting-point-node-id=4%3A2&mode=design&t=9vNyIJ3d1GOdYt8D-1)
 
 ## Apps and Packages
 
 - `web`: a [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `extension`: browser extension
+- `@repo/ui`: a stub React component library shared by both `web` and `browser extension` applications
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 - `@repo/tailwind-config`: tailwin config used throughout the monorepo.
@@ -100,3 +102,8 @@ Learn more about the power of Turborepo:
 - [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
 - [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
 - [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+
+## DevContainer Setup
+
+You can use your local environment for development but it is recommended to use the application in a devcontainer for consistent development environments.
+Refer to [Devcontainer setup guide](./.devcontainer/Guide.md) to setup your containerized dev environment.

@@ -15,14 +15,14 @@ export default defineContentScript({
         const app = document.createElement("div");
         container.append(app);
 
-        shadowElement.style.position="fixed";
-        shadowElement.style.zIndex="99999";
+        shadowElement.style.position = "fixed";
+        shadowElement.style.zIndex = "99999";
 
         const root = ReactDOM.createRoot(app);
         root.render(
           <RootLayout>
             <App />
-          </RootLayout>
+          </RootLayout>,
         );
         return root;
       },

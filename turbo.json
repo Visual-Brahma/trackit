@@ -30,9 +30,9 @@
         "NEXTAUTH_SECRET",
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
-        "NEXT_PUBLIC_URL",
-        "NEXT_PUBLIC_VERCEL_URL",
-        "NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL"
+        "URL",
+        "VERCEL_URL",
+        "VERCEL_PROJECT_PRODUCTION_URL"
       ]
     },
     "lint": {
@@ -43,6 +43,12 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "extension#dev": {
+      "env": [
+        "CHROME_PATH",
+        "DISPLAY"
+      ]
     }
   }
 }

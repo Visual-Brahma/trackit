@@ -33,7 +33,7 @@ export const saveAttendanceReport = async ({
     const meetDate = new Date(
       parseInt(year),
       parseInt(month) - 1,
-      parseInt(day)
+      parseInt(day),
     );
     const startTime = new Date(
       meetDate.getFullYear(),
@@ -41,7 +41,7 @@ export const saveAttendanceReport = async ({
       meetDate.getDate(),
       parseInt(data.startTime.split(":")[0]!),
       parseInt(data.startTime.split(":")[1]!),
-      parseInt(data.startTime.split(":")[2]!)
+      parseInt(data.startTime.split(":")[2]!),
     );
     const endTime = new Date(
       meetDate.getFullYear(),
@@ -49,7 +49,7 @@ export const saveAttendanceReport = async ({
       meetDate.getDate(),
       parseInt(data.stopTime.split(":")[0]!),
       parseInt(data.stopTime.split(":")[1]!),
-      parseInt(data.stopTime.split(":")[2]!)
+      parseInt(data.stopTime.split(":")[2]!),
     );
 
     if (endTime < startTime) {
@@ -63,7 +63,7 @@ export const saveAttendanceReport = async ({
         const group = await dbClient
           .selectFrom("GroupMember")
           .innerJoin("Group", (join) =>
-            join.onRef("Group.id", "=", "GroupMember.groupId")
+            join.onRef("Group.id", "=", "GroupMember.groupId"),
           )
           .select("Group.id")
           .where((eb) =>
@@ -72,10 +72,10 @@ export const saveAttendanceReport = async ({
                 eb
                   .selectFrom("User")
                   .select("User.id")
-                  .where("email", "=", email)
+                  .where("email", "=", email),
               ),
               eb("Group.id", "=", groupId!),
-            ])
+            ]),
           )
           .executeTakeFirst();
 
@@ -88,7 +88,7 @@ export const saveAttendanceReport = async ({
           .innerJoin("Group", (join) =>
             join
               .onRef("Group.id", "=", "GroupMember.groupId")
-              .on("Group.isDefault", "=", true)
+              .on("Group.isDefault", "=", true),
           )
           .select("Group.id")
           .where((eb) =>
@@ -97,10 +97,10 @@ export const saveAttendanceReport = async ({
                 eb
                   .selectFrom("User")
                   .select("User.id")
-                  .where("email", "=", email)
+                  .where("email", "=", email),
               ),
               eb("GroupMember.role", "=", "OWNER"),
-            ])
+            ]),
           )
           .executeTakeFirst();
 

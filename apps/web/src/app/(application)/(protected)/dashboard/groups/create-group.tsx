@@ -81,7 +81,7 @@ export default function CreateGroupModal() {
                 <Button
                   onClick={async () => {
                     await navigator.clipboard.writeText(
-                      `Hey! Join my group on trackit using this code: ${groupInfo.joinCode}`
+                      `Hey! Join my group on trackit using this code: ${groupInfo.joinCode}`,
                     );
                     toast.success("Join code copied to clipboard.");
                   }}

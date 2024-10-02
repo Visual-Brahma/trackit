@@ -33,9 +33,6 @@ const sidebarNavItems: SidebarNavProps["itemGroups"] = [
         title: "In-Person",
         href: "/dashboard/in-person",
         icon: <MapPinIcon className="mr-2 h-4 w-4" />,
-        badge: {
-          text: "New",
-        },
       },
       {
         title: "Reports",

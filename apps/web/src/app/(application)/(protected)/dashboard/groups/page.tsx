@@ -51,7 +51,7 @@ const GroupsPage = async () => {
         {groups.map((group) => (
           <Card
             key={group.id}
-            className="w-full my-5 p-2 rounded-2xl flex flex-col justify-between"
+            className="w-full my-5 p-2 rounded-2xl flex flex-col justify-between bg-secondary"
           >
             <CardHeader>
               <CardTitle className="text-white text-left">

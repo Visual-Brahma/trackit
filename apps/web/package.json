@@ -61,6 +61,7 @@
     "postcss": "^8",
     "prisma": "^5.8.1",
     "prisma-kysely": "^1.7.1",
+    "supabase": "^1.200.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

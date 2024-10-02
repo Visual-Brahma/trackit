@@ -25,7 +25,6 @@ Get the extension on
 ---
 
 1. The extension starts automatically when you enter in a meet.
-
 2. Once, the meet is over your attendance report is displayed in a new tab.
 
 No manual work required ! it's fully automatic.
@@ -71,6 +70,12 @@ To develop all apps and packages, run the following command:
 ```bash
 cd trackit
 pnpm dev
+```
+
+Turborepo doesn't exposes environment variables not defined in the `turbo.json` file by default. As WTX uses several environment variables to find `chrome` binary you can run turbo command in loose mode to allow those environment variables in development. But it is recommended to use `web-ext.config.ts` and define the path to chrome binary in it.
+
+```bash
+pnpm dev --env-mode=loose
 ```
 
 ### Remote Caching

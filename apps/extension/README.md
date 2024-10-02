@@ -38,6 +38,9 @@ pnpm dev
 import { defineRunnerConfig } from 'wxt';
 
 export default defineRunnerConfig({
-  startUrls: ['https://meet.google.com/ake-xewk-sgq', 'http://localhost:3000'],
+  startUrls: ['https://meet.google.com/any test meeting', 'http://localhost:3000'],
+  binaries: {
+    chrome: "path to chromium executable",
+  },
 });
 ```

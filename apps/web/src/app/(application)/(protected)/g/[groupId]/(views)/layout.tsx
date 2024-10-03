@@ -71,7 +71,7 @@ export default async function GroupLayout({
 
       <GroupNavbar items={groupNavbarItems} />
 
-      <div className="mt-2">{children}</div>
+      <div className="mt-2 p-6">{children}</div>
     </div>
   );
 }

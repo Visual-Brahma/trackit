@@ -46,7 +46,7 @@ export default function MeetingInfo({
   };
 
   const [duration, setDuration] = useState<string>(
-    getDuration(startTime, new Date())
+    getDuration(startTime, new Date()),
   );
 
   useEffect(() => {

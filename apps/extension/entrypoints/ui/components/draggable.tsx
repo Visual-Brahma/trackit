@@ -37,7 +37,7 @@ const Draggable = ({
         startTop: position.top,
       });
     },
-    [position]
+    [position],
   );
 
   const drag = useCallback(
@@ -62,7 +62,7 @@ const Draggable = ({
 
       setPosition({ left: newLeft, top: newTop });
     },
-    [state]
+    [state],
   );
 
   const stopDragging = useCallback(() => {
@@ -76,7 +76,7 @@ const Draggable = ({
     return () => {
       document.removeEventListener(
         "mousemove",
-        drag as unknown as EventListener
+        drag as unknown as EventListener,
       );
       document.removeEventListener("mouseup", stopDragging);
       document.removeEventListener("mouseleave", stopDragging);

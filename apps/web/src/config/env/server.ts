@@ -8,7 +8,12 @@ export const serverEnv = createEnv({
     NEXTAUTH_SECRET: z.string(),
     PLUNK_API_KEY: z.string(),
     DATABASE_URL: z.string(),
-    NODE_ENV: z.enum(["development", "test", "production"]),
+    NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("production"),
   },
-  experimental__runtimeEnv: process.env,
+  experimental__runtimeEnv: {
+    ...process.env,
+    NODE_ENV: process.env.NODE_ENV || process.env.VERCEL_ENV || "production",
+  },
 });

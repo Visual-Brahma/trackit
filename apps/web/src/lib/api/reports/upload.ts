@@ -62,19 +62,12 @@ export const saveAttendanceReport = async ({
       if (groupId) {
         const group = await dbClient
           .selectFrom("GroupMember")
-          .innerJoin("Group", (join) =>
-            join.onRef("Group.id", "=", "GroupMember.groupId"),
-          )
-          .select("Group.id")
+          .innerJoin("User", "GroupMember.userId", "User.id")
+          .select("GroupMember.groupId")
           .where((eb) =>
             eb.and([
-              eb("GroupMember.userId", "=", (eb) =>
-                eb
-                  .selectFrom("User")
-                  .select("User.id")
-                  .where("email", "=", email),
-              ),
-              eb("Group.id", "=", groupId!),
+              eb("User.email", "=", email),
+              eb("GroupMember.groupId", "=", groupId!),
             ]),
           )
           .executeTakeFirst();
@@ -83,23 +76,15 @@ export const saveAttendanceReport = async ({
           return;
         }
       } else {
+        // fetch the default group
         const group = await dbClient
           .selectFrom("GroupMember")
-          .innerJoin("Group", (join) =>
-            join
-              .onRef("Group.id", "=", "GroupMember.groupId")
-              .on("Group.isDefault", "=", true),
-          )
-          .select("Group.id")
+          .innerJoin("User", "GroupMember.userId", "User.id")
+          .select("GroupMember.groupId")
           .where((eb) =>
             eb.and([
-              eb("GroupMember.userId", "=", (eb) =>
-                eb
-                  .selectFrom("User")
-                  .select("User.id")
-                  .where("email", "=", email),
-              ),
-              eb("GroupMember.role", "=", "OWNER"),
+              eb("User.email", "=", email),
+              eb("GroupMember.isDefault", "=", true),
             ]),
           )
           .executeTakeFirst();
@@ -108,7 +93,7 @@ export const saveAttendanceReport = async ({
           return;
         }
 
-        groupId = group.id;
+        groupId = group.groupId;
       }
       const report = await dbClient.transaction().execute(async (trx) => {
         const meeting = await trx

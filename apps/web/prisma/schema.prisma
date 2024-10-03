@@ -54,7 +54,6 @@ model Group {
   banner             String?
   joinCode           String          @unique @default(dbgenerated("gen_random_uuid()"))
   isAcceptingMembers Boolean         @default(true)
-  isDefault          Boolean         @default(false) /// true, if the group was creating automatically on user signup
   groupMembers       GroupMember[]
   meetings           Meeting[]
   messages           Message[]
@@ -67,6 +66,7 @@ model GroupMember {
   group   Group  @relation(fields: [groupId], references: [id])
   groupId String
   role    Role   @default(MEMBER)
+  isDefault          Boolean         @default(false) /// true, if the group was created automatically on user signup
   user    User   @relation(fields: [userId], references: [id])
   userId  String
 

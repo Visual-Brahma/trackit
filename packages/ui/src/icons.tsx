@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export const SquarePen = () => {
   return (
     <svg
@@ -18,11 +20,14 @@ export const SquarePen = () => {
   );
 };
 
-export const LoadingCircle = () => {
+export const LoadingCircle = ({ className }: { className?: string }) => {
   return (
     <svg
       aria-hidden="true"
-      className="h-4 w-4 animate-spin fill-stone-600 text-stone-200"
+      className={cn(
+        "h-4 w-4 animate-spin fill-stone-600 text-stone-200",
+        className,
+      )}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

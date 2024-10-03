@@ -17,18 +17,12 @@ export const createInPersonAttendanceLink = async (data: {
 
     const group = await dbClient
       .selectFrom("GroupMember")
-      .innerJoin("Group", (join) =>
-        join
-          .onRef("Group.id", "=", "GroupMember.groupId")
-          .on("Group.isDefault", "=", true),
-      )
-      .select("Group.id")
+      .innerJoin("User", "GroupMember.userId", "User.id")
+      .select("GroupMember.groupId")
       .where((eb) =>
         eb.and([
-          eb("GroupMember.userId", "=", (eb) =>
-            eb.selectFrom("User").select("User.id").where("email", "=", email),
-          ),
-          eb("GroupMember.role", "=", "OWNER"),
+          eb("User.email", "=", email),
+          eb("GroupMember.isDefault", "=", true),
         ]),
       )
       .executeTakeFirst();
@@ -47,7 +41,7 @@ export const createInPersonAttendanceLink = async (data: {
         allowedEmails: data.allowedEmails,
         date: data.date,
         startTime: data.startTime,
-        groupId: group.id,
+        groupId: group.groupId,
       })
       .returning("slug")
       .executeTakeFirst();

@@ -30,16 +30,10 @@ export async function GET(req: NextRequest) {
   }
 
   const groups = await dbClient
-    .selectFrom("Group")
-    .innerJoin("GroupMember", "Group.id", "GroupMember.groupId")
+    .selectFrom("GroupMember")
+    .innerJoin("Group", "GroupMember.groupId", "Group.id")
     .innerJoin("User", "GroupMember.userId", "User.id")
-    .select([
-      "Group.id",
-      "Group.name",
-      "Group.banner",
-      "Group.description",
-      "Group.isDefault",
-    ])
+    .select(["Group.id", "Group.name", "GroupMember.isDefault"])
     .where("User.email", "=", email)
     .execute();
 

@@ -24,7 +24,7 @@ export default function App() {
       startTime: new Date(),
       endTime: new Date(),
     }),
-    []
+    [],
   );
 
   const [isOpen, setIsOpen] = useState(false);

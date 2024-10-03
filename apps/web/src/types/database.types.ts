@@ -45,15 +45,15 @@ export type Group = {
   banner: string | null;
   joinCode: Generated<string>;
   isAcceptingMembers: Generated<boolean>;
-  /**
-   * true, if the group was creating automatically on user signup
-   */
-  isDefault: Generated<boolean>;
 };
 export type GroupMember = {
   id: GeneratedAlways<number>;
   groupId: string;
   role: Generated<Role>;
+  /**
+   * true, if the group was created automatically on user signup
+   */
+  isDefault: Generated<boolean>;
   userId: string;
 };
 export type InPersonEvent = {

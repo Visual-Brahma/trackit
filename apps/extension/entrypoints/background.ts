@@ -1,3 +1,5 @@
+import { BASE_URL } from "@/utils/constants";
+
 const nextAuthCookieNameRegex = /^(__Secure-)?next-auth\.session-token$/;
 
 export default defineBackground(() => {
@@ -6,7 +8,7 @@ export default defineBackground(() => {
     if (extension.installType !== "development") {
       browser.runtime.onInstalled.addListener(() => {
         browser.tabs.create({
-          url: "https://trackit.visualbrahma.tech/dashboard",
+          url: `${BASE_URL}/dashboard`,
           active: true,
         });
       });
@@ -16,9 +18,7 @@ export default defineBackground(() => {
   handleOnInstall();
 
   browser.cookies.onChanged.addListener((changeInfo) => {
-    const domain = import.meta.env.DEV
-      ? "localhost"
-      : "trackit.visulabrahma.tech";
+    const domain = new URL(BASE_URL).hostname;
     if (
       changeInfo.cookie.domain === domain &&
       changeInfo.cookie.name.match(nextAuthCookieNameRegex)

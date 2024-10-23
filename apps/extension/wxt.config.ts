@@ -1,5 +1,6 @@
 import { defineConfig } from "wxt";
 import path from "path";
+import { BASE_URL } from "./utils/constants";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -23,8 +24,6 @@ export default defineConfig({
       default_title: "Trackit | Meet Attendance Tracker",
     },
     permissions: ["storage", "cookies"],
-    host_permissions: import.meta.env.DEV
-      ? ["http://localhost:3000/"]
-      : ["https://trackit.visualbrahma.tech/"],
+    host_permissions: [BASE_URL],
   },
 });

@@ -22,11 +22,8 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       async sendVerificationRequest(params) {
         const { identifier, url } = params;
-        const { host } = new URL(url);
 
-        const escapedHost = host.replace(/\./g, "&#8203;.");
-
-        const html = render(MagicLinkEmail({ url, host: escapedHost }));
+        const html = render(MagicLinkEmail({ url }));
 
         if (serverEnv.NODE_ENV === "development") {
           console.log(`Email verification link: ${url}`);

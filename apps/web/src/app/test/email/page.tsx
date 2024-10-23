@@ -12,10 +12,7 @@ const PreviewEmail = () => {
       id: "magic-link",
       name: "Magic Link",
       email: render(
-        <MagicLinkEmail
-          host="trackit.visualbrahma.tech"
-          url="https://trackit.visualbrahma.tech/some-verification-url"
-        />,
+        <MagicLinkEmail url="https://trackit.visualbrahma.tech/some-verification-url" />,
         {
           pretty: true,
         },

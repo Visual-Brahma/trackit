@@ -1,7 +1,9 @@
+import { BASE_URL } from "@/utils/constants";
+
+const baseUrl = new URL(BASE_URL);
+
 export default defineContentScript({
-  matches: import.meta.env.DEV
-    ? ["http://localhost/*"]
-    : ["https://trackit.visualbrahma.tech/*"],
+  matches: [`${baseUrl.protocol}//${baseUrl.hostname}/*`],
   async main() {
     const attendanceRecords = await browser.storage.local.get(null);
 

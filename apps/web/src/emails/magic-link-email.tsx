@@ -7,10 +7,9 @@ import { clientEnv } from "@/config/env/client";
 
 export interface MagicLinkEmailProps {
   url: string;
-  host: string;
 }
 
-export const MagicLinkEmail = ({ url, host }: MagicLinkEmailProps) => {
+export const MagicLinkEmail = ({ url }: MagicLinkEmailProps) => {
   const previewText = `Your Login Link to signin to Trackit`;
 
   return (

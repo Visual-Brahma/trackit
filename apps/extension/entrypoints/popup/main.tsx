@@ -1,4 +1,6 @@
+import { BASE_URL } from "@/utils/constants";
+
 browser.tabs.create({
-  url: "https://trackit.visualbrahma.tech/dashboard",
+  url: `${BASE_URL}/dashboard`,
   active: true,
 });

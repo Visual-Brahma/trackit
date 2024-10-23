@@ -199,5 +199,6 @@ export function KyselyAdapter(db: Kysely<DB>): Adapter {
 export class KyselyAuth<DB extends T, T = Database> extends Kysely<DB> {}
 
 export type Codegen = {
+  // eslint-disable-next-line no-unused-vars
   [K in keyof Database]: { [J in keyof Database[K]]: unknown };
 };

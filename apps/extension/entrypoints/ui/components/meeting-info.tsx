@@ -13,10 +13,24 @@ import { format } from "date-fns";
 import { MeetingNameForm } from "./name-edit-form";
 
 interface MeetingInfoProps extends MeetingState {
-  participants: number;
   groups: Group[];
   setMeetingState: Dispatch<SetStateAction<MeetingState>>;
 }
+
+const getDuration = (startTime: Date, currTime: Date) => {
+  const diff = currTime.getTime() - startTime.getTime();
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  if (remainingMinutes === 0 && hours === 0) {
+    return "Just started";
+  } else if (hours === 0) {
+    return `${remainingMinutes}m`;
+  } else if (remainingMinutes === 0) {
+    return `${hours}h`;
+  }
+  return `${hours}h ${remainingMinutes}m`;
+};
 
 export default function MeetingInfo({
   name,
@@ -25,25 +39,9 @@ export default function MeetingInfo({
   date,
   startTime,
   groupId,
-  participants,
   setMeetingState,
 }: MeetingInfoProps) {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement>();
-
-  const getDuration = (startTime: Date, currTime: Date) => {
-    const diff = currTime.getTime() - startTime.getTime();
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    if (remainingMinutes === 0 && hours === 0) {
-      return "Just started";
-    } else if (hours === 0) {
-      return `${remainingMinutes}m`;
-    } else if (remainingMinutes === 0) {
-      return `${hours}h`;
-    }
-    return `${hours}h ${remainingMinutes}m`;
-  };
 
   const [duration, setDuration] = useState<string>(
     getDuration(startTime, new Date()),
@@ -53,6 +51,7 @@ export default function MeetingInfo({
     const updateDurationInterval = setInterval(() => {
       setDuration(getDuration(startTime, new Date()));
     }, 60000);
+
     // creates a portal container for radix ui select popover wrapper so that it renders inside the shadow dom
     const shadowRootBody = document.querySelector("trackit-attendance-ui")
       ?.shadowRoot?.firstElementChild?.children[1];
@@ -101,10 +100,6 @@ export default function MeetingInfo({
             <TableRow>
               <TableCell className="font-medium">Duration</TableCell>
               <TableCell>{duration}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Participants</TableCell>
-              <TableCell>{participants}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Group</TableCell>

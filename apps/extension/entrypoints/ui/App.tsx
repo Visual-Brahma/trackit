@@ -4,8 +4,7 @@ import ThemeSwitcher from "./components/theme-changer";
 import logo from "@/assets/logo.svg";
 import { Button } from "@repo/ui/button";
 import { AuthContext } from "./providers/auth";
-import { buildUrl } from "../utils/constants";
-import AttendanceTracker from "./tracker";
+import { buildApiUrl } from "../../utils/constants";
 import { Maximize2Icon, Minimize2Icon } from "lucide-react";
 import SignInPrompt from "./components/signin-prompt";
 import { Group, MeetingState, Participant } from "@/types";
@@ -13,30 +12,16 @@ import MeetingInfo from "./components/meeting-info";
 import { cn } from "@/lib/utils";
 
 export default function App() {
-  const meetCode = location.pathname.substring(1);
-
-  const initialMeetingInfo = useMemo(
-    () => ({
-      uuid: `meet_attendance_report_${meetCode}_${new Date().getTime()}`,
-      name: meetCode,
-      meetCode: meetCode,
-      date: new Date(),
-      startTime: new Date(),
-      endTime: new Date(),
-    }),
-    [],
-  );
-
   const [isOpen, setIsOpen] = useState(false);
   const [groups, setGroups] = useState<Group[]>([]);
-  const [participants, setParticipants] = useState<Participant[]>([]);
-  const [meetingInfo, setMeetingInfo] =
-    useState<MeetingState>(initialMeetingInfo);
+  const [meetingState, setMeetingState] = useState<MeetingState>(
+    window.trackit.meetData,
+  );
 
   const { isAuthenticated, token } = useContext(AuthContext)!;
 
   const fetchGroups = useCallback(async () => {
-    const response = await fetch(buildUrl("/groups"), {
+    const response = await fetch(buildApiUrl("/groups"), {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -48,7 +33,7 @@ export default function App() {
 
     for (const group of data) {
       if (group.isDefault) {
-        setMeetingInfo((prev) => ({ ...prev, groupId: group.id }));
+        setMeetingState((prev) => ({ ...prev, groupId: group.id }));
       }
       groups.push({
         id: group.id,
@@ -63,9 +48,14 @@ export default function App() {
     if (isAuthenticated) {
       fetchGroups();
     } else {
-      setMeetingInfo((prev) => ({ ...prev, groupId: undefined }));
+      setMeetingState((prev) => ({ ...prev, groupId: undefined }));
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    window.trackit.meetData.name = meetingState.name;
+    window.trackit.meetData.groupId = meetingState.groupId;
+  }, [meetingState]);
 
   return (
     <Draggable className={cn("max-w-xl", isOpen ? "w-full" : "")}>
@@ -98,18 +88,13 @@ export default function App() {
       {isOpen && (
         <div className="mt-4 space-y-2">
           <MeetingInfo
-            {...meetingInfo}
+            {...meetingState}
             groups={groups}
-            participants={participants.length}
-            setMeetingState={setMeetingInfo}
+            setMeetingState={setMeetingState}
           />
           {!isAuthenticated && <SignInPrompt />}
         </div>
       )}
-      <AttendanceTracker
-        participants={participants}
-        setParticipants={setParticipants}
-      />
     </Draggable>
   );
 }

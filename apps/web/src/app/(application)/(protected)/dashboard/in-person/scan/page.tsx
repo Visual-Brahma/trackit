@@ -74,7 +74,7 @@ export default function QrCodeScanner() {
       <div className="p-4">
         <QrReader
           onResult={(result) => {
-            if (!!result) {
+            if (result) {
               if (lastResult.current === result.getText()) {
                 return;
               }

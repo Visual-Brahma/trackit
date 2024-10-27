@@ -22,7 +22,7 @@ const track_attendance = ({
     for (let i = 0; i < currentParticipants.length; i++) {
       participants.set(
         (currentParticipants[i]! as HTMLImageElement).src,
-        currentParticipantsName[i]!.innerHTML.toUpperCase(),
+        currentParticipantsName[i]!.innerHTML.toUpperCase()
       );
     }
 
@@ -74,11 +74,6 @@ export const replacer = (_key: string, value: any) => {
       dataType: "Map",
       value: Array.from(value.entries()),
     };
-  } else if (value instanceof Date) {
-    return {
-      dataType: "Date",
-      value: value.toISOString(),
-    };
   } else {
     return value;
   }
@@ -88,8 +83,13 @@ const reviver = (_key: string, value: any) => {
   if (value && typeof value === "object") {
     if (value.dataType === "Map") {
       return new Map(value.value);
-    } else if (value.dataType === "Date") {
-      return new Date(value.value);
+    }
+  }
+
+  if (value && typeof value === "string") {
+    const date = Date.parse(value);
+    if (!isNaN(date)) {
+      return new Date(value);
     }
   }
 
@@ -129,7 +129,7 @@ const saveAttendanceData = async (isFinal = false) => {
   await browser.storage.local.set({
     [window.trackit.meetData.uuid]: JSON.stringify(
       window.trackit.meetData,
-      replacer,
+      replacer
     ),
   });
 

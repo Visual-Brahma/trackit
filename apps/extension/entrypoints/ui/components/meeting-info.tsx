@@ -17,21 +17,6 @@ interface MeetingInfoProps extends MeetingState {
   setMeetingState: Dispatch<SetStateAction<MeetingState>>;
 }
 
-const getDuration = (startTime: Date, currTime: Date) => {
-  const diff = currTime.getTime() - startTime.getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-  if (remainingMinutes === 0 && hours === 0) {
-    return "Just started";
-  } else if (hours === 0) {
-    return `${remainingMinutes}m`;
-  } else if (remainingMinutes === 0) {
-    return `${hours}h`;
-  }
-  return `${hours}h ${remainingMinutes}m`;
-};
-
 export default function MeetingInfo({
   name,
   groups,
@@ -43,15 +28,7 @@ export default function MeetingInfo({
 }: MeetingInfoProps) {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement>();
 
-  const [duration, setDuration] = useState<string>(
-    getDuration(startTime, new Date()),
-  );
-
   useEffect(() => {
-    const updateDurationInterval = setInterval(() => {
-      setDuration(getDuration(startTime, new Date()));
-    }, 60000);
-
     // creates a portal container for radix ui select popover wrapper so that it renders inside the shadow dom
     const shadowRootBody = document.querySelector("trackit-attendance-ui")
       ?.shadowRoot?.firstElementChild?.children[1];
@@ -61,10 +38,7 @@ export default function MeetingInfo({
       setPortalContainer(container);
       return () => {
         shadowRootBody.removeChild(container);
-        clearInterval(updateDurationInterval);
       };
-    } else {
-      return () => clearInterval(updateDurationInterval);
     }
   }, []);
 
@@ -96,10 +70,6 @@ export default function MeetingInfo({
             <TableRow>
               <TableCell className="font-medium">Start Time</TableCell>
               <TableCell>{format(startTime, "hh:mm b")}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Duration</TableCell>
-              <TableCell>{duration}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Group</TableCell>

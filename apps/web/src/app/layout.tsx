@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Provider } from "@/components/layout/providers";
 import { TidioUserInfo } from "@/components/layout/tidio";
+import HackathonBanner from "@/components/hackathon-banner";
 
 const PTsansDisplay = PT_Sans({ weight: "400", subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <body className={PTsansDisplay.className}>
+        <HackathonBanner />
         <Provider>
           {children}
           <TidioUserInfo />

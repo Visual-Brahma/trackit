@@ -100,8 +100,8 @@ export const AttendanceReportShareView = ({
       body: [
         ["Meetcode", reportInfo.meetcode],
         ["Date", formatDatetime(reportInfo.date) || "-"],
-        ["Start Time", formatTime(reportInfo.startTimestamp.toISOString().split(" ")[1]!.split("+")[0]!)],
-        ["End Time", formatTime(reportInfo.endTimestamp.toISOString().split(" ")[1]!.split("+")[0]!)],
+        ["Start Time", formatTime(reportInfo.startTimestamp.toISOString().split("T")[1]!.split(".")[0]!)],
+        ["End Time", formatTime(reportInfo.endTimestamp.toISOString().split("T")[1]!.split(".")[0]!)],
         ["Duration", reportInfo.duration],
         ["Participants", reportInfo.participantsCount],
       ],

@@ -11,6 +11,7 @@ import {
 import { dbClient } from "@/lib/db/db_client";
 import { getServerSession } from "next-auth";
 import GroupMemberActions from "./member-actions";
+import InviteMemberModal from "./invite-modal";
 
 export default async function GroupInterface({
   params: { groupId },
@@ -38,11 +39,16 @@ export default async function GroupInterface({
   return (
     <Card className="bg-secondary border-border">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Members</CardTitle>
-        <Input
-          placeholder="Search people"
-          className="max-w-sm bg-gray-700 border-gray-600 text-gray-100"
-        />
+        <CardTitle>People</CardTitle>
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Search people"
+            className="max-w-sm bg-gray-700 border-gray-600 text-gray-100"
+          />
+          {(current_user.role === "ADMIN" || current_user.role === "OWNER") && (
+            <InviteMemberModal groupId={groupId} />
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <Table className="mt-4 border rounded-lg">

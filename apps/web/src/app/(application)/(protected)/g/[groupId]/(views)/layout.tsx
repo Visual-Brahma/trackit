@@ -50,7 +50,7 @@ export default async function GroupLayout({
       href: `/g/${groupId}/schedule`,
     },
     {
-      title: "Members",
+      title: "People",
       href: `/g/${groupId}/members`,
     },
   ];

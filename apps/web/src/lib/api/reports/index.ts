@@ -52,6 +52,85 @@ export const toggleReportPublicStatus = async (
   return false;
 };
 
+export const moveAttendanceReport = async ({
+  slug,
+  currentGroupId,
+  newGroupId,
+}: {
+  slug: string;
+  currentGroupId: string;
+  newGroupId: string;
+}) => {
+  const session = await getServerSession();
+  if (session && session.user && session.user.email) {
+    const email = session.user.email;
+    try {
+      // Verify user has permission in both groups
+      const currentGroupPermission = await dbClient
+        .selectFrom("GroupMember")
+        .innerJoin("User", "GroupMember.userId", "User.id")
+        .select("GroupMember.id")
+        .where("User.email", "=", email)
+        .where("GroupMember.groupId", "=", currentGroupId)
+        .where("GroupMember.role", "in", ["OWNER", "ADMIN"])
+        .executeTakeFirst();
+
+      const newGroupPermission = await dbClient
+        .selectFrom("GroupMember")
+        .innerJoin("User", "GroupMember.userId", "User.id")
+        .select("GroupMember.id")
+        .where("User.email", "=", email)
+        .where("GroupMember.groupId", "=", newGroupId)
+        .where("GroupMember.role", "in", ["OWNER", "ADMIN"])
+        .executeTakeFirst();
+
+      if (!currentGroupPermission || !newGroupPermission) {
+        return {
+          success: false,
+          message: "You don't have permission to move reports between these groups.",
+        };
+      }
+
+      const report = await dbClient
+        .selectFrom("AttendanceReport")
+        .innerJoin("Meeting", "Meeting.id", "AttendanceReport.meetingId")
+        .select("Meeting.id as meetingId")
+        .where("AttendanceReport.slug", "=", slug)
+        .where("Meeting.groupId", "=", currentGroupId)
+        .executeTakeFirst();
+
+      if (!report) {
+        return {
+          success: false,
+          message: "Report not found.",
+        };
+      }
+
+      await dbClient
+        .updateTable("Meeting")
+        .set({ groupId: newGroupId })
+        .where("id", "=", report.meetingId)
+        .executeTakeFirstOrThrow();
+
+      return {
+        success: true,
+        message: "Report moved successfully.",
+      };
+    } catch (error) {
+      console.error("Error moving report:", error);
+      return {
+        success: false,
+        message: "Failed to move report. Please try again.",
+      };
+    }
+  }
+
+  return {
+    success: false,
+    message: "You must be signed in to move reports.",
+  };
+};
+
 export const shareAttendanceReport = async (
   slug: string,
   groupId: string,

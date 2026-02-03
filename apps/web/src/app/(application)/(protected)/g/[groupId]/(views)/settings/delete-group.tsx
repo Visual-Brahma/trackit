@@ -13,8 +13,28 @@ import {
 } from "@repo/ui/alert-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
 import { motion } from "framer-motion";
+import { deleteGroup } from "@/lib/api/groups/settings";
+import { useState } from "react";
+import { toast } from "@repo/ui/sonner";
+import { useRouter } from "next13-progressbar";
+import { LoadingCircle } from "@repo/ui/icons";
 
 export default function DeleteGroup({ groupId }: { groupId: string }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleDelete = async () => {
+    setIsLoading(true);
+    const res = await deleteGroup({ groupId });
+    if (res.success) {
+      toast.success(res.message);
+      router.push("/dashboard/groups");
+    } else {
+      toast.error(res.message);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <motion.div
       className={"mt-4"}
@@ -38,7 +58,8 @@ export default function DeleteGroup({ groupId }: { groupId: string }) {
         <CardContent>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" disabled>
+              <Button variant="destructive" disabled={isLoading}>
+                {isLoading ? <LoadingCircle className="mr-2" /> : null}
                 Delete Group
               </Button>
             </AlertDialogTrigger>
@@ -62,6 +83,7 @@ export default function DeleteGroup({ groupId }: { groupId: string }) {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   className={buttonVariants({ variant: "destructive" })}
+                  onClick={handleDelete}
                 >
                   Delete
                 </AlertDialogAction>

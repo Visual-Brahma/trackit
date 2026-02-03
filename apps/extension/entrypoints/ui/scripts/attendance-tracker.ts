@@ -1,6 +1,6 @@
 import { MeetingState, Participant } from "@/types";
 import { BASE_URL } from "@/utils/constants";
-import { isSameDay } from "date-fns";
+import { isSameDay, format } from "date-fns";
 
 const SAVE_INTERVAL = 60000;
 let lastSaveTime = new Date().getTime();
@@ -126,16 +126,78 @@ const saveAttendanceData = async (isFinal = false) => {
     participant.leaveTime = participant.lastAttendedTimeStamp;
   });
 
+  const dataString = JSON.stringify(window.trackit.meetData, replacer);
+
   await browser.storage.local.set({
-    [window.trackit.meetData.uuid]: JSON.stringify(
-      window.trackit.meetData,
-      replacer
-    ),
+    [window.trackit.meetData.uuid]: dataString,
   });
 
   if (isFinal) {
-    window.open(`${BASE_URL}/save-report`);
+    const uploaded = await uploadAttendanceData(window.trackit.meetData);
+    if (uploaded && !uploaded.redirected) {
+      // If uploaded successfully, we can remove it from local storage
+      await browser.storage.local.remove(window.trackit.meetData.uuid);
+      // Redirect to the report page
+      window.open(`${BASE_URL}/g/${uploaded.groupId}/r/${uploaded.slug}`);
+    } else if (uploaded?.redirected) {
+      // Do nothing, user was redirected to login
+    } else {
+      // Fallback to the old method
+      alert("Direct upload failed. Falling back to local storage method.");
+      window.open(`${BASE_URL}/save-report`);
+    }
   }
+};
+
+const uploadAttendanceData = async (meetData: MeetingState) => {
+  try {
+    const { authToken } = await browser.storage.local.get("authToken");
+    if (!authToken) {
+      console.log("No auth token found, redirecting to login.");
+      const confirmLogin = window.confirm("You are not signed in. Would you like to sign in to save your attendance report directly to the cloud?");
+      if (confirmLogin) {
+        window.open(`${BASE_URL}/api/auth/signin`);
+        return { redirected: true }; // Special return value to indicate redirection
+      }
+      return null;
+    }
+
+    const participants = Array.from(meetData.participants.values()).map((p) => ({
+      name: p.name,
+      joinTime: p.joinTime.toISOString(),
+      leaveTime: p.leaveTime?.toISOString() || p.lastAttendedTimeStamp.toISOString(),
+      avatarUrl: p.avatarUrl,
+      attendedDuration: p.attendedDuration,
+    }));
+
+    const payload = {
+      meetCode: meetData.meetCode,
+      date: format(meetData.date, "dd/MM/yyyy"),
+      startTime: format(meetData.startTime, "HH:mm:ss"),
+      stopTime: format(meetData.endTime, "HH:mm:ss"),
+      participants,
+      groupId: meetData.groupId,
+    };
+
+    const response = await fetch(`${BASE_URL}/api/reports/upload`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      return result;
+    } else if (response.status === 401) {
+      console.log("Unauthorized, token might be expired.");
+    }
+  } catch (error) {
+    console.error("Error uploading attendance data:", error);
+  }
+  return null;
 };
 
 export const tracker = () => {

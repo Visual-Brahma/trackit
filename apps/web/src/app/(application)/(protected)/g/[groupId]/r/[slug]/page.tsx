@@ -90,6 +90,15 @@ const AttendanceReportViewPage = async ({
     notFound();
   }
 
+  const userGroups = await dbClient
+    .selectFrom("Group")
+    .innerJoin("GroupMember", "Group.id", "GroupMember.groupId")
+    .innerJoin("User", "GroupMember.userId", "User.id")
+    .select(["Group.id", "Group.name"])
+    .where("User.email", "=", email)
+    .where("GroupMember.role", "in", ["OWNER", "ADMIN"])
+    .execute();
+
   const [meetingDuration, durationInSeconds] = getDurationBetweenDates(
     report.startTime!,
     report.endTime!,
@@ -178,6 +187,7 @@ const AttendanceReportViewPage = async ({
             <AttendanceReportSettingsView
               groupId={params.groupId}
               slug={params.slug}
+              userGroups={userGroups.map(g => ({ id: g.id, name: g.name }))}
             />
           </TabsContent>
         )}

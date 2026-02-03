@@ -3,6 +3,10 @@
 import { dbClient } from "@/lib/db/db_client";
 import { Role } from "@/types/database.types";
 import { getServerSession } from "next-auth";
+import { render } from "@react-email/render";
+import { plunk } from "@/emails";
+import GroupInviteEmail from "@/emails/group-invite";
+import { appName } from "@/lib/constants/brand";
 
 export const createGroup = async ({
   name,
@@ -57,6 +61,68 @@ export const createGroup = async ({
     }
   }
   return false;
+};
+
+export const inviteUserToGroup = async ({
+  groupId,
+  email: inviteeEmail,
+}: {
+  groupId: string;
+  email: string;
+}) => {
+  const session = await getServerSession();
+  if (session && session.user && session.user.email) {
+    const inviterEmail = session.user.email;
+    const inviterName = session.user.name || inviterEmail;
+
+    const inviter = await dbClient
+      .selectFrom("GroupMember")
+      .innerJoin("User", "GroupMember.userId", "User.id")
+      .innerJoin("Group", "GroupMember.groupId", "Group.id")
+      .select(["Group.name as groupName", "Group.joinCode"])
+      .where("User.email", "=", inviterEmail)
+      .where("GroupMember.groupId", "=", groupId)
+      .where("GroupMember.role", "in", ["OWNER", "ADMIN"])
+      .executeTakeFirst();
+
+    if (!inviter) {
+      return {
+        success: false,
+        message: "You are not authorized to invite members to this group.",
+      };
+    }
+
+    try {
+      const html = render(
+        GroupInviteEmail({
+          groupName: inviter.groupName,
+          joinCode: inviter.joinCode,
+          inviterName: inviterName,
+        }),
+      );
+
+      await plunk.emails.send({
+        to: inviteeEmail,
+        subject: `Invitation to join ${inviter.groupName} on ${appName}`,
+        body: html,
+      });
+
+      return {
+        success: true,
+        message: "Invitation sent successfully.",
+      };
+    } catch (error) {
+      console.error("Error sending invitation:", error);
+      return {
+        success: false,
+        message: "Failed to send invitation. Please try again.",
+      };
+    }
+  }
+  return {
+    success: false,
+    message: "You must be signed in to send invitations.",
+  };
 };
 
 export const joinGroup = async (joinCode: string) => {

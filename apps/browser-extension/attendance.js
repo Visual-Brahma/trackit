@@ -1,7 +1,7 @@
 let meetActionButtons;
 let participantsList = new Map();
 let attendanceData = new Map();
-let participantsButtonIndex = 1;
+let participantsButtonIndex = 0;
 let startTime;
 let meetDuration = 1;
 let currTime;
@@ -126,7 +126,7 @@ let engine = setInterval(startEngine, 1000);
 
 function startEngine() {
     try {
-        meetActionButtons = document.getElementsByClassName("NtU4hc");
+        meetActionButtons = document.getElementsByClassName("XSfT7e");
         document.getElementsByClassName("Qp8KI")[0].appendChild(statusText);
         start();
         clearInterval(engine);

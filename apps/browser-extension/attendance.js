@@ -6,9 +6,22 @@ let startTime;
 let meetDuration = 1;
 let currTime;
 
+function getParticipantName(participantNode) {
+    let nameNode = participantNode.querySelector(".zWGUib");
+    return nameNode?.textContent.trim().toUpperCase();
+}
+
+function getParticipantAvatar(participantNode) {
+    let avatarNode = participantNode.querySelector("img.KjWwNd");
+    return avatarNode.src;
+}
+
+function getMeetingParticipants() {
+    return Array.from(document.querySelectorAll('.m3Uzve.RJRKn [role="listitem"][data-participant-id]'));
+}
+
 function track_attendance() {
-    let currentParticipants = document.getElementsByClassName("KjWwNd");
-    let currentParticipantsName = document.getElementsByClassName("zWGUib");
+    let currentParticipants = getMeetingParticipants();
 
     if (currentParticipants.length > 0) {
         participantsList.clear();
@@ -17,12 +30,11 @@ function track_attendance() {
             startTime = new Date();
         }
 
-        for (let i = 0; i < currentParticipants.length; i++) {
-            participantsList.set(
-                currentParticipants[i].src,
-                currentParticipantsName[i].innerHTML.toUpperCase()
-            );
-        }
+        currentParticipants.forEach((participantNode) => {
+            let avatarUrl = getParticipantAvatar(participantNode);
+            let participantName = getParticipantName(participantNode);
+            participantsList.set(avatarUrl, participantName);
+        });
 
         participantsList.forEach(function(name, avatarUrl) {
             if (attendanceData.has(avatarUrl)) {

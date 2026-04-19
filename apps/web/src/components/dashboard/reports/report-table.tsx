@@ -60,7 +60,7 @@ export const attendanceReportParticipantsTableColumns: ColumnDef<AttendanceRepor
             <AvatarImage
               src={
                 row.original.avatar ||
-                `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${row.getValue(
+                `https://api.dicebear.com/9.x/initials/svg?seed=${row.getValue(
                   "name",
                 )}`
               }

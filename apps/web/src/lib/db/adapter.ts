@@ -51,7 +51,7 @@ export function KyselyAdapter(db: Kysely<DB>): Adapter {
   /** If the database is SQLite, turn ISO strings into dates */
   const from = isSqlite ? format.from : <T>(x: T) => x as T;
   return {
-    async createUser(data) {
+    async createUser(data: Omit<AdapterUser, "id">) {
       const user = { ...data, id: crypto.randomUUID() };
       await db.insertInto("User").values(to(user)).executeTakeFirstOrThrow();
       return user;
@@ -107,14 +107,17 @@ export function KyselyAdapter(db: Kysely<DB>): Adapter {
         .where("User.id", "=", userId)
         .executeTakeFirst();
     },
-    async linkAccount(account) {
+    async linkAccount(account: AdapterAccount) {
       await db
         .insertInto("Account")
         .values(to(account))
         .executeTakeFirstOrThrow();
       return account;
     },
-    async unlinkAccount({ providerAccountId, provider }) {
+    async unlinkAccount({
+      providerAccountId,
+      provider,
+    }: Pick<AdapterAccount, "providerAccountId" | "provider">) {
       await db
         .deleteFrom("Account")
         .where("Account.providerAccountId", "=", providerAccountId)

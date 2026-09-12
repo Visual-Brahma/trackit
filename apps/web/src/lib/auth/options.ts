@@ -29,6 +29,8 @@ export const authOptions: NextAuthOptions = {
         const html = render(MagicLinkEmail({ url, host: escapedHost }));
 
         await plunk.send({
+          name: "Trackit",
+          from: "trackit@visualbrahma.tech",
           to: identifier,
           subject: `Your ${appName} Login Link`,
           body: html,
